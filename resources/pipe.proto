@@ -1,0 +1,19 @@
+syntax="proto2";
+option optimize_for = SPEED;
+option java_package = "routing";
+
+import "resources/common.proto";
+
+message CommandMessage {
+   required Header header = 1;
+
+    oneof payload {
+      // a client (external) sanity check for testing
+ 	  Body body = 3;
+      bool ping = 4;
+
+      string message = 5;
+      
+      Failure err = 6;
+   }
+}
