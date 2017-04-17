@@ -6,9 +6,8 @@
 		<property name="test.dir" location="${basedir}/test" />
 		<property name="build.dir" location="${basedir}/classes" />
 
-		<property name="config.dir" location="${basedir}/runtime" />
-		<property name="protobuf.jar" location="${basedir}/lib/protobuf-java-2.5.0.jar" />
-		<property name="protobuf.dir" location="${basedir}/generated" />
+		<property name="config.dir" location="${basedir}/resources" />
+		
 		<property name="junit.jar" location="${basedir}/lib/junit-4.8.2.jar" />
 		<property name="logging.jar" location="${basedir}/lib/slf4j-log4j12-1.6.1.jar" />
 
@@ -16,8 +15,6 @@
 			<pathelement location="${build.dir}" />
 			<pathelement location="${junit.jar}" />
 			<pathelement location="${logging.jar}" />
-			<pathelement location="${protobuf.jar}" />
-			<pathelement location="${protobuf.dir}" />
 			<fileset dir="${basedir}/lib">
 				<include name="*.jar" />
 			</fileset>
@@ -36,14 +33,19 @@
 	<target name="build" depends="clean">
 		<mkdir dir="${build.dir}" />
 
-		<javac destdir="${build.dir}" debug="true" deprecation="false" optimize="false" failonerror="true">
+		<javac destdir="${build.dir}" debug="true" deprecation="false" includeantruntime="false" optimize="false" failonerror="true">
+		            <src path="${basedir}/generated" />
+					<classpath refid="project.classpath" />
+		</javac>
+
+		<javac destdir="${build.dir}" debug="true" deprecation="false" optimize="false" includeantruntime="false" failonerror="true">
 			<src path="${src.dir}" />
 			<classpath refid="project.classpath" />
 		</javac>
 	</target>
 
 	<target name="build.test" depends="build">
-		<javac destdir="${build.dir}" debug="true" deprecation="false" optimize="false" failonerror="true">
+		<javac destdir="${build.dir}" debug="true" deprecation="false" optimize="false" includeantruntime="false" failonerror="true">
 			<src path="${test.dir}" />
 			<classpath refid="project.classpath" />
 		</javac>
@@ -56,18 +58,45 @@
 			</test>
 		</junit>
 	</target>
-
-	<target name="hello" depends="build">
+	
+	
+		
+	<target name="client" depends="build">
 		<java fork="yes" classname="gash.router.app.DemoApp">
 			<classpath refid="project.classpath" />
 		</java>
 	</target>
 
-	<target name="server" depends="build">
+	<target name="server1" depends="build">
 		<java fork="yes" classname="gash.router.server.MessageApp">
 			<classpath refid="project.classpath" />
-			<arg value="resources/routing.conf" />
+			<!--<arg value="resources/routing.conf" />-->
+			<arg value="runtime/route-1.conf" />
 		</java>
 	</target>
+	
+	<target name="server2" depends="build">
+			<java fork="yes" classname="gash.router.server.MessageApp">
+				<classpath refid="project.classpath" />
+				<!--<arg value="resources/routing.conf" />-->
+				<arg value="runtime/route-2.conf" />
+			</java>
+		</target>
+	
+	<target name="server3" depends="build">
+			<java fork="yes" classname="gash.router.server.MessageApp">
+				<classpath refid="project.classpath" />
+				<!--<arg value="resources/routing.conf" />-->
+				<arg value="runtime/route-3.conf" />
+			</java>
+		</target>
+	
+	<target name="server4" depends="build">
+			<java fork="yes" classname="gash.router.server.MessageApp">
+				<classpath refid="project.classpath" />
+				<!--<arg value="resources/routing.conf" />-->
+				<arg value="runtime/route-4.conf" />
+			</java>
+		</target>
 
 </project>

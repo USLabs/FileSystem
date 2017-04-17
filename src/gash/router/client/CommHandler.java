@@ -21,9 +21,12 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gash.router.server.PrintUtil;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
+
 
 /**
  * A client-side netty pipeline send/receive.
@@ -69,8 +72,9 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 * @param msg
 	 *            The message
 	 */
+	
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {		
 		System.out.println("--> got incoming message");
 		for (String id : listeners.keySet()) {
 			CommListener cl = listeners.get(id);

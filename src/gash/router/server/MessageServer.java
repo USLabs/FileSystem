@@ -19,6 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -35,6 +36,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import raft.RaftManager;
 
 public class MessageServer {
 	protected static Logger logger = LoggerFactory.getLogger("server");
@@ -46,6 +48,7 @@ public class MessageServer {
 
 	protected RoutingConf conf;
 	protected boolean background = false;
+	ServerState state;
 
 	/**
 	 * initialize the server with a configuration of it's resources
@@ -59,6 +62,7 @@ public class MessageServer {
 	public MessageServer(RoutingConf conf) {
 		this.conf = conf;
 	}
+	
 
 	public void release() {
 	}
@@ -72,7 +76,7 @@ public class MessageServer {
 		cthread.start();
 
 		if (!conf.isInternalNode()) {
-			StartCommandCommunication comm2 = new StartCommandCommunication(conf);
+			StartCommandCommunication comm2 = new StartCommandCommunication(comm,conf);
 			logger.info("Command starting");
 
 			if (background) {
@@ -129,10 +133,14 @@ public class MessageServer {
 	 */
 	private static class StartCommandCommunication implements Runnable {
 		RoutingConf conf;
-
-		public StartCommandCommunication(RoutingConf conf) {
-			this.conf = conf;
+		ServerState state;		
+		StartWorkCommunication comm;
+		public StartCommandCommunication(StartWorkCommunication comm,RoutingConf conf) {						
+			this.comm=comm;					
+			state=comm.getServerState();	
+			this.conf=conf;
 		}
+		
 
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
@@ -152,7 +160,7 @@ public class MessageServer {
 				// b.option(ChannelOption.MESSAGE_SIZE_ESTIMATOR);
 
 				boolean compressComm = false;
-				b.childHandler(new CommandInit(conf, compressComm));
+				b.childHandler(new CommandInit(state,conf, compressComm));
 
 				// Start the server.
 				logger.info("Starting command server (" + conf.getNodeId() + "), listening on port = "
@@ -184,6 +192,7 @@ public class MessageServer {
 	 */
 	private static class StartWorkCommunication implements Runnable {
 		ServerState state;
+		RaftManager manager;
 
 		public StartWorkCommunication(RoutingConf conf) {
 			if (conf == null)
@@ -194,12 +203,28 @@ public class MessageServer {
 
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
+			manager =new RaftManager(state);
+			state.setManager(manager);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread t = new Thread(emon);
-			t.start();
+			  t.start();
+			try{
+				manager.init();
+			}
+			catch(UnknownHostException e)
+			{
+				e.printStackTrace();
+			}
+			Thread managerThread = new Thread(manager);
+			managerThread.start();
 		}
-
+		public RaftManager getManager(){
+			return manager;
+		} 
+		public ServerState getServerState(){
+			return state;
+		} 
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
 

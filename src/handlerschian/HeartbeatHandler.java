@@ -1,39 +1,33 @@
 /**
  * @author Labhesh
  * @since 25 Mar,2017.
- */
-package chainofhandlers;
-import gash.router.server.MessageServer;
-import gash.router.server.PrintUtil;
-import gash.router.server.ServerState;
-import io.netty.channel.Channel;
+ *//*
+package handlerschian;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pipe.common.Common.Body;
+import gash.router.server.PrintUtil;
+import gash.router.server.ServerState;
+import io.netty.channel.Channel;
 import pipe.work.Work;
-import routing.Pipe;
 
-public class BodyHandler extends Handler {
-    public BodyHandler(ServerState state) {
-		super(state);
-		// TODO Auto-generated constructor stub
-	}
-
-
-	Logger logger = LoggerFactory.getLogger(BodyHandler.class);
-    
+public class HeartbeatHandler extends Handler {
+    Logger logger = LoggerFactory.getLogger(BodyHandler.class);
+    public HeartbeatHandler(ServerState state) {
+        super(state);
+    }
 
     @Override
     public void processWorkMessage(Work.WorkMessage message, Channel channel) {
-        if (message.hasBody()) {
-        	Body bd=message.getBody();
-        	PrintUtil.printBody(bd);
+        if (message.hasBeat()) {
+        	state.getManager().getCurrentState().receivedHeartBeat(message);
         } else {
-            next.processWorkMessage(message, channel);
+        	System.out.println("I dont have beat");
+        	next.processWorkMessage(message, channel);
+        	
         }
     }
-/*
+
     @Override
     public void processCommandMessage(Pipe.CommandMessage message, Channel channel) {
         if (message.hasDuty()) {
@@ -57,5 +51,6 @@ public class BodyHandler extends Handler {
 
     }
 
-*/
+
 }
+*/

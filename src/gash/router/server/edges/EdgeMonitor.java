@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Gash.
- * <p>
+ *
  * This file and intellectual content is protected under the Apache License, version 2.0
  * (the "License"); you may not use this file except in compliance with the
  * License.  You may obtain a copy of the License at:
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
@@ -15,8 +15,9 @@
  */
 package gash.router.server.edges;
 
-import gash.router.server.HeartBeating;
-import gash.router.server.StateTypes;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +29,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import pipe.common.Common.AddNewNode;
 import pipe.common.Common.Header;
-import pipe.common.Common.Body;
 import pipe.election.Election.RequestVote;
 import pipe.election.Election.Vote;
 
@@ -37,122 +38,48 @@ import pipe.work.Work.Heartbeat;
 
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkState;
+//import raft.Candidate;
+import raft.LeaderState;
+import routing.Pipe.CommandMessage;
 
 public class EdgeMonitor implements EdgeListener, Runnable {
-    protected static Logger logger = LoggerFactory.getLogger("edge monitor");
+	protected static Logger logger = LoggerFactory.getLogger("edge monitor");
 
-    private EdgeList outboundEdges;
-    private EdgeList inboundEdges;
-    private long dt = 2000;
-    private ServerState state;
-    private boolean forever = true;
+	private EdgeList outboundEdges;
+	private EdgeList inboundEdges;
+	private long dt = 2000;
+	private ServerState state;
+	private boolean forever = true;
 
-    public EdgeMonitor(ServerState state) {
-        if (state == null)
-            throw new RuntimeException("state is null");
+	public EdgeMonitor(ServerState state) {
+		if (state == null)
+			throw new RuntimeException("state is null");
 
-        this.outboundEdges = new EdgeList();
-        this.inboundEdges = new EdgeList();
-        this.state = state;
-        this.state.setEmon(this);
+		this.outboundEdges = new EdgeList();
+		this.inboundEdges = new EdgeList();
+		this.state = state;
+		this.state.setEmon(this);
 
-        if (state.getConf().getRouting() != null) {
-            for (RoutingEntry e : state.getConf().getRouting()) {
-                outboundEdges.addNode(e.getId(), e.getHost(), e.getPort());
-            }
-        }
+		if (state.getConf().getRouting() != null) {
+			for (RoutingEntry e : state.getConf().getRouting()) {
+				outboundEdges.addNode(e.getId(), e.getHost(), e.getPort());
+			}
+		}
 
-        // cannot go below 2 sec
-        if (state.getConf().getHeartbeatDt() > this.dt)
-            this.dt = state.getConf().getHeartbeatDt();
-    }
+		// cannot go below 2 sec
+		if (state.getConf().getHeartbeatDt() > this.dt)
+			this.dt = state.getConf().getHeartbeatDt();
+	}
 
-    public void createInboundIfNew(int ref, String host, int port) {
-        inboundEdges.createIfNew(ref, host, port);
-    }
+	public void createOutBoundIfNew(int ref, String host, int port) {
+		outboundEdges.createIfNew(ref, host, port);
+	}
+	
+	public void shutdown() {
+		forever = false;
+	}
 
-    // CREATE HEARTBEAT
-    public WorkMessage createHB() {
-        WorkState.Builder sb = WorkState.newBuilder();
-        sb.setEnqueued(-1);
-        sb.setProcessed(-1);
-
-        Heartbeat.Builder bb = Heartbeat.newBuilder();
-        bb.setState(sb);
-
-        Header.Builder hb = Header.newBuilder();
-        hb.setNodeId(state.getConf().getNodeId());
-        hb.setDestination(5);
-        hb.setTime(System.currentTimeMillis());
-
-        WorkMessage.Builder wb = WorkMessage.newBuilder();
-        wb.setHeader(hb);
-        wb.setBeat(bb);
-        wb.setSecret(10);
-
-        return wb.build();
-    }
-
-    //CREATE BODY
-    public WorkMessage createWorkBody() {
-        Header.Builder hb = Header.newBuilder();
-        hb.setNodeId(state.getConf().getNodeId());
-        //for (EdgeInfo ei : this.outboundEdges.map.values()) {
-        hb.setDestination(-1);
-        //}
-        Body.Builder bd = Body.newBuilder();
-        bd.setContent("sending from " + state.getConf().getNodeId());
-
-        WorkMessage.Builder wb = WorkMessage.newBuilder();
-        wb.setBody(bd);
-        wb.setHeader(hb);
-        wb.setSecret(10);
-
-        return wb.build();
-    }
-
-    //CREATE VOTE MESSAGE
-    public WorkMessage Vote(int NodeId, int CandidateId, int currentTerm) {
-        Header.Builder hb = Header.newBuilder();
-        hb.setNodeId(state.getConf().getNodeId());
-        hb.setDestination(-1);
-
-        Vote.Builder vb = Vote.newBuilder();
-        vb.setCurrentTerm(currentTerm);
-        vb.setVoterID(NodeId);
-        vb.setCandidateID(CandidateId);
-
-        WorkMessage.Builder wb = WorkMessage.newBuilder();
-        wb.setHeader(hb);
-        wb.setVote(vb);
-        wb.setSecret(10);
-
-        return wb.build();
-    }
-
-    //CREATE REQUEST VOTE MESSAGE
-    private WorkMessage RequestVote() {
-        Header.Builder hb = Header.newBuilder();
-        hb.setNodeId(state.getConf().getNodeId());
-        hb.setDestination(-1);
-
-        RequestVote.Builder rvb = RequestVote.newBuilder();
-        rvb.setCandidateID(1);
-        rvb.setCurrentTerm(1);
-
-        WorkMessage.Builder wb = WorkMessage.newBuilder();
-        wb.setHeader(hb);
-        wb.setRvote(rvb);
-        wb.setSecret(10);
-
-        return wb.build();
-    }
-
-    public void shutdown() {
-        forever = false;
-    }
-
-    private Channel connectToChannel(String host, int port) {
+	private Channel connectToChannel(String host, int port) {
         Bootstrap b = new Bootstrap();
         NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
         WorkInit workInit = new WorkInit(state, false);
@@ -168,65 +95,134 @@ public class EdgeMonitor implements EdgeListener, Runnable {
             return null;
         }
         return b.connect(host, port).syncUninterruptibly().channel();
+
     }
-
-    @Override
-    public void run() {
-        while (forever) {
-
-            if (state.getStateType() == StateTypes.leader) {
-                HeartBeating hb = new HeartBeating(state, 200);
-                hb.start();
-            }
-
-            sendMessage(createWorkBody());
-            sendMessage(RequestVote());
-            //sendMessage(Vote());
-        }
-    }
-
-    public void sendMessage(WorkMessage wmsg) {
-        try {
-            for (EdgeInfo ei : this.outboundEdges.map.values()) {
-                if (ei.isActive() && ei.getChannel() != null) {
-                    ei.getChannel().writeAndFlush(wmsg);
-                    //ei.setActive(false);
-                    //this.inboundEdges.removeNode(ei.getRef());
-                } else {
-                    try {
-                        logger.info("looking for edge" + ei.getRef());
-                        Channel channel = connectToChannel(ei.getHost(), ei.getPort());
-                        ei.setChannel(channel);
-                        ei.setActive(true);
-                        if (channel.isActive()) {
-
-                            this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
-                            logger.info("connected to edge" + ei.getRef());
-                            WorkMessage wm = wmsg;
-                            ei.getChannel().writeAndFlush(wm);
-                        } else {
-                            if (this.inboundEdges.hasNode(ei.getRef())) {
-                                this.inboundEdges.removeNode(ei.getRef());
+	boolean initial=true;
+	public synchronized void newNodePing(){
+		for(EdgeInfo ei:this.outboundEdges.map.values())
+		 {
+			if(ei.isActive()&&ei.getChannel()!=null)
+			{	
+				System.out.println("in new node if");
+				Header.Builder hb = Header.newBuilder();
+				hb.setNodeId(state.getConf().getNodeId());
+				hb.setTime(System.currentTimeMillis());
+				hb.setDestination(-1);
+				String selfHost = " ";
+				try {
+					selfHost = Inet4Address.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				int selfPort=state.getConf().getWorkPort();
+				AddNewNode.Builder ab=AddNewNode.newBuilder();
+				ab.setHost(selfHost);
+				ab.setPort(selfPort);
+				
+				WorkMessage.Builder wb = WorkMessage.newBuilder();
+				wb.setHeader(hb);				
+				wb.setAddnewnode(ab);
+				wb.setSecret(10);
+				sendMessage(wb.build());
+				System.out.println("sent ping request to"+ei.getRef());				
+			}				
+		 }
+		initial=false;
+	}
+	
+	@Override
+	//it will be taken care by leader
+	public void run() {
+		while (forever) {
+			try {
+                for (EdgeInfo ei : this.outboundEdges.map.values()) {
+                    if (ei.isActive()) {
+                        if (!ei.getChannel().isActive()) {
+                            ei.setActive(false);                          	
+                        	this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
+                        }                        
+                    } else {                    	 
+                        try {
+                            logger.info("looking for edge" + ei.getRef());
+                            Channel channel = connectToChannel(ei.getHost(), ei.getPort());
+                            ei.setChannel(channel);
+                            if (channel.isActive()) {
+                                ei.setActive(true);                                
+                                this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
                             }
+                        } catch (Throwable ex) {
                         }
-                    } catch (Throwable ex) {
                     }
+
                 }
+                if(initial==true)
+                	newNodePing();
+                Thread.sleep(dt);
+            } catch (InterruptedException e){
+                e.printStackTrace();
             }
+			
+	}
+	}
+	public void sendMessage(WorkMessage wmsg){
+		try {
+			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
+				if (ei.isActive() && ei.getChannel() != null) {  					   
+                    	WorkMessage wm = wmsg;
+						ei.getChannel().writeAndFlush(wm);    						                    
+				}
+			}
             Thread.sleep(dt);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendMessage(CommandMessage wmsg){
+		try {
+			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
+				if (ei.isActive() && ei.getChannel() != null) {  					   
+                    	CommandMessage wm = wmsg;
+						ei.getChannel().writeAndFlush(wm);    						                    
+				}
+			}
+            Thread.sleep(dt);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendCmdMessageToNode(CommandMessage wmsg, String host, int port){
+		try {
+			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
+				if (ei.isActive() && ei.getChannel() != null && (ei.getHost()==host && ei.getPort()==port)) {  					   
+                    	CommandMessage wm = wmsg;
+						ei.getChannel().writeAndFlush(wm);    						                    
+				}
+			}
+            Thread.sleep(dt);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 
-    @Override
-    public synchronized void onAdd(EdgeInfo ei) {
-        // TODO check connection
-    }
+	@Override
+	public synchronized void onAdd(EdgeInfo ei) {
+		// TODO check connection
+	}
 
-    @Override
-    public synchronized void onRemove(EdgeInfo ei) {
-        // TODO ?
-    }
+	@Override
+	public synchronized void onRemove(EdgeInfo ei) {
+		// TODO ?
+	}
+	public synchronized EdgeList getOutBoundEdges(){
+		return outboundEdges;
+	}
+	
 }

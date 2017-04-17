@@ -15,8 +15,22 @@
  */
 package gash.router.client;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.ByteString;
+import pipe.common.Common;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
+import pipe.common.Common.ReadBody;
+import pipe.common.Common.Request;
+import pipe.common.Common.TaskType;
+import pipe.common.Common.WriteBody;
 import routing.Pipe.CommandMessage;
+import routing.Pipe.WhoIsLeader;
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -27,7 +41,7 @@ import routing.Pipe.CommandMessage;
 public class MessageClient {
 	// track requests
 	private long curID = 0;
-
+	protected static Logger logger = LoggerFactory.getLogger("Client");
 	public MessageClient(String host, int port) {
 		init(host, port);
 	}
@@ -39,14 +53,37 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
+	public void askForLeader() {
+		// construct the message to send
+		Header.Builder hb = Header.newBuilder();
+		hb.setNodeId(999);
+		hb.setTime(System.currentTimeMillis());
+		hb.setDestination(-1);
+		
+		WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
+		wl.setAskleader(true);
+		
+		CommandMessage.Builder rb = CommandMessage.newBuilder();
+		rb.setHeader(hb);
+		rb.setWhoisleader(wl);
+		
+		System.out.println("im sending message");
+		try {
+			// direct no queue
+			// CommConnection.getInstance().write(rb.build());
 
+			// using queue
+			CommConnection.getInstance().enqueue(rb.build());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void ping() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(1);
+		hb.setNodeId(999);
 		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(6);
-	
+		hb.setDestination(-1);
 
 		CommandMessage.Builder rb = CommandMessage.newBuilder();
 		rb.setHeader(hb);
@@ -62,10 +99,49 @@ public class MessageClient {
 			e.printStackTrace();
 		}
 	}
+	// Save File to server
+			public void writeFile(String filename, ByteString chunkData, int noOfChunks, int chunkId) {
+				
+				logger.info("Printing byte size"+chunkData.size());
+				Header.Builder hb = Header.newBuilder();
+				hb.setNodeId(999);
+				hb.setTime(System.currentTimeMillis());
+				hb.setDestination(-1);
+				
+				Chunk.Builder chb=Chunk.newBuilder();
+				chb.setChunkId(chunkId);
+				chb.setChunkData(chunkData);
+				chb.setChunkSize(chunkData.size());
+				
+				WriteBody.Builder wb=WriteBody.newBuilder();
+				wb.setFileId(1);
+				wb.setFilename(filename);
+				wb.setChunk(chb);
+				wb.setNumOfChunks(noOfChunks);
+				
+				Request.Builder rb = Request.newBuilder();
+				//request type, read,write,etc				
+				rb.setRequestType(Common.TaskType.WRITEFILE); // operation to be
+																// performed
+				rb.setRwb(wb);	
+				CommandMessage.Builder cb = CommandMessage.newBuilder();
+				// Prepare the CommandMessage structure
+				cb.setHeader(hb);
+				cb.setRequest(rb);				
 
-	public void release() {
+				// Initiate connection to the server and prepare to save file
+				try {
+					CommConnection.getInstance().enqueue(cb.build());
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("Problem connecting to the system");
+				}			
+
+			}
+
+	/*public void release() {
 		CommConnection.getInstance().release();
-	}
+	}*/
 
 	/**
 	 * Since the service/server is asychronous we need a unique ID to associate
@@ -75,5 +151,37 @@ public class MessageClient {
 	 */
 	private synchronized long nextId() {
 		return ++curID;
+	}
+
+	public void readFile(String fileName) {
+		// TODO Auto-generated method stub
+		Header.Builder hb = Header.newBuilder();
+		// prepare the Header Structure
+		hb.setNodeId(999);
+		hb.setTime(System.currentTimeMillis());
+		hb.setDestination(-1);
+
+		// prepare the read body request Structure
+		ReadBody.Builder rrb=ReadBody.newBuilder();
+		rrb.setFilename(fileName);
+
+		Request.Builder rb = Request.newBuilder();
+		rb.setRequestType(TaskType.READFILE);
+		rb.setRrb(rrb);		
+		
+		CommandMessage.Builder cb = CommandMessage.newBuilder();
+		// Prepare the CommandMessage structure
+		cb.setHeader(hb);
+		cb.setRequest(rb);		
+
+		// Initiate connection to the server and prepare to read and save file
+		try {
+
+			CommConnection.getInstance().enqueue(cb.build());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 }

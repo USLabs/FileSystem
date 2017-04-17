@@ -52,7 +52,7 @@ public class WorkInit extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
 
 		// our server processor (new instance for each connection)
-		System.out.println("something came");
+		
 		pipeline.addLast("handler", new WorkHandler(state));
 	}
 }

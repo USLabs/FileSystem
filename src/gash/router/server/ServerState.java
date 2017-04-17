@@ -1,72 +1,69 @@
 package gash.router.server;
 
+import java.util.concurrent.LinkedBlockingDeque;
+
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeMonitor;
 import gash.router.server.tasks.TaskList;
+import pipe.work.Work.WorkMessage;
+//import raft.Candidate;
+import raft.FollowerState;
+import raft.RaftManager;
+import routing.Pipe.CommandMessage;
 
 public class ServerState {
-    private RoutingConf conf;
-    private EdgeMonitor emon;
-    private TaskList tasks;
-    private StateTypes stateType = StateTypes.follower;
-    private long timeOut;
-    private int currentLeader;
-    private int currentTerm;
+	private RoutingConf conf;
+	private EdgeMonitor emon;
+	private TaskList tasks;	
+	private RaftManager manager;
+	private String state="";
+	private Monitor monitor;
+	
+	public Monitor getMonitor(){
+		return monitor;
+	}
+	
+	public RaftManager getManager() {
+		return manager;
+	}
 
-    public void setTimeOut(long to) {
-        this.timeOut = to;
+	public void setManager(RaftManager mgr) {
+		manager = mgr;
+	}
+
+
+	public String getState() { 
+		return state;
     }
 
-    public long getTimeOut() {
-        return timeOut;
+	public void setState(String state) { 
+		this.state = state;
     }
+	
+	public RoutingConf getConf() {
+		return conf;
+	}
+	
+	public void setConf(RoutingConf conf) {
+		this.conf = conf;
+	}
 
-    public void setStateType(StateTypes st) {
-        this.stateType = st;
-    }
+	public EdgeMonitor getEmon() {
+		return emon;
+	}
 
-    public StateTypes getStateType() {
-        return stateType;
-    }
+	public void setEmon(EdgeMonitor emon) {
+		this.emon = emon;
+	}
 
-    public RoutingConf getConf() {
-        return conf;
-    }
+	public TaskList getTasks() {
+		return tasks;
+	}
 
-    public void setCurrentLeader(int currentLeader) {
-        this.currentLeader = currentLeader;
-    }
-
-    public int getCurrentLeader() {
-        return currentLeader;
-    }
-
-    public void setCurrentTerm(int currentLeader) {
-        this.currentTerm = currentTerm;
-    }
-
-    public int getCurrentTerm() {
-        return currentTerm;
-    }
-
-    public void setConf(RoutingConf conf) {
-        this.conf = conf;
-    }
-
-    public EdgeMonitor getEmon() {
-        return emon;
-    }
-
-    public void setEmon(EdgeMonitor emon) {
-        this.emon = emon;
-    }
-
-    public TaskList getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(TaskList tasks) {
-        this.tasks = tasks;
-    }
+	public void setTasks(TaskList tasks) {
+		this.tasks = tasks;
+	}
+	
+	
 
 }

@@ -1,59 +1,57 @@
-package chainofhandlers;
+/*package handlerschian;
 
 
-/**
+
+*//**
  * @author Labhesh
  * @since 29 Mar,2017.
- */
+ *//*
+
 import gash.router.server.MessageServer;
 import gash.router.server.PrintUtil;
 import gash.router.server.ServerState;
+import gash.router.server.edges.EdgeMonitor;
 import io.netty.channel.Channel;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pipe.common.Common.Body;
+
 import pipe.work.Work;
 import pipe.work.Work.Heartbeat;
+import pipe.work.Work.WorkMessage;
 import routing.Pipe;
 
 public class VoteHandler extends Handler {
     Logger logger = LoggerFactory.getLogger(BodyHandler.class);
     public int requiredVotes=1;
-    Map<Integer,Integer> voteMap=new HashMap<Integer,Integer>();
+    Set<Integer> voteList=new HashSet<Integer>();
     public VoteHandler(ServerState state) {
         super(state);
     }
 
     @Override
     public void processWorkMessage(Work.WorkMessage message, Channel channel) {
-        if (message.hasVote()) {        	
-        	System.out.println(" im handling vote");
-        	/*@Override
-            public void onVoteReceived(Work.WorkMessage workMessage, Channel channel) {*/
-                
-                int voterId = message.getVote().getVoterID();
-                logger.info("Vote Received from "+voterId );
-                int receivedCurrentTerm = message.getVote().getCurrentTerm();
-                voteMap.put(voterId, receivedCurrentTerm);
-                if (voteMap.size() >= requiredVotes) {
-                    state.setCurrentLeader(state.getConf().getNodeId());
-                }
-                System.out.println("Present Leader is "+state.getCurrentLeader());
-            //}
-        	
+        
+    	System.out.println(" inside vote handler");
+    	if (message.hasVote()) {        	
+        	System.out.println(" im handling vote");	
+        	state.getManager().getCurrentState().receivedVoteReply(message);
+           
         } else {
-            //next.processWorkMessage(message, channel);
-        	System.out.println("I honestly dont know where to go ");
+        	System.out.println("I dont have vote ");
+            next.processWorkMessage(message, channel);
+        	
         }
     }
 
 
-    /*@Override
+    @Override
     public void processCommandMessage(Pipe.CommandMessage message, Channel channel) {
         if (message.hasDuty()) {
             server.onDutyMessage(message, channel);
@@ -75,6 +73,6 @@ public class VoteHandler extends Handler {
         }
 
     }
-*/
 
-}
+
+}*/

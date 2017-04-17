@@ -1756,15 +1756,15 @@ public final class Work {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     boolean hasHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.Header getHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder();
 
@@ -1859,19 +1859,6 @@ public final class Work {
     pipe.work.Work.WorkStateOrBuilder getStateOrBuilder();
 
     /**
-     * <code>optional .Body body = 8;</code>
-     */
-    boolean hasBody();
-    /**
-     * <code>optional .Body body = 8;</code>
-     */
-    pipe.common.Common.Body getBody();
-    /**
-     * <code>optional .Body body = 8;</code>
-     */
-    pipe.common.Common.BodyOrBuilder getBodyOrBuilder();
-
-    /**
      * <code>optional .LeaderStatus leader = 9;</code>
      */
     boolean hasLeader();
@@ -1898,17 +1885,56 @@ public final class Work {
     pipe.election.Election.VoteOrBuilder getVoteOrBuilder();
 
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    boolean hasRvote();
+    boolean hasReqvote();
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    pipe.election.Election.RequestVote getRvote();
+    pipe.election.Election.RequestVote getReqvote();
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    pipe.election.Election.RequestVoteOrBuilder getRvoteOrBuilder();
+    pipe.election.Election.RequestVoteOrBuilder getReqvoteOrBuilder();
+
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    boolean hasAddnewnode();
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    pipe.common.Common.AddNewNode getAddnewnode();
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    pipe.common.Common.AddNewNodeOrBuilder getAddnewnodeOrBuilder();
+
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    boolean hasRequest();
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    pipe.common.Common.Request getRequest();
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    pipe.common.Common.RequestOrBuilder getRequestOrBuilder();
+
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    boolean hasResponse();
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    pipe.common.Common.Response getResponse();
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    pipe.common.Common.ResponseOrBuilder getResponseOrBuilder();
 
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
@@ -2038,20 +2064,6 @@ public final class Work {
               payloadCase_ = 7;
               break;
             }
-            case 66: {
-              pipe.common.Common.Body.Builder subBuilder = null;
-              if (payloadCase_ == 8) {
-                subBuilder = ((pipe.common.Common.Body) payload_).toBuilder();
-              }
-              payload_ =
-                  input.readMessage(pipe.common.Common.Body.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((pipe.common.Common.Body) payload_);
-                payload_ = subBuilder.buildPartial();
-              }
-              payloadCase_ = 8;
-              break;
-            }
             case 74: {
               pipe.election.Election.LeaderStatus.Builder subBuilder = null;
               if (payloadCase_ == 9) {
@@ -2094,6 +2106,48 @@ public final class Work {
               payloadCase_ = 11;
               break;
             }
+            case 98: {
+              pipe.common.Common.AddNewNode.Builder subBuilder = null;
+              if (payloadCase_ == 12) {
+                subBuilder = ((pipe.common.Common.AddNewNode) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.common.Common.AddNewNode.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.common.Common.AddNewNode) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 12;
+              break;
+            }
+            case 106: {
+              pipe.common.Common.Request.Builder subBuilder = null;
+              if (payloadCase_ == 13) {
+                subBuilder = ((pipe.common.Common.Request) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.common.Common.Request.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.common.Common.Request) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 13;
+              break;
+            }
+            case 114: {
+              pipe.common.Common.Response.Builder subBuilder = null;
+              if (payloadCase_ == 14) {
+                subBuilder = ((pipe.common.Common.Response) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.common.Common.Response.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.common.Common.Response) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 14;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2128,10 +2182,12 @@ public final class Work {
       BEAT(5),
       TASK(6),
       STATE(7),
-      BODY(8),
       LEADER(9),
       VOTE(10),
-      RVOTE(11),
+      REQVOTE(11),
+      ADDNEWNODE(12),
+      REQUEST(13),
+      RESPONSE(14),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -2152,10 +2208,12 @@ public final class Work {
           case 5: return BEAT;
           case 6: return TASK;
           case 7: return STATE;
-          case 8: return BODY;
           case 9: return LEADER;
           case 10: return VOTE;
-          case 11: return RVOTE;
+          case 11: return REQVOTE;
+          case 12: return ADDNEWNODE;
+          case 13: return REQUEST;
+          case 14: return RESPONSE;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -2174,19 +2232,19 @@ public final class Work {
     public static final int HEADER_FIELD_NUMBER = 1;
     private pipe.common.Common.Header header_;
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public boolean hasHeader() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.Header getHeader() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
@@ -2348,32 +2406,6 @@ public final class Work {
       return pipe.work.Work.WorkState.getDefaultInstance();
     }
 
-    public static final int BODY_FIELD_NUMBER = 8;
-    /**
-     * <code>optional .Body body = 8;</code>
-     */
-    public boolean hasBody() {
-      return payloadCase_ == 8;
-    }
-    /**
-     * <code>optional .Body body = 8;</code>
-     */
-    public pipe.common.Common.Body getBody() {
-      if (payloadCase_ == 8) {
-         return (pipe.common.Common.Body) payload_;
-      }
-      return pipe.common.Common.Body.getDefaultInstance();
-    }
-    /**
-     * <code>optional .Body body = 8;</code>
-     */
-    public pipe.common.Common.BodyOrBuilder getBodyOrBuilder() {
-      if (payloadCase_ == 8) {
-         return (pipe.common.Common.Body) payload_;
-      }
-      return pipe.common.Common.Body.getDefaultInstance();
-    }
-
     public static final int LEADER_FIELD_NUMBER = 9;
     /**
      * <code>optional .LeaderStatus leader = 9;</code>
@@ -2426,30 +2458,108 @@ public final class Work {
       return pipe.election.Election.Vote.getDefaultInstance();
     }
 
-    public static final int RVOTE_FIELD_NUMBER = 11;
+    public static final int REQVOTE_FIELD_NUMBER = 11;
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    public boolean hasRvote() {
+    public boolean hasReqvote() {
       return payloadCase_ == 11;
     }
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    public pipe.election.Election.RequestVote getRvote() {
+    public pipe.election.Election.RequestVote getReqvote() {
       if (payloadCase_ == 11) {
          return (pipe.election.Election.RequestVote) payload_;
       }
       return pipe.election.Election.RequestVote.getDefaultInstance();
     }
     /**
-     * <code>optional .RequestVote rvote = 11;</code>
+     * <code>optional .RequestVote reqvote = 11;</code>
      */
-    public pipe.election.Election.RequestVoteOrBuilder getRvoteOrBuilder() {
+    public pipe.election.Election.RequestVoteOrBuilder getReqvoteOrBuilder() {
       if (payloadCase_ == 11) {
          return (pipe.election.Election.RequestVote) payload_;
       }
       return pipe.election.Election.RequestVote.getDefaultInstance();
+    }
+
+    public static final int ADDNEWNODE_FIELD_NUMBER = 12;
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    public boolean hasAddnewnode() {
+      return payloadCase_ == 12;
+    }
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    public pipe.common.Common.AddNewNode getAddnewnode() {
+      if (payloadCase_ == 12) {
+         return (pipe.common.Common.AddNewNode) payload_;
+      }
+      return pipe.common.Common.AddNewNode.getDefaultInstance();
+    }
+    /**
+     * <code>optional .AddNewNode addnewnode = 12;</code>
+     */
+    public pipe.common.Common.AddNewNodeOrBuilder getAddnewnodeOrBuilder() {
+      if (payloadCase_ == 12) {
+         return (pipe.common.Common.AddNewNode) payload_;
+      }
+      return pipe.common.Common.AddNewNode.getDefaultInstance();
+    }
+
+    public static final int REQUEST_FIELD_NUMBER = 13;
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    public boolean hasRequest() {
+      return payloadCase_ == 13;
+    }
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    public pipe.common.Common.Request getRequest() {
+      if (payloadCase_ == 13) {
+         return (pipe.common.Common.Request) payload_;
+      }
+      return pipe.common.Common.Request.getDefaultInstance();
+    }
+    /**
+     * <code>optional .Request request = 13;</code>
+     */
+    public pipe.common.Common.RequestOrBuilder getRequestOrBuilder() {
+      if (payloadCase_ == 13) {
+         return (pipe.common.Common.Request) payload_;
+      }
+      return pipe.common.Common.Request.getDefaultInstance();
+    }
+
+    public static final int RESPONSE_FIELD_NUMBER = 14;
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    public boolean hasResponse() {
+      return payloadCase_ == 14;
+    }
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    public pipe.common.Common.Response getResponse() {
+      if (payloadCase_ == 14) {
+         return (pipe.common.Common.Response) payload_;
+      }
+      return pipe.common.Common.Response.getDefaultInstance();
+    }
+    /**
+     * <code>optional .Response response = 14;</code>
+     */
+    public pipe.common.Common.ResponseOrBuilder getResponseOrBuilder() {
+      if (payloadCase_ == 14) {
+         return (pipe.common.Common.Response) payload_;
+      }
+      return pipe.common.Common.Response.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2458,17 +2568,15 @@ public final class Work {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasHeader()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasSecret()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!getHeader().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      if (hasHeader()) {
+        if (!getHeader().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasErr()) {
         if (!getErr().isInitialized()) {
@@ -2494,26 +2602,32 @@ public final class Work {
           return false;
         }
       }
-      if (hasBody()) {
-        if (!getBody().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasLeader()) {
-        if (!getLeader().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       if (hasVote()) {
         if (!getVote().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (hasRvote()) {
-        if (!getRvote().isInitialized()) {
+      if (hasReqvote()) {
+        if (!getReqvote().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasAddnewnode()) {
+        if (!getAddnewnode().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRequest()) {
+        if (!getRequest().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasResponse()) {
+        if (!getResponse().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2546,9 +2660,6 @@ public final class Work {
       if (payloadCase_ == 7) {
         output.writeMessage(7, (pipe.work.Work.WorkState) payload_);
       }
-      if (payloadCase_ == 8) {
-        output.writeMessage(8, (pipe.common.Common.Body) payload_);
-      }
       if (payloadCase_ == 9) {
         output.writeMessage(9, (pipe.election.Election.LeaderStatus) payload_);
       }
@@ -2557,6 +2668,15 @@ public final class Work {
       }
       if (payloadCase_ == 11) {
         output.writeMessage(11, (pipe.election.Election.RequestVote) payload_);
+      }
+      if (payloadCase_ == 12) {
+        output.writeMessage(12, (pipe.common.Common.AddNewNode) payload_);
+      }
+      if (payloadCase_ == 13) {
+        output.writeMessage(13, (pipe.common.Common.Request) payload_);
+      }
+      if (payloadCase_ == 14) {
+        output.writeMessage(14, (pipe.common.Common.Response) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -2595,10 +2715,6 @@ public final class Work {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (pipe.work.Work.WorkState) payload_);
       }
-      if (payloadCase_ == 8) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (pipe.common.Common.Body) payload_);
-      }
       if (payloadCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (pipe.election.Election.LeaderStatus) payload_);
@@ -2610,6 +2726,18 @@ public final class Work {
       if (payloadCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, (pipe.election.Election.RequestVote) payload_);
+      }
+      if (payloadCase_ == 12) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, (pipe.common.Common.AddNewNode) payload_);
+      }
+      if (payloadCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (pipe.common.Common.Request) payload_);
+      }
+      if (payloadCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (pipe.common.Common.Response) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2662,10 +2790,6 @@ public final class Work {
           result = result && getState()
               .equals(other.getState());
           break;
-        case 8:
-          result = result && getBody()
-              .equals(other.getBody());
-          break;
         case 9:
           result = result && getLeader()
               .equals(other.getLeader());
@@ -2675,8 +2799,20 @@ public final class Work {
               .equals(other.getVote());
           break;
         case 11:
-          result = result && getRvote()
-              .equals(other.getRvote());
+          result = result && getReqvote()
+              .equals(other.getReqvote());
+          break;
+        case 12:
+          result = result && getAddnewnode()
+              .equals(other.getAddnewnode());
+          break;
+        case 13:
+          result = result && getRequest()
+              .equals(other.getRequest());
+          break;
+        case 14:
+          result = result && getResponse()
+              .equals(other.getResponse());
           break;
         case 0:
         default:
@@ -2723,10 +2859,6 @@ public final class Work {
           hash = (37 * hash) + STATE_FIELD_NUMBER;
           hash = (53 * hash) + getState().hashCode();
           break;
-        case 8:
-          hash = (37 * hash) + BODY_FIELD_NUMBER;
-          hash = (53 * hash) + getBody().hashCode();
-          break;
         case 9:
           hash = (37 * hash) + LEADER_FIELD_NUMBER;
           hash = (53 * hash) + getLeader().hashCode();
@@ -2736,8 +2868,20 @@ public final class Work {
           hash = (53 * hash) + getVote().hashCode();
           break;
         case 11:
-          hash = (37 * hash) + RVOTE_FIELD_NUMBER;
-          hash = (53 * hash) + getRvote().hashCode();
+          hash = (37 * hash) + REQVOTE_FIELD_NUMBER;
+          hash = (53 * hash) + getReqvote().hashCode();
+          break;
+        case 12:
+          hash = (37 * hash) + ADDNEWNODE_FIELD_NUMBER;
+          hash = (53 * hash) + getAddnewnode().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getRequest().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + RESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getResponse().hashCode();
           break;
         case 0:
         default:
@@ -2942,13 +3086,6 @@ public final class Work {
             result.payload_ = stateBuilder_.build();
           }
         }
-        if (payloadCase_ == 8) {
-          if (bodyBuilder_ == null) {
-            result.payload_ = payload_;
-          } else {
-            result.payload_ = bodyBuilder_.build();
-          }
-        }
         if (payloadCase_ == 9) {
           if (leaderBuilder_ == null) {
             result.payload_ = payload_;
@@ -2964,10 +3101,31 @@ public final class Work {
           }
         }
         if (payloadCase_ == 11) {
-          if (rvoteBuilder_ == null) {
+          if (reqvoteBuilder_ == null) {
             result.payload_ = payload_;
           } else {
-            result.payload_ = rvoteBuilder_.build();
+            result.payload_ = reqvoteBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 12) {
+          if (addnewnodeBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = addnewnodeBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 13) {
+          if (requestBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = requestBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 14) {
+          if (responseBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = responseBuilder_.build();
           }
         }
         result.bitField0_ = to_bitField0_;
@@ -3040,10 +3198,6 @@ public final class Work {
             mergeState(other.getState());
             break;
           }
-          case BODY: {
-            mergeBody(other.getBody());
-            break;
-          }
           case LEADER: {
             mergeLeader(other.getLeader());
             break;
@@ -3052,8 +3206,20 @@ public final class Work {
             mergeVote(other.getVote());
             break;
           }
-          case RVOTE: {
-            mergeRvote(other.getRvote());
+          case REQVOTE: {
+            mergeReqvote(other.getReqvote());
+            break;
+          }
+          case ADDNEWNODE: {
+            mergeAddnewnode(other.getAddnewnode());
+            break;
+          }
+          case REQUEST: {
+            mergeRequest(other.getRequest());
+            break;
+          }
+          case RESPONSE: {
+            mergeResponse(other.getResponse());
             break;
           }
           case PAYLOAD_NOT_SET: {
@@ -3066,14 +3232,13 @@ public final class Work {
       }
 
       public final boolean isInitialized() {
-        if (!hasHeader()) {
-          return false;
-        }
         if (!hasSecret()) {
           return false;
         }
-        if (!getHeader().isInitialized()) {
-          return false;
+        if (hasHeader()) {
+          if (!getHeader().isInitialized()) {
+            return false;
+          }
         }
         if (hasErr()) {
           if (!getErr().isInitialized()) {
@@ -3095,23 +3260,28 @@ public final class Work {
             return false;
           }
         }
-        if (hasBody()) {
-          if (!getBody().isInitialized()) {
-            return false;
-          }
-        }
-        if (hasLeader()) {
-          if (!getLeader().isInitialized()) {
-            return false;
-          }
-        }
         if (hasVote()) {
           if (!getVote().isInitialized()) {
             return false;
           }
         }
-        if (hasRvote()) {
-          if (!getRvote().isInitialized()) {
+        if (hasReqvote()) {
+          if (!getReqvote().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasAddnewnode()) {
+          if (!getAddnewnode().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasRequest()) {
+          if (!getRequest().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasResponse()) {
+          if (!getResponse().isInitialized()) {
             return false;
           }
         }
@@ -3156,13 +3326,13 @@ public final class Work {
       private com.google.protobuf.SingleFieldBuilderV3<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> headerBuilder_;
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public boolean hasHeader() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header getHeader() {
         if (headerBuilder_ == null) {
@@ -3172,7 +3342,7 @@ public final class Work {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -3188,7 +3358,7 @@ public final class Work {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(
           pipe.common.Common.Header.Builder builderForValue) {
@@ -3202,7 +3372,7 @@ public final class Work {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder mergeHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -3222,7 +3392,7 @@ public final class Work {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder clearHeader() {
         if (headerBuilder_ == null) {
@@ -3235,7 +3405,7 @@ public final class Work {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header.Builder getHeaderBuilder() {
         bitField0_ |= 0x00000001;
@@ -3243,7 +3413,7 @@ public final class Work {
         return getHeaderFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
@@ -3254,7 +3424,7 @@ public final class Work {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> 
@@ -3935,142 +4105,6 @@ public final class Work {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          pipe.common.Common.Body, pipe.common.Common.Body.Builder, pipe.common.Common.BodyOrBuilder> bodyBuilder_;
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public boolean hasBody() {
-        return payloadCase_ == 8;
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public pipe.common.Common.Body getBody() {
-        if (bodyBuilder_ == null) {
-          if (payloadCase_ == 8) {
-            return (pipe.common.Common.Body) payload_;
-          }
-          return pipe.common.Common.Body.getDefaultInstance();
-        } else {
-          if (payloadCase_ == 8) {
-            return bodyBuilder_.getMessage();
-          }
-          return pipe.common.Common.Body.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public Builder setBody(pipe.common.Common.Body value) {
-        if (bodyBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          payload_ = value;
-          onChanged();
-        } else {
-          bodyBuilder_.setMessage(value);
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public Builder setBody(
-          pipe.common.Common.Body.Builder builderForValue) {
-        if (bodyBuilder_ == null) {
-          payload_ = builderForValue.build();
-          onChanged();
-        } else {
-          bodyBuilder_.setMessage(builderForValue.build());
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public Builder mergeBody(pipe.common.Common.Body value) {
-        if (bodyBuilder_ == null) {
-          if (payloadCase_ == 8 &&
-              payload_ != pipe.common.Common.Body.getDefaultInstance()) {
-            payload_ = pipe.common.Common.Body.newBuilder((pipe.common.Common.Body) payload_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            payload_ = value;
-          }
-          onChanged();
-        } else {
-          if (payloadCase_ == 8) {
-            bodyBuilder_.mergeFrom(value);
-          }
-          bodyBuilder_.setMessage(value);
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public Builder clearBody() {
-        if (bodyBuilder_ == null) {
-          if (payloadCase_ == 8) {
-            payloadCase_ = 0;
-            payload_ = null;
-            onChanged();
-          }
-        } else {
-          if (payloadCase_ == 8) {
-            payloadCase_ = 0;
-            payload_ = null;
-          }
-          bodyBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public pipe.common.Common.Body.Builder getBodyBuilder() {
-        return getBodyFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      public pipe.common.Common.BodyOrBuilder getBodyOrBuilder() {
-        if ((payloadCase_ == 8) && (bodyBuilder_ != null)) {
-          return bodyBuilder_.getMessageOrBuilder();
-        } else {
-          if (payloadCase_ == 8) {
-            return (pipe.common.Common.Body) payload_;
-          }
-          return pipe.common.Common.Body.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .Body body = 8;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          pipe.common.Common.Body, pipe.common.Common.Body.Builder, pipe.common.Common.BodyOrBuilder> 
-          getBodyFieldBuilder() {
-        if (bodyBuilder_ == null) {
-          if (!(payloadCase_ == 8)) {
-            payload_ = pipe.common.Common.Body.getDefaultInstance();
-          }
-          bodyBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              pipe.common.Common.Body, pipe.common.Common.Body.Builder, pipe.common.Common.BodyOrBuilder>(
-                  (pipe.common.Common.Body) payload_,
-                  getParentForChildren(),
-                  isClean());
-          payload_ = null;
-        }
-        payloadCase_ = 8;
-        onChanged();;
-        return bodyBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
           pipe.election.Election.LeaderStatus, pipe.election.Election.LeaderStatus.Builder, pipe.election.Election.LeaderStatusOrBuilder> leaderBuilder_;
       /**
        * <code>optional .LeaderStatus leader = 9;</code>
@@ -4343,64 +4377,64 @@ public final class Work {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          pipe.election.Election.RequestVote, pipe.election.Election.RequestVote.Builder, pipe.election.Election.RequestVoteOrBuilder> rvoteBuilder_;
+          pipe.election.Election.RequestVote, pipe.election.Election.RequestVote.Builder, pipe.election.Election.RequestVoteOrBuilder> reqvoteBuilder_;
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public boolean hasRvote() {
+      public boolean hasReqvote() {
         return payloadCase_ == 11;
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public pipe.election.Election.RequestVote getRvote() {
-        if (rvoteBuilder_ == null) {
+      public pipe.election.Election.RequestVote getReqvote() {
+        if (reqvoteBuilder_ == null) {
           if (payloadCase_ == 11) {
             return (pipe.election.Election.RequestVote) payload_;
           }
           return pipe.election.Election.RequestVote.getDefaultInstance();
         } else {
           if (payloadCase_ == 11) {
-            return rvoteBuilder_.getMessage();
+            return reqvoteBuilder_.getMessage();
           }
           return pipe.election.Election.RequestVote.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public Builder setRvote(pipe.election.Election.RequestVote value) {
-        if (rvoteBuilder_ == null) {
+      public Builder setReqvote(pipe.election.Election.RequestVote value) {
+        if (reqvoteBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           payload_ = value;
           onChanged();
         } else {
-          rvoteBuilder_.setMessage(value);
+          reqvoteBuilder_.setMessage(value);
         }
         payloadCase_ = 11;
         return this;
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public Builder setRvote(
+      public Builder setReqvote(
           pipe.election.Election.RequestVote.Builder builderForValue) {
-        if (rvoteBuilder_ == null) {
+        if (reqvoteBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
         } else {
-          rvoteBuilder_.setMessage(builderForValue.build());
+          reqvoteBuilder_.setMessage(builderForValue.build());
         }
         payloadCase_ = 11;
         return this;
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public Builder mergeRvote(pipe.election.Election.RequestVote value) {
-        if (rvoteBuilder_ == null) {
+      public Builder mergeReqvote(pipe.election.Election.RequestVote value) {
+        if (reqvoteBuilder_ == null) {
           if (payloadCase_ == 11 &&
               payload_ != pipe.election.Election.RequestVote.getDefaultInstance()) {
             payload_ = pipe.election.Election.RequestVote.newBuilder((pipe.election.Election.RequestVote) payload_)
@@ -4411,18 +4445,18 @@ public final class Work {
           onChanged();
         } else {
           if (payloadCase_ == 11) {
-            rvoteBuilder_.mergeFrom(value);
+            reqvoteBuilder_.mergeFrom(value);
           }
-          rvoteBuilder_.setMessage(value);
+          reqvoteBuilder_.setMessage(value);
         }
         payloadCase_ = 11;
         return this;
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public Builder clearRvote() {
-        if (rvoteBuilder_ == null) {
+      public Builder clearReqvote() {
+        if (reqvoteBuilder_ == null) {
           if (payloadCase_ == 11) {
             payloadCase_ = 0;
             payload_ = null;
@@ -4433,22 +4467,22 @@ public final class Work {
             payloadCase_ = 0;
             payload_ = null;
           }
-          rvoteBuilder_.clear();
+          reqvoteBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public pipe.election.Election.RequestVote.Builder getRvoteBuilder() {
-        return getRvoteFieldBuilder().getBuilder();
+      public pipe.election.Election.RequestVote.Builder getReqvoteBuilder() {
+        return getReqvoteFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
-      public pipe.election.Election.RequestVoteOrBuilder getRvoteOrBuilder() {
-        if ((payloadCase_ == 11) && (rvoteBuilder_ != null)) {
-          return rvoteBuilder_.getMessageOrBuilder();
+      public pipe.election.Election.RequestVoteOrBuilder getReqvoteOrBuilder() {
+        if ((payloadCase_ == 11) && (reqvoteBuilder_ != null)) {
+          return reqvoteBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 11) {
             return (pipe.election.Election.RequestVote) payload_;
@@ -4457,16 +4491,16 @@ public final class Work {
         }
       }
       /**
-       * <code>optional .RequestVote rvote = 11;</code>
+       * <code>optional .RequestVote reqvote = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           pipe.election.Election.RequestVote, pipe.election.Election.RequestVote.Builder, pipe.election.Election.RequestVoteOrBuilder> 
-          getRvoteFieldBuilder() {
-        if (rvoteBuilder_ == null) {
+          getReqvoteFieldBuilder() {
+        if (reqvoteBuilder_ == null) {
           if (!(payloadCase_ == 11)) {
             payload_ = pipe.election.Election.RequestVote.getDefaultInstance();
           }
-          rvoteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          reqvoteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               pipe.election.Election.RequestVote, pipe.election.Election.RequestVote.Builder, pipe.election.Election.RequestVoteOrBuilder>(
                   (pipe.election.Election.RequestVote) payload_,
                   getParentForChildren(),
@@ -4475,7 +4509,415 @@ public final class Work {
         }
         payloadCase_ = 11;
         onChanged();;
-        return rvoteBuilder_;
+        return reqvoteBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.AddNewNode, pipe.common.Common.AddNewNode.Builder, pipe.common.Common.AddNewNodeOrBuilder> addnewnodeBuilder_;
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public boolean hasAddnewnode() {
+        return payloadCase_ == 12;
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public pipe.common.Common.AddNewNode getAddnewnode() {
+        if (addnewnodeBuilder_ == null) {
+          if (payloadCase_ == 12) {
+            return (pipe.common.Common.AddNewNode) payload_;
+          }
+          return pipe.common.Common.AddNewNode.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 12) {
+            return addnewnodeBuilder_.getMessage();
+          }
+          return pipe.common.Common.AddNewNode.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public Builder setAddnewnode(pipe.common.Common.AddNewNode value) {
+        if (addnewnodeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          addnewnodeBuilder_.setMessage(value);
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public Builder setAddnewnode(
+          pipe.common.Common.AddNewNode.Builder builderForValue) {
+        if (addnewnodeBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          addnewnodeBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public Builder mergeAddnewnode(pipe.common.Common.AddNewNode value) {
+        if (addnewnodeBuilder_ == null) {
+          if (payloadCase_ == 12 &&
+              payload_ != pipe.common.Common.AddNewNode.getDefaultInstance()) {
+            payload_ = pipe.common.Common.AddNewNode.newBuilder((pipe.common.Common.AddNewNode) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 12) {
+            addnewnodeBuilder_.mergeFrom(value);
+          }
+          addnewnodeBuilder_.setMessage(value);
+        }
+        payloadCase_ = 12;
+        return this;
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public Builder clearAddnewnode() {
+        if (addnewnodeBuilder_ == null) {
+          if (payloadCase_ == 12) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 12) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          addnewnodeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public pipe.common.Common.AddNewNode.Builder getAddnewnodeBuilder() {
+        return getAddnewnodeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      public pipe.common.Common.AddNewNodeOrBuilder getAddnewnodeOrBuilder() {
+        if ((payloadCase_ == 12) && (addnewnodeBuilder_ != null)) {
+          return addnewnodeBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 12) {
+            return (pipe.common.Common.AddNewNode) payload_;
+          }
+          return pipe.common.Common.AddNewNode.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .AddNewNode addnewnode = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.AddNewNode, pipe.common.Common.AddNewNode.Builder, pipe.common.Common.AddNewNodeOrBuilder> 
+          getAddnewnodeFieldBuilder() {
+        if (addnewnodeBuilder_ == null) {
+          if (!(payloadCase_ == 12)) {
+            payload_ = pipe.common.Common.AddNewNode.getDefaultInstance();
+          }
+          addnewnodeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.common.Common.AddNewNode, pipe.common.Common.AddNewNode.Builder, pipe.common.Common.AddNewNodeOrBuilder>(
+                  (pipe.common.Common.AddNewNode) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 12;
+        onChanged();;
+        return addnewnodeBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.Request, pipe.common.Common.Request.Builder, pipe.common.Common.RequestOrBuilder> requestBuilder_;
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public boolean hasRequest() {
+        return payloadCase_ == 13;
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public pipe.common.Common.Request getRequest() {
+        if (requestBuilder_ == null) {
+          if (payloadCase_ == 13) {
+            return (pipe.common.Common.Request) payload_;
+          }
+          return pipe.common.Common.Request.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 13) {
+            return requestBuilder_.getMessage();
+          }
+          return pipe.common.Common.Request.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public Builder setRequest(pipe.common.Common.Request value) {
+        if (requestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public Builder setRequest(
+          pipe.common.Common.Request.Builder builderForValue) {
+        if (requestBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public Builder mergeRequest(pipe.common.Common.Request value) {
+        if (requestBuilder_ == null) {
+          if (payloadCase_ == 13 &&
+              payload_ != pipe.common.Common.Request.getDefaultInstance()) {
+            payload_ = pipe.common.Common.Request.newBuilder((pipe.common.Common.Request) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 13) {
+            requestBuilder_.mergeFrom(value);
+          }
+          requestBuilder_.setMessage(value);
+        }
+        payloadCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public Builder clearRequest() {
+        if (requestBuilder_ == null) {
+          if (payloadCase_ == 13) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 13) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          requestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public pipe.common.Common.Request.Builder getRequestBuilder() {
+        return getRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      public pipe.common.Common.RequestOrBuilder getRequestOrBuilder() {
+        if ((payloadCase_ == 13) && (requestBuilder_ != null)) {
+          return requestBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 13) {
+            return (pipe.common.Common.Request) payload_;
+          }
+          return pipe.common.Common.Request.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Request request = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.Request, pipe.common.Common.Request.Builder, pipe.common.Common.RequestOrBuilder> 
+          getRequestFieldBuilder() {
+        if (requestBuilder_ == null) {
+          if (!(payloadCase_ == 13)) {
+            payload_ = pipe.common.Common.Request.getDefaultInstance();
+          }
+          requestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.common.Common.Request, pipe.common.Common.Request.Builder, pipe.common.Common.RequestOrBuilder>(
+                  (pipe.common.Common.Request) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 13;
+        onChanged();;
+        return requestBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.Response, pipe.common.Common.Response.Builder, pipe.common.Common.ResponseOrBuilder> responseBuilder_;
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public boolean hasResponse() {
+        return payloadCase_ == 14;
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public pipe.common.Common.Response getResponse() {
+        if (responseBuilder_ == null) {
+          if (payloadCase_ == 14) {
+            return (pipe.common.Common.Response) payload_;
+          }
+          return pipe.common.Common.Response.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 14) {
+            return responseBuilder_.getMessage();
+          }
+          return pipe.common.Common.Response.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public Builder setResponse(pipe.common.Common.Response value) {
+        if (responseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          responseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public Builder setResponse(
+          pipe.common.Common.Response.Builder builderForValue) {
+        if (responseBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          responseBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public Builder mergeResponse(pipe.common.Common.Response value) {
+        if (responseBuilder_ == null) {
+          if (payloadCase_ == 14 &&
+              payload_ != pipe.common.Common.Response.getDefaultInstance()) {
+            payload_ = pipe.common.Common.Response.newBuilder((pipe.common.Common.Response) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 14) {
+            responseBuilder_.mergeFrom(value);
+          }
+          responseBuilder_.setMessage(value);
+        }
+        payloadCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public Builder clearResponse() {
+        if (responseBuilder_ == null) {
+          if (payloadCase_ == 14) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 14) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          responseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public pipe.common.Common.Response.Builder getResponseBuilder() {
+        return getResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      public pipe.common.Common.ResponseOrBuilder getResponseOrBuilder() {
+        if ((payloadCase_ == 14) && (responseBuilder_ != null)) {
+          return responseBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 14) {
+            return (pipe.common.Common.Response) payload_;
+          }
+          return pipe.common.Common.Response.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Response response = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.common.Common.Response, pipe.common.Common.Response.Builder, pipe.common.Common.ResponseOrBuilder> 
+          getResponseFieldBuilder() {
+        if (responseBuilder_ == null) {
+          if (!(payloadCase_ == 14)) {
+            payload_ = pipe.common.Common.Response.getDefaultInstance();
+          }
+          responseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.common.Common.Response, pipe.common.Common.Response.Builder, pipe.common.Common.ResponseOrBuilder>(
+                  (pipe.common.Common.Response) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 14;
+        onChanged();;
+        return responseBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4560,14 +5002,16 @@ public final class Work {
       "State\022\020\n\010enqueued\030\001 \002(\005\022\021\n\tprocessed\030\002 \002" +
       "(\005\"&\n\tHeartbeat\022\031\n\005state\030\001 \002(\0132\n.WorkSta" +
       "te\")\n\004Task\022\021\n\tseries_id\030\001 \002(\003\022\016\n\006seq_id\030" +
-      "\002 \002(\005\"\250\002\n\013WorkMessage\022\027\n\006header\030\001 \002(\0132\007." +
+      "\002 \002(\005\"\362\002\n\013WorkMessage\022\027\n\006header\030\001 \001(\0132\007." +
       "Header\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030\003 \001(\0132\010.Fa" +
       "ilureH\000\022\016\n\004ping\030\004 \001(\010H\000\022\032\n\004beat\030\005 \001(\0132\n." +
       "HeartbeatH\000\022\025\n\004task\030\006 \001(\0132\005.TaskH\000\022\033\n\005st" +
-      "ate\030\007 \001(\0132\n.WorkStateH\000\022\025\n\004body\030\010 \001(\0132\005.",
-      "BodyH\000\022\037\n\006leader\030\t \001(\0132\r.LeaderStatusH\000\022" +
-      "\025\n\004vote\030\n \001(\0132\005.VoteH\000\022\035\n\005rvote\030\013 \001(\0132\014." +
-      "RequestVoteH\000B\t\n\007payloadB\r\n\tpipe.workH\001"
+      "ate\030\007 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132",
+      "\r.LeaderStatusH\000\022\025\n\004vote\030\n \001(\0132\005.VoteH\000\022" +
+      "\037\n\007reqvote\030\013 \001(\0132\014.RequestVoteH\000\022!\n\naddn" +
+      "ewnode\030\014 \001(\0132\013.AddNewNodeH\000\022\033\n\007request\030\r" +
+      " \001(\0132\010.RequestH\000\022\035\n\010response\030\016 \001(\0132\t.Res" +
+      "ponseH\000B\t\n\007payloadB\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4606,7 +5050,7 @@ public final class Work {
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Body", "Leader", "Vote", "Rvote", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Leader", "Vote", "Reqvote", "Addnewnode", "Request", "Response", "Payload", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }

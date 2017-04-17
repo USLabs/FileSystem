@@ -4,16 +4,25 @@ option java_package = "routing";
 
 import "resources/common.proto";
 
+message LeaderRoute {
+    // a node should not have a value though this is not enforced    
+    required string host = 2;
+    optional int32 port = 3;
+}
+message WhoIsLeader{
+	required bool askleader=1;
+}
 message CommandMessage {
-   required Header header = 1;
+   optional Header header = 1;
 
     oneof payload {
       // a client (external) sanity check for testing
- 	  Body body = 3;
+ 	  
       bool ping = 4;
-
-      string message = 5;
-      
-      Failure err = 6;
+      WhoIsLeader whoisleader=9;
+	  Request request = 6;      
+      Response response = 7;
+      Failure err = 5;
+      LeaderRoute leaderroute=8;
    }
 }

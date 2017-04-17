@@ -43,6 +43,7 @@ public class CommWorker extends Thread {
 				if (ch.isWritable()) {
 					if (!conn.write(msg)) {
 						conn.outbound.putFirst(msg);
+						System.out.println("msg sending failed!");
 					}
 
 					System.out.flush();

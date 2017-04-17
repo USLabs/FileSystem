@@ -24,7 +24,7 @@ message Task {
 
 // These are messages to keep the network running (not to perform work)
 message WorkMessage {
-   required Header header = 1;
+   optional Header header = 1;
    required int64 secret = 2;
    
    /**
@@ -42,11 +42,14 @@ message WorkMessage {
       Heartbeat beat = 5;
 	  
       Task task = 6;
-      WorkState state = 7;
-      Body body=8;
-      LeaderStatus leader = 9;
+      WorkState state = 7;      
+      LeaderStatus leader = 9;      
       Vote vote=10; 
-      RequestVote rvote=11;
+      RequestVote reqvote=11;
+      AddNewNode addnewnode=12;
+      Request request = 13;      
+      Response response = 14;
+      
    }
 }
 

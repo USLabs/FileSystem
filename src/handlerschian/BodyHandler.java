@@ -1,41 +1,40 @@
 /**
  * @author Labhesh
  * @since 25 Mar,2017.
- */
-package chainofhandlers;
-import gash.router.server.MessageServer;
-import gash.router.server.PrintUtil;
-import gash.router.server.ServerState;
-import io.netty.channel.Channel;
+ *//*
+package handlerschian;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pipe.common.Common.Body;
-import pipe.work.Work;
-import pipe.work.Work.Heartbeat;
-import routing.Pipe;
+import gash.router.server.PrintUtil;
+import gash.router.server.ServerState;
+import io.netty.channel.Channel;
 
-public class HeartbeatHandler extends Handler {
-    Logger logger = LoggerFactory.getLogger(BodyHandler.class);
-    public HeartbeatHandler(ServerState state) {
-        super(state);
-    }
+import pipe.work.Work;
+
+public class BodyHandler extends Handler {
+    public BodyHandler(ServerState state) {
+		super(state);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	Logger logger = LoggerFactory.getLogger(BodyHandler.class);
+    
 
     @Override
     public void processWorkMessage(Work.WorkMessage message, Channel channel) {
-        if (message.hasBeat()) {
-        	//Heartbeat hb = message.getBeat();
-        	/*logger.debug("heartbeat from " + message.getHeader().getNodeId());*/
-        	System.out.println(" im in beat");
-        	PrintUtil.printWork(message);
-        	logger.debug("heartbeat from " + message.getHeader().getNodeId());
+        if (message.hasBody()) {
+        	System.out.println("im in body handler");
+        	Body bd=message.getBody();
+        	PrintUtil.printBody(bd);
         } else {
-            //next.processWorkMessage(message, channel);
-        	System.out.println("I honestly dont know where to go ");
+        	System.out.println("no body handler req");
+            next.processWorkMessage(message, channel);
         }
     }
 
-    /*@Override
+    @Override
     public void processCommandMessage(Pipe.CommandMessage message, Channel channel) {
         if (message.hasDuty()) {
             server.onDutyMessage(message, channel);
@@ -57,6 +56,7 @@ public class HeartbeatHandler extends Handler {
         }
 
     }
-*/
+
 
 }
+*/

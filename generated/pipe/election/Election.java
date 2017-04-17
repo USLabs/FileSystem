@@ -19,45 +19,34 @@ public final class Election {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-     */
-    boolean hasAction();
-    /**
-     * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-     */
-    pipe.election.Election.LeaderStatus.LeaderQuery getAction();
-
-    /**
-     * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-     */
-    boolean hasState();
-    /**
-     * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-     */
-    pipe.election.Election.LeaderStatus.LeaderState getState();
-
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    boolean hasLeaderHost();
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    java.lang.String getLeaderHost();
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getLeaderHostBytes();
-
-    /**
-     * <code>optional int32 leader_id = 4;</code>
+     * <pre>
+     *required LeaderQuery action = 1;
+     *optional LeaderState state = 2;
+     *optional string leader_host= 3;
+     * </pre>
+     *
+     * <code>optional int32 leader_id = 1;</code>
      */
     boolean hasLeaderId();
     /**
-     * <code>optional int32 leader_id = 4;</code>
+     * <pre>
+     *required LeaderQuery action = 1;
+     *optional LeaderState state = 2;
+     *optional string leader_host= 3;
+     * </pre>
+     *
+     * <code>optional int32 leader_id = 1;</code>
      */
     int getLeaderId();
+
+    /**
+     * <code>optional int32 leader_term = 2;</code>
+     */
+    boolean hasLeaderTerm();
+    /**
+     * <code>optional int32 leader_term = 2;</code>
+     */
+    int getLeaderTerm();
   }
   /**
    * <pre>
@@ -75,10 +64,8 @@ public final class Election {
       super(builder);
     }
     private LeaderStatus() {
-      action_ = 1;
-      state_ = 1;
-      leaderHost_ = "";
       leaderId_ = 0;
+      leaderTerm_ = 0;
     }
 
     @java.lang.Override
@@ -110,36 +97,13 @@ public final class Election {
               break;
             }
             case 8: {
-              int rawValue = input.readEnum();
-              pipe.election.Election.LeaderStatus.LeaderQuery value = pipe.election.Election.LeaderStatus.LeaderQuery.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                action_ = rawValue;
-              }
+              bitField0_ |= 0x00000001;
+              leaderId_ = input.readInt32();
               break;
             }
             case 16: {
-              int rawValue = input.readEnum();
-              pipe.election.Election.LeaderStatus.LeaderState value = pipe.election.Election.LeaderStatus.LeaderState.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(2, rawValue);
-              } else {
-                bitField0_ |= 0x00000002;
-                state_ = rawValue;
-              }
-              break;
-            }
-            case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000004;
-              leaderHost_ = bs;
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              leaderId_ = input.readInt32();
+              bitField0_ |= 0x00000002;
+              leaderTerm_ = input.readInt32();
               break;
             }
           }
@@ -166,283 +130,47 @@ public final class Election {
               pipe.election.Election.LeaderStatus.class, pipe.election.Election.LeaderStatus.Builder.class);
     }
 
-    /**
-     * Protobuf enum {@code LeaderStatus.LeaderState}
-     */
-    public enum LeaderState
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>LEADERUNKNOWN = 1;</code>
-       */
-      LEADERUNKNOWN(1),
-      /**
-       * <code>LEADERALIVE = 2;</code>
-       */
-      LEADERALIVE(2),
-      /**
-       * <code>LEADERDEAD = 3;</code>
-       */
-      LEADERDEAD(3),
-      ;
-
-      /**
-       * <code>LEADERUNKNOWN = 1;</code>
-       */
-      public static final int LEADERUNKNOWN_VALUE = 1;
-      /**
-       * <code>LEADERALIVE = 2;</code>
-       */
-      public static final int LEADERALIVE_VALUE = 2;
-      /**
-       * <code>LEADERDEAD = 3;</code>
-       */
-      public static final int LEADERDEAD_VALUE = 3;
-
-
-      public final int getNumber() {
-        return value;
-      }
-
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static LeaderState valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static LeaderState forNumber(int value) {
-        switch (value) {
-          case 1: return LEADERUNKNOWN;
-          case 2: return LEADERALIVE;
-          case 3: return LEADERDEAD;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<LeaderState>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          LeaderState> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<LeaderState>() {
-              public LeaderState findValueByNumber(int number) {
-                return LeaderState.forNumber(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return pipe.election.Election.LeaderStatus.getDescriptor().getEnumTypes().get(0);
-      }
-
-      private static final LeaderState[] VALUES = values();
-
-      public static LeaderState valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int value;
-
-      private LeaderState(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:LeaderStatus.LeaderState)
-    }
-
-    /**
-     * Protobuf enum {@code LeaderStatus.LeaderQuery}
-     */
-    public enum LeaderQuery
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>WHOISTHELEADER = 1;</code>
-       */
-      WHOISTHELEADER(1),
-      /**
-       * <code>THELEADERIS = 2;</code>
-       */
-      THELEADERIS(2),
-      ;
-
-      /**
-       * <code>WHOISTHELEADER = 1;</code>
-       */
-      public static final int WHOISTHELEADER_VALUE = 1;
-      /**
-       * <code>THELEADERIS = 2;</code>
-       */
-      public static final int THELEADERIS_VALUE = 2;
-
-
-      public final int getNumber() {
-        return value;
-      }
-
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static LeaderQuery valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static LeaderQuery forNumber(int value) {
-        switch (value) {
-          case 1: return WHOISTHELEADER;
-          case 2: return THELEADERIS;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<LeaderQuery>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          LeaderQuery> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<LeaderQuery>() {
-              public LeaderQuery findValueByNumber(int number) {
-                return LeaderQuery.forNumber(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return pipe.election.Election.LeaderStatus.getDescriptor().getEnumTypes().get(1);
-      }
-
-      private static final LeaderQuery[] VALUES = values();
-
-      public static LeaderQuery valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int value;
-
-      private LeaderQuery(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:LeaderStatus.LeaderQuery)
-    }
-
     private int bitField0_;
-    public static final int ACTION_FIELD_NUMBER = 1;
-    private int action_;
+    public static final int LEADER_ID_FIELD_NUMBER = 1;
+    private int leaderId_;
     /**
-     * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
+     * <pre>
+     *required LeaderQuery action = 1;
+     *optional LeaderState state = 2;
+     *optional string leader_host= 3;
+     * </pre>
+     *
+     * <code>optional int32 leader_id = 1;</code>
      */
-    public boolean hasAction() {
+    public boolean hasLeaderId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-     */
-    public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
-      pipe.election.Election.LeaderStatus.LeaderQuery result = pipe.election.Election.LeaderStatus.LeaderQuery.valueOf(action_);
-      return result == null ? pipe.election.Election.LeaderStatus.LeaderQuery.WHOISTHELEADER : result;
-    }
-
-    public static final int STATE_FIELD_NUMBER = 2;
-    private int state_;
-    /**
-     * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-     */
-    public boolean hasState() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-     */
-    public pipe.election.Election.LeaderStatus.LeaderState getState() {
-      pipe.election.Election.LeaderStatus.LeaderState result = pipe.election.Election.LeaderStatus.LeaderState.valueOf(state_);
-      return result == null ? pipe.election.Election.LeaderStatus.LeaderState.LEADERUNKNOWN : result;
-    }
-
-    public static final int LEADER_HOST_FIELD_NUMBER = 3;
-    private volatile java.lang.Object leaderHost_;
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    public boolean hasLeaderHost() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    public java.lang.String getLeaderHost() {
-      java.lang.Object ref = leaderHost_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          leaderHost_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string leader_host = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getLeaderHostBytes() {
-      java.lang.Object ref = leaderHost_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        leaderHost_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int LEADER_ID_FIELD_NUMBER = 4;
-    private int leaderId_;
-    /**
-     * <code>optional int32 leader_id = 4;</code>
-     */
-    public boolean hasLeaderId() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional int32 leader_id = 4;</code>
+     * <pre>
+     *required LeaderQuery action = 1;
+     *optional LeaderState state = 2;
+     *optional string leader_host= 3;
+     * </pre>
+     *
+     * <code>optional int32 leader_id = 1;</code>
      */
     public int getLeaderId() {
       return leaderId_;
+    }
+
+    public static final int LEADER_TERM_FIELD_NUMBER = 2;
+    private int leaderTerm_;
+    /**
+     * <code>optional int32 leader_term = 2;</code>
+     */
+    public boolean hasLeaderTerm() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 leader_term = 2;</code>
+     */
+    public int getLeaderTerm() {
+      return leaderTerm_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -451,10 +179,6 @@ public final class Election {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasAction()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -462,16 +186,10 @@ public final class Election {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, action_);
+        output.writeInt32(1, leaderId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeEnum(2, state_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, leaderHost_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, leaderId_);
+        output.writeInt32(2, leaderTerm_);
       }
       unknownFields.writeTo(output);
     }
@@ -483,18 +201,11 @@ public final class Election {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, action_);
+          .computeInt32Size(1, leaderId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, state_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, leaderHost_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, leaderId_);
+          .computeInt32Size(2, leaderTerm_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -513,23 +224,15 @@ public final class Election {
       pipe.election.Election.LeaderStatus other = (pipe.election.Election.LeaderStatus) obj;
 
       boolean result = true;
-      result = result && (hasAction() == other.hasAction());
-      if (hasAction()) {
-        result = result && action_ == other.action_;
-      }
-      result = result && (hasState() == other.hasState());
-      if (hasState()) {
-        result = result && state_ == other.state_;
-      }
-      result = result && (hasLeaderHost() == other.hasLeaderHost());
-      if (hasLeaderHost()) {
-        result = result && getLeaderHost()
-            .equals(other.getLeaderHost());
-      }
       result = result && (hasLeaderId() == other.hasLeaderId());
       if (hasLeaderId()) {
         result = result && (getLeaderId()
             == other.getLeaderId());
+      }
+      result = result && (hasLeaderTerm() == other.hasLeaderTerm());
+      if (hasLeaderTerm()) {
+        result = result && (getLeaderTerm()
+            == other.getLeaderTerm());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -542,21 +245,13 @@ public final class Election {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasAction()) {
-        hash = (37 * hash) + ACTION_FIELD_NUMBER;
-        hash = (53 * hash) + action_;
-      }
-      if (hasState()) {
-        hash = (37 * hash) + STATE_FIELD_NUMBER;
-        hash = (53 * hash) + state_;
-      }
-      if (hasLeaderHost()) {
-        hash = (37 * hash) + LEADER_HOST_FIELD_NUMBER;
-        hash = (53 * hash) + getLeaderHost().hashCode();
-      }
       if (hasLeaderId()) {
         hash = (37 * hash) + LEADER_ID_FIELD_NUMBER;
         hash = (53 * hash) + getLeaderId();
+      }
+      if (hasLeaderTerm()) {
+        hash = (37 * hash) + LEADER_TERM_FIELD_NUMBER;
+        hash = (53 * hash) + getLeaderTerm();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -680,14 +375,10 @@ public final class Election {
       }
       public Builder clear() {
         super.clear();
-        action_ = 1;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        state_ = 1;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        leaderHost_ = "";
-        bitField0_ = (bitField0_ & ~0x00000004);
         leaderId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000001);
+        leaderTerm_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -715,19 +406,11 @@ public final class Election {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.action_ = action_;
+        result.leaderId_ = leaderId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.state_ = state_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.leaderHost_ = leaderHost_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.leaderId_ = leaderId_;
+        result.leaderTerm_ = leaderTerm_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -770,19 +453,11 @@ public final class Election {
 
       public Builder mergeFrom(pipe.election.Election.LeaderStatus other) {
         if (other == pipe.election.Election.LeaderStatus.getDefaultInstance()) return this;
-        if (other.hasAction()) {
-          setAction(other.getAction());
-        }
-        if (other.hasState()) {
-          setState(other.getState());
-        }
-        if (other.hasLeaderHost()) {
-          bitField0_ |= 0x00000004;
-          leaderHost_ = other.leaderHost_;
-          onChanged();
-        }
         if (other.hasLeaderId()) {
           setLeaderId(other.getLeaderId());
+        }
+        if (other.hasLeaderTerm()) {
+          setLeaderTerm(other.getLeaderTerm());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -790,9 +465,6 @@ public final class Election {
       }
 
       public final boolean isInitialized() {
-        if (!hasAction()) {
-          return false;
-        }
         return true;
       }
 
@@ -815,182 +487,90 @@ public final class Election {
       }
       private int bitField0_;
 
-      private int action_ = 1;
+      private int leaderId_ ;
       /**
-       * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
+       * <pre>
+       *required LeaderQuery action = 1;
+       *optional LeaderState state = 2;
+       *optional string leader_host= 3;
+       * </pre>
+       *
+       * <code>optional int32 leader_id = 1;</code>
        */
-      public boolean hasAction() {
+      public boolean hasLeaderId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-       */
-      public pipe.election.Election.LeaderStatus.LeaderQuery getAction() {
-        pipe.election.Election.LeaderStatus.LeaderQuery result = pipe.election.Election.LeaderStatus.LeaderQuery.valueOf(action_);
-        return result == null ? pipe.election.Election.LeaderStatus.LeaderQuery.WHOISTHELEADER : result;
-      }
-      /**
-       * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-       */
-      public Builder setAction(pipe.election.Election.LeaderStatus.LeaderQuery value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        action_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .LeaderStatus.LeaderQuery action = 1;</code>
-       */
-      public Builder clearAction() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        action_ = 1;
-        onChanged();
-        return this;
-      }
-
-      private int state_ = 1;
-      /**
-       * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-       */
-      public boolean hasState() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-       */
-      public pipe.election.Election.LeaderStatus.LeaderState getState() {
-        pipe.election.Election.LeaderStatus.LeaderState result = pipe.election.Election.LeaderStatus.LeaderState.valueOf(state_);
-        return result == null ? pipe.election.Election.LeaderStatus.LeaderState.LEADERUNKNOWN : result;
-      }
-      /**
-       * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-       */
-      public Builder setState(pipe.election.Election.LeaderStatus.LeaderState value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        state_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional .LeaderStatus.LeaderState state = 2;</code>
-       */
-      public Builder clearState() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        state_ = 1;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object leaderHost_ = "";
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public boolean hasLeaderHost() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public java.lang.String getLeaderHost() {
-        java.lang.Object ref = leaderHost_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            leaderHost_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getLeaderHostBytes() {
-        java.lang.Object ref = leaderHost_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          leaderHost_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public Builder setLeaderHost(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        leaderHost_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public Builder clearLeaderHost() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        leaderHost_ = getDefaultInstance().getLeaderHost();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string leader_host = 3;</code>
-       */
-      public Builder setLeaderHostBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        leaderHost_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int leaderId_ ;
-      /**
-       * <code>optional int32 leader_id = 4;</code>
-       */
-      public boolean hasLeaderId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional int32 leader_id = 4;</code>
+       * <pre>
+       *required LeaderQuery action = 1;
+       *optional LeaderState state = 2;
+       *optional string leader_host= 3;
+       * </pre>
+       *
+       * <code>optional int32 leader_id = 1;</code>
        */
       public int getLeaderId() {
         return leaderId_;
       }
       /**
-       * <code>optional int32 leader_id = 4;</code>
+       * <pre>
+       *required LeaderQuery action = 1;
+       *optional LeaderState state = 2;
+       *optional string leader_host= 3;
+       * </pre>
+       *
+       * <code>optional int32 leader_id = 1;</code>
        */
       public Builder setLeaderId(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000001;
         leaderId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 leader_id = 4;</code>
+       * <pre>
+       *required LeaderQuery action = 1;
+       *optional LeaderState state = 2;
+       *optional string leader_host= 3;
+       * </pre>
+       *
+       * <code>optional int32 leader_id = 1;</code>
        */
       public Builder clearLeaderId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000001);
         leaderId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int leaderTerm_ ;
+      /**
+       * <code>optional int32 leader_term = 2;</code>
+       */
+      public boolean hasLeaderTerm() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 leader_term = 2;</code>
+       */
+      public int getLeaderTerm() {
+        return leaderTerm_;
+      }
+      /**
+       * <code>optional int32 leader_term = 2;</code>
+       */
+      public Builder setLeaderTerm(int value) {
+        bitField0_ |= 0x00000002;
+        leaderTerm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 leader_term = 2;</code>
+       */
+      public Builder clearLeaderTerm() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        leaderTerm_ = 0;
         onChanged();
         return this;
       }
@@ -1679,15 +1259,6 @@ public final class Election {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required int32 currentTerm = 1;</code>
-     */
-    boolean hasCurrentTerm();
-    /**
-     * <code>required int32 currentTerm = 1;</code>
-     */
-    int getCurrentTerm();
-
-    /**
      * <code>required int32 voterID = 2;</code>
      */
     boolean hasVoterID();
@@ -1717,7 +1288,6 @@ public final class Election {
       super(builder);
     }
     private Vote() {
-      currentTerm_ = 0;
       voterID_ = 0;
       candidateID_ = 0;
     }
@@ -1750,18 +1320,13 @@ public final class Election {
               }
               break;
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              currentTerm_ = input.readInt32();
-              break;
-            }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               voterID_ = input.readInt32();
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000002;
               candidateID_ = input.readInt32();
               break;
             }
@@ -1790,28 +1355,13 @@ public final class Election {
     }
 
     private int bitField0_;
-    public static final int CURRENTTERM_FIELD_NUMBER = 1;
-    private int currentTerm_;
-    /**
-     * <code>required int32 currentTerm = 1;</code>
-     */
-    public boolean hasCurrentTerm() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 currentTerm = 1;</code>
-     */
-    public int getCurrentTerm() {
-      return currentTerm_;
-    }
-
     public static final int VOTERID_FIELD_NUMBER = 2;
     private int voterID_;
     /**
      * <code>required int32 voterID = 2;</code>
      */
     public boolean hasVoterID() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 voterID = 2;</code>
@@ -1826,7 +1376,7 @@ public final class Election {
      * <code>optional int32 candidateID = 3;</code>
      */
     public boolean hasCandidateID() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional int32 candidateID = 3;</code>
@@ -1841,10 +1391,6 @@ public final class Election {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasCurrentTerm()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasVoterID()) {
         memoizedIsInitialized = 0;
         return false;
@@ -1856,12 +1402,9 @@ public final class Election {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, currentTerm_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, voterID_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(3, candidateID_);
       }
       unknownFields.writeTo(output);
@@ -1874,13 +1417,9 @@ public final class Election {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, currentTerm_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, voterID_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, candidateID_);
       }
@@ -1901,11 +1440,6 @@ public final class Election {
       pipe.election.Election.Vote other = (pipe.election.Election.Vote) obj;
 
       boolean result = true;
-      result = result && (hasCurrentTerm() == other.hasCurrentTerm());
-      if (hasCurrentTerm()) {
-        result = result && (getCurrentTerm()
-            == other.getCurrentTerm());
-      }
       result = result && (hasVoterID() == other.hasVoterID());
       if (hasVoterID()) {
         result = result && (getVoterID()
@@ -1927,10 +1461,6 @@ public final class Election {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasCurrentTerm()) {
-        hash = (37 * hash) + CURRENTTERM_FIELD_NUMBER;
-        hash = (53 * hash) + getCurrentTerm();
-      }
       if (hasVoterID()) {
         hash = (37 * hash) + VOTERID_FIELD_NUMBER;
         hash = (53 * hash) + getVoterID();
@@ -2057,12 +1587,10 @@ public final class Election {
       }
       public Builder clear() {
         super.clear();
-        currentTerm_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         voterID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         candidateID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2090,13 +1618,9 @@ public final class Election {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.currentTerm_ = currentTerm_;
+        result.voterID_ = voterID_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
-        }
-        result.voterID_ = voterID_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
         }
         result.candidateID_ = candidateID_;
         result.bitField0_ = to_bitField0_;
@@ -2141,9 +1665,6 @@ public final class Election {
 
       public Builder mergeFrom(pipe.election.Election.Vote other) {
         if (other == pipe.election.Election.Vote.getDefaultInstance()) return this;
-        if (other.hasCurrentTerm()) {
-          setCurrentTerm(other.getCurrentTerm());
-        }
         if (other.hasVoterID()) {
           setVoterID(other.getVoterID());
         }
@@ -2156,9 +1677,6 @@ public final class Election {
       }
 
       public final boolean isInitialized() {
-        if (!hasCurrentTerm()) {
-          return false;
-        }
         if (!hasVoterID()) {
           return false;
         }
@@ -2184,44 +1702,12 @@ public final class Election {
       }
       private int bitField0_;
 
-      private int currentTerm_ ;
-      /**
-       * <code>required int32 currentTerm = 1;</code>
-       */
-      public boolean hasCurrentTerm() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 currentTerm = 1;</code>
-       */
-      public int getCurrentTerm() {
-        return currentTerm_;
-      }
-      /**
-       * <code>required int32 currentTerm = 1;</code>
-       */
-      public Builder setCurrentTerm(int value) {
-        bitField0_ |= 0x00000001;
-        currentTerm_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 currentTerm = 1;</code>
-       */
-      public Builder clearCurrentTerm() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        currentTerm_ = 0;
-        onChanged();
-        return this;
-      }
-
       private int voterID_ ;
       /**
        * <code>required int32 voterID = 2;</code>
        */
       public boolean hasVoterID() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 voterID = 2;</code>
@@ -2233,7 +1719,7 @@ public final class Election {
        * <code>required int32 voterID = 2;</code>
        */
       public Builder setVoterID(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         voterID_ = value;
         onChanged();
         return this;
@@ -2242,7 +1728,7 @@ public final class Election {
        * <code>required int32 voterID = 2;</code>
        */
       public Builder clearVoterID() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         voterID_ = 0;
         onChanged();
         return this;
@@ -2253,7 +1739,7 @@ public final class Election {
        * <code>optional int32 candidateID = 3;</code>
        */
       public boolean hasCandidateID() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional int32 candidateID = 3;</code>
@@ -2265,7 +1751,7 @@ public final class Election {
        * <code>optional int32 candidateID = 3;</code>
        */
       public Builder setCandidateID(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         candidateID_ = value;
         onChanged();
         return this;
@@ -2274,7 +1760,7 @@ public final class Election {
        * <code>optional int32 candidateID = 3;</code>
        */
       public Builder clearCandidateID() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         candidateID_ = 0;
         onChanged();
         return this;
@@ -2924,19 +2410,13 @@ public final class Election {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\030resources/election.proto\"\202\002\n\014LeaderSta" +
-      "tus\022)\n\006action\030\001 \002(\0162\031.LeaderStatus.Leade" +
-      "rQuery\022(\n\005state\030\002 \001(\0162\031.LeaderStatus.Lea" +
-      "derState\022\023\n\013leader_host\030\003 \001(\t\022\021\n\tleader_" +
-      "id\030\004 \001(\005\"A\n\013LeaderState\022\021\n\rLEADERUNKNOWN" +
-      "\020\001\022\017\n\013LEADERALIVE\020\002\022\016\n\nLEADERDEAD\020\003\"2\n\013L" +
-      "eaderQuery\022\022\n\016WHOISTHELEADER\020\001\022\017\n\013THELEA" +
-      "DERIS\020\002\"?\n\017CandidateStatus\022\026\n\016candidate_" +
-      "host\030\003 \001(\t\022\024\n\014candidate_id\030\004 \001(\005\"A\n\004Vote" +
-      "\022\023\n\013currentTerm\030\001 \002(\005\022\017\n\007voterID\030\002 \002(\005\022\023",
-      "\n\013candidateID\030\003 \001(\005\"7\n\013RequestVote\022\023\n\013cu" +
-      "rrentTerm\030\001 \002(\005\022\023\n\013candidateID\030\002 \002(\005B\021\n\r" +
-      "pipe.electionH\001"
+      "\n\030resources/election.proto\"6\n\014LeaderStat" +
+      "us\022\021\n\tleader_id\030\001 \001(\005\022\023\n\013leader_term\030\002 \001" +
+      "(\005\"?\n\017CandidateStatus\022\026\n\016candidate_host\030" +
+      "\003 \001(\t\022\024\n\014candidate_id\030\004 \001(\005\",\n\004Vote\022\017\n\007v" +
+      "oterID\030\002 \002(\005\022\023\n\013candidateID\030\003 \001(\005\"7\n\013Req" +
+      "uestVote\022\023\n\013currentTerm\030\001 \002(\005\022\023\n\013candida" +
+      "teID\030\002 \002(\005B\021\n\rpipe.electionH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2955,7 +2435,7 @@ public final class Election {
     internal_static_LeaderStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_LeaderStatus_descriptor,
-        new java.lang.String[] { "Action", "State", "LeaderHost", "LeaderId", });
+        new java.lang.String[] { "LeaderId", "LeaderTerm", });
     internal_static_CandidateStatus_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_CandidateStatus_fieldAccessorTable = new
@@ -2967,7 +2447,7 @@ public final class Election {
     internal_static_Vote_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Vote_descriptor,
-        new java.lang.String[] { "CurrentTerm", "VoterID", "CandidateID", });
+        new java.lang.String[] { "VoterID", "CandidateID", });
     internal_static_RequestVote_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_RequestVote_fieldAccessorTable = new
