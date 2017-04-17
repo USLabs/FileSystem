@@ -1,4 +1,4 @@
-package handlerschian;
+/*package handlerschian;
 
 import gash.router.server.ServerState;
 import io.netty.channel.Channel;
@@ -25,3 +25,4 @@ public abstract class Handler {
 
 
 }
+*/

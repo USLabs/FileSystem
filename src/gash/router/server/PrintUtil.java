@@ -15,7 +15,6 @@
  */
 package gash.router.server;
 
-
 import pipe.common.Common.Failure;
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
@@ -34,7 +33,6 @@ public class PrintUtil {
 			System.out.println("Dest: " + hdr.getDestination());
 
 	}
-	
 
 	public static void printCommand(CommandMessage msg) {
 		PrintUtil.printHeader(msg.getHeader());
@@ -47,25 +45,9 @@ public class PrintUtil {
 			System.out.println(PrintUtil.gap + "Message: " + msg.getErr().getMessage());
 		} else if (msg.hasPing())
 			System.out.println("Ping");
-		  
+
 	}
-	public static void printChunkRequestDetails(CommandMessage msg){
-		System.out.println("File id "+msg.getRequest().getRwb().getFileId());
-		System.out.println("File name "+msg.getRequest().getRwb().getFilename());
-		System.out.println("Chunk id "+msg.getRequest().getRwb().getChunk().getChunkId());
-		System.out.println("Chunk size "+msg.getRequest().getRwb().getChunk().getChunkSize());
-		System.out.println("Chunk data "+msg.getRequest().getRwb().getChunk().getChunkData());
-		System.out.println("Numbr of ChunkS "+msg.getRequest().getRwb().getNumOfChunks());
-	}
-	
-	public static void printChunkResponseDetails(CommandMessage msg){
-		System.out.println("File id "+msg.getResponse().getReadResponse().getFileId());
-		System.out.println("File name "+msg.getResponse().getReadResponse().getFilename());
-		System.out.println("Chunk id "+msg.getResponse().getReadResponse().getChunk().getChunkId());
-		System.out.println("Chunk size "+msg.getResponse().getReadResponse().getChunk().getChunkSize());
-		System.out.println("Chunk data "+msg.getResponse().getReadResponse().getChunk().getChunkData());
-		System.out.println("Numbr of ChunkS "+msg.getResponse().getReadResponse().getNumOfChunks());
-	}
+
 	public static void printWork(WorkMessage msg) {
 		PrintUtil.printHeader(msg.getHeader());
 		System.out.print("\nWork: ");
@@ -77,7 +59,7 @@ public class PrintUtil {
 			System.out.println("heartbeat");
 		else
 			System.out.println("Unknown");
-			// check to see i the message is a file later on 
+		// check to see i the message is a file later on
 		System.out.println(PrintUtil.gap + "Sec:  " + msg.getSecret());
 	}
 

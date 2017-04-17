@@ -3,6 +3,7 @@ package raft;
 import gash.router.server.PrintUtil;
 import gash.router.server.edges.EdgeInfo;
 import pipe.common.Common.Header;
+import pipe.election.Election.LeaderStatus;
 import pipe.election.Election.RequestVote;
 import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
@@ -38,7 +39,6 @@ public class CandidateState implements RaftState{
 	
  		Header.Builder hb = Header.newBuilder();
 		hb.setNodeId(Manager.getNodeId());
-		hb.setTime(System.currentTimeMillis());
 		hb.setDestination(-1);	
 		
 		RequestVote.Builder rvb=RequestVote.newBuilder();
@@ -69,8 +69,7 @@ public class CandidateState implements RaftState{
 			System.out.println("Leader Elected and the Node Id is "+ Manager.getNodeId()+"total active nodes is"+clusterSize);
 			Manager.setLeaderId(Manager.getNodeId());						
 			Manager.setCurrentState(Manager.Leader);
-			Manager.setLeaderHost(Manager.getSelfHost());
-			Manager.setLeaderPort(Manager.getSelfPort());
+			Manager.getEdgeMonitor().sendWorkMessageToNode(createWM(), 4);
 		}
 		else
 		clusterSize++;
@@ -94,29 +93,49 @@ public class CandidateState implements RaftState{
 	@Override
 	public synchronized void onRequestVoteReceived(WorkMessage msg) {
 		// TODO Auto-generated method stub
-		System.out.println("Candidates Vote requested by "+msg.getHeader().getNodeId());		
-		Manager.setCurrentState(Manager.Follower);
-		Manager.randomizeElectionTimeout();					
-} 
-	
+		/*System.out.println("Candidates Vote requested by "+msg.getHeader().getNodeId());
+		if (msg.getReqvote().getCurrentTerm() > Manager.getTerm()) {
+			votedFor = -1;
+			Manager.randomizeElectionTimeout();			
+			Manager.setCurrentState(Manager.Follower);
+			Manager.getCurrentState().onRequestVoteReceived(msg);
+			
+		} */
+	}
 	
 	//received vote
 	@Override
-	public synchronized void receivedVoteReply(WorkMessage msg)
-	{		
+	public synchronized void receivedVoteReply(WorkMessage msg){		
 		System.out.println("received vote from: "+msg.getVote().getVoterID()+" to me");
 		voteCount++;
 		
 		System.out.println("required votes to win :"+clusterSize/2);
-		if(voteCount>=(clusterSize/2))
-		{
+		if(voteCount>=(clusterSize/2)){
 			Manager.randomizeElectionTimeout();
 			System.out.println("Leader Elected and the Node Id is "+ Manager.getNodeId()+"total active nodes is"+clusterSize);
 			Manager.setLeaderId(Manager.getNodeId());
 			votedFor=-1;
 			clusterSize=0;
-			Manager.setCurrentState(Manager.Leader);				
+			Manager.setCurrentState(Manager.Leader);
+			Manager.getEdgeMonitor().sendWorkMessageToNode(createWM(), 4);
 		}
+	}
+	
+	public WorkMessage createWM() {	
+		Header.Builder hb = Header.newBuilder();
+		hb.setNodeId(Manager.getNodeId());
+		hb.setDestination(-1);
+		hb.setTime(System.currentTimeMillis());
+		
+		LeaderStatus.Builder lb=LeaderStatus.newBuilder();
+		lb.setLeaderId(Manager.getNodeId());
+		lb.setLeaderTerm(Manager.getTerm());
+		
+		WorkMessage.Builder wb = WorkMessage.newBuilder();		
+		wb.setHeader(hb);		
+		wb.setLeader(lb);
+		wb.setSecret(10);				
+		return wb.build();	
 	}
 	
 		@Override
@@ -138,17 +157,21 @@ public class CandidateState implements RaftState{
 			Manager.setCurrentState(Manager.Follower);
 			Manager.setLastKnownBeat(System.currentTimeMillis());
 		}
-		@Override
-		public void receivedLogToWrite(CommandMessage msg) {
-			// TODO Auto-generated method stub
-			return;
-			
-		}
-		@Override
-		public void chunkReceived(WorkMessage msg) {
-			// TODO Auto-generated method stub
+		public void receivedLogToWrite(CommandMessage msg)
+		{
 			return;
 		}
+	 
+		public void chunkReceived(WorkMessage msg)
+		  {
+			  return;
+		  }
+		
+		public void responseToChuckSent(WorkMessage msg)
+		  {
+			return;  
+		  }
+		
 	
 	
 }

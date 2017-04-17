@@ -19,32 +19,21 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
 
 import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
 import gash.router.client.MessageClient;
-import gash.router.server.PrintUtil;
-import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
 public class DemoApp implements CommListener {
 	private MessageClient mc;
 	private String leaderHost="";
 	private int leaderPort=0;
-	private Map<String, ArrayList<CommandMessage>> fileBlocksList = new HashMap<String, ArrayList<CommandMessage>>();
-	protected static Logger logger = LoggerFactory.getLogger(DemoApp.class);
 	public DemoApp(MessageClient mc) {
 		init(mc);
 	}
@@ -98,61 +87,7 @@ public class DemoApp implements CommListener {
 
 	@Override
 	public void onMessage(CommandMessage msg) {
-		if (msg == null) {
-			// TODO add logging
-			System.out.println("ERROR: Unexpected content - " + msg);
-			return;
-		}
 		
-		if(msg.hasLeaderroute()){
-			System.out.println("leader host : "+msg.getLeaderroute().getHost());
-			System.out.println("leader port :"+msg.getLeaderroute().getPort());
-		}
-		else 
-			if(msg.getResponse().hasReadResponse()){
-				System.out.println("i've recieved file in pieces");
-				//PrintUtil.printChunkResponseDetails(msg);	
-		        System.out.println("The file has been arrived in bytes");
-		        logger.info("Printing msg from server" + msg.getHeader().getNodeId());
-		        if (!fileBlocksList.containsKey(msg.getResponse().getReadResponse().getFilename())) {
-		            fileBlocksList.put(msg.getResponse().getReadResponse().getFilename(), new ArrayList<Pipe.CommandMessage>());
-		            System.out.println("Created Chunk list");
-		        }
-		        
-		            fileBlocksList.get(msg.getResponse().getReadResponse().getFilename()).add(msg);
-		           
-		           if (fileBlocksList.get(msg.getResponse().getReadResponse().getFilename()).size() == msg.getResponse().getReadResponse().getNumOfChunks()) {
-		                try {
-
-		                    File file = new File(msg.getResponse().getReadResponse().getFilename());
-		                    file.createNewFile();
-		                    List<ByteString> byteString = new ArrayList<ByteString>();
-		                    FileOutputStream outputStream = new FileOutputStream(file);
-		                    
-		                    
-		                    for (int j = 0; j < fileBlocksList.get(msg.getResponse().getReadResponse().getFilename()).size(); j++) {
-		                      
-		                       System.out.println("Inside the for loop ");		                         
-		                       System.out.println("Added chunk to file " + j);
-		                       byteString.add(fileBlocksList.get(msg.getResponse().getReadResponse().getFilename()).get(j).getResponse().getReadResponse().getChunk().getChunkData());		                                		                               
-		                    
-		                    }
-		                        
-		                    System.out.println("out of the loop");
-		                    ByteString bs = ByteString.copyFrom(byteString);
-		                    System.out.println(bs.size());
-		                    outputStream.write(bs.toByteArray());
-		                    System.out.println("file built");
-		                    outputStream.flush();
-		                    outputStream.close();
-
-		                } catch (IOException e) {
-		                    e.printStackTrace();
-		                }
-
-		            }
-		            System.out.flush();
-			}
 	}
 
 	/**
@@ -162,22 +97,21 @@ public class DemoApp implements CommListener {
 	 */
 	public static void main(String[] args) {
 		String host = "localhost";
-		int port = 4468;
+		int port = 4168;
 
 		try {
 			MessageClient mc = new MessageClient(host, port);			
 			DemoApp da = new DemoApp(mc);
-			mc.ping();
 			
 			int choice = 0;
-			Scanner s = new Scanner(System.in);
+			Scanner s=new Scanner(System.in);
             while (true) {
                 System.out.println("Enter your option \n1. WRITE a file. \n2. READ a file. \n3. Update a File. \n4. Delete a File\n 5 Ping(Global)\n 6 Exit");
                 choice = s.nextInt();
                 switch (choice) {
                     case 1: 
                         System.out.println("Enter the full pathname of the file to be written ");
-                        //String currFileName = s.next();
+                      //String currFileName = s.next();
                         String currFileName = "C:\\users\\ilabhesh\\desktop\\c.pdf";
                         File file = new File(currFileName);
                         if (file.exists()) {
@@ -185,24 +119,16 @@ public class DemoApp implements CommListener {
                             String name = file.getName();
                             int i = 0;                            
                             for (ByteString string : chunkedFileList) {
-                                System.out.println(string);
-                            	mc.writeFile(name, string, chunkedFileList.size(), i++);
+                                mc.writeFile(name, string, chunkedFileList.size(), i++);
                             }
                         } else {
                             throw new FileNotFoundException("File does not exist in this path ");
                         } 
                     break;
-                    case 2: {
-                        System.out.println("Enter the file name to be read : ");
-                        String fileName = s.next();
-                        mc.readFile(fileName);
-                        // Thread.sleep(1000 * 100);
-                    }
-                    break;
                     default:
                     	System.out.println("Invalid option");                   
                 }
-            }          
+            }           
 		} catch (Exception e) {
 			e.printStackTrace();
 		} /*finally {

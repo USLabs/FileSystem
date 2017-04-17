@@ -8,9 +8,13 @@ import gash.router.server.ServerState;
 import gash.router.server.edges.EdgeInfo;
 import gash.router.server.edges.EdgeMonitor;
 import pipe.common.Common.AddNewNode;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
+import pipe.common.Common.Response;
+import pipe.common.Common.WriteResponse;
 import pipe.election.Election.Vote;
 import pipe.work.Work.WorkMessage;
+import pipe.work.Work.WorkState;
 import routing.Pipe.CommandMessage;
 
 public class FollowerState implements RaftState {
@@ -30,7 +34,7 @@ public class FollowerState implements RaftState {
 			} else {
 				Thread.sleep(200);
 				long dt = Manager.getElectionTimeout() - (System.currentTimeMillis() - Manager.getTimerStart());
-				//System.out.println("election timeout value "+dt); 		
+				System.out.println("election timeout value "+dt); 		
 				Manager.setElectionTimeout(dt);				
 			}
 		} catch (Exception e) {
@@ -143,7 +147,7 @@ public class FollowerState implements RaftState {
 	public synchronized void receivedHeartBeat(WorkMessage msg)
 	{
 		Manager.randomizeElectionTimeout();		
-		System.out.println("received hearbeat from the Leader: "+msg.getLeader().getLeaderId());
+		System.out.println("received ehearbeat from the Leader: "+msg.getLeader().getLeaderId());
 		PrintUtil.printWork(msg);		
 		Manager.setCurrentState(Manager.Follower);
 		Manager.setLastKnownBeat(System.currentTimeMillis());
@@ -155,10 +159,52 @@ public class FollowerState implements RaftState {
 	}
 	public void chunkReceived(WorkMessage msg)
 	  {
-		  System.out.println("i received a chunk from leader");
-		  PrintUtil.printWork(msg);
+		  System.out.println("i received a chunk from leader");		
+			PrintUtil.printWork(msg);
+			Manager.randomizeElectionTimeout();			
+			Manager.setCurrentState(Manager.Follower);
+			Manager.setLastKnownBeat(System.currentTimeMillis());
+			
+				  
+		  //here add database logic for followers
+		  
+			Header.Builder hb = Header.newBuilder();
+			hb.setNodeId(Manager.getNodeId());
+			hb.setDestination(-1);
+			hb.setTime(System.currentTimeMillis());
+			
+			Chunk.Builder chub=Chunk.newBuilder();
+			chub.setChunkId(msg.getRequest().getRwb().getChunk().getChunkId());
+			chub.setChunkData(msg.getRequest().getRwb().getChunk().getChunkData());
+			chub.setChunkSize(msg.getRequest().getRwb().getChunk().getChunkSize());
+			
+			WriteResponse.Builder wrb=WriteResponse.newBuilder();
+			wrb.setChunk(chub);
+			wrb.setFileName(msg.getRequest().getRwb().getFilename());
+			wrb.setNumOfChunks(msg.getRequest().getRwb().getNumOfChunks());
+			
+			Response.Builder rb=Response.newBuilder();
+			rb.setWriteResponse(wrb);
+			WorkMessage.Builder wbs = WorkMessage.newBuilder();	
+			wbs.setHeader(hb);
+			wbs.setSecret(10);
+			wbs.setResponse(rb);		
+			int toNode=msg.getHeader().getNodeId();
+			int fromNode=Manager.getNodeId();
+			EdgeInfo ei=Manager.getEdgeMonitor().getOutBoundEdges().map.get(toNode);
+			if(ei.isActive()&&ei.getChannel()!=null)
+		   {
+				System.out.println("Im responding to leader that i received chunk "+msg.getRequest().getRwb().getChunk().getChunkId());
+				ei.getChannel().writeAndFlush(wbs.build());
+				
+		   }		  
+		  
 	  }
-	 
+	public void responseToChuckSent(WorkMessage msg)
+	  {
+		return;  
+	  }
+	
  
 }
 

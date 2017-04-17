@@ -14,6 +14,7 @@ import routing.Pipe.CommandMessage;
 
 /**
  * Initializes the external interface
+ * 
  * @author gash
  *
  */
@@ -21,9 +22,10 @@ public class CommandInit extends ChannelInitializer<SocketChannel> {
 	boolean compress = false;
 	RoutingConf conf;
 	ServerState state;
-	public CommandInit(ServerState state,RoutingConf conf, boolean enableCompression) {
+
+	public CommandInit(ServerState state, RoutingConf conf, boolean enableCompression) {
 		super();
-		this.state=state;
+		this.state = state;
 		compress = enableCompression;
 		this.conf = conf;
 	}
@@ -51,7 +53,6 @@ public class CommandInit extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("protobufDecoder", new ProtobufDecoder(CommandMessage.getDefaultInstance()));
 		pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
-
 
 		// our server processor (new instance for each connection)
 		pipeline.addLast("handler", new CommandHandler(state, conf));

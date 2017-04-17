@@ -10,8 +10,8 @@ public class Monitor {
 	public LinkedBlockingDeque<WorkMessage> outgoingWorkMessageQueue;
 	public LinkedBlockingDeque<CommandMessage> incomingcommandMessageQueue;
 	public LinkedBlockingDeque<CommandMessage> outgingcommandMessageQueue;
-	
-	public void enqueueIncomingWork(WorkMessage msg){
+
+	public void enqueueIncomingWork(WorkMessage msg) {
 		try {
 			incomingWorkMessageQueue.put(msg);
 		} catch (InterruptedException e) {
@@ -19,5 +19,5 @@ public class Monitor {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

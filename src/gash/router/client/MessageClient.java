@@ -22,15 +22,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
+
 import pipe.common.Common;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
-import pipe.common.Common.ReadBody;
 import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
 import routing.Pipe.CommandMessage;
-import routing.Pipe.WhoIsLeader;
+
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -53,31 +53,7 @@ public class MessageClient {
 	public void addListener(CommListener listener) {
 		CommConnection.getInstance().addListener(listener);
 	}
-	public void askForLeader() {
-		// construct the message to send
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-		
-		WhoIsLeader.Builder wl=WhoIsLeader.newBuilder();
-		wl.setAskleader(true);
-		
-		CommandMessage.Builder rb = CommandMessage.newBuilder();
-		rb.setHeader(hb);
-		rb.setWhoisleader(wl);
-		
-		System.out.println("im sending message");
-		try {
-			// direct no queue
-			// CommConnection.getInstance().write(rb.build());
-
-			// using queue
-			CommConnection.getInstance().enqueue(rb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 	public void ping() {
 		// construct the message to send
 		Header.Builder hb = Header.newBuilder();
@@ -121,7 +97,7 @@ public class MessageClient {
 				
 				Request.Builder rb = Request.newBuilder();
 				//request type, read,write,etc				
-				rb.setRequestType(Common.TaskType.WRITEFILE); // operation to be
+				rb.setTaskType(TaskType.WRITEFILE); // operation to be
 																// performed
 				rb.setRwb(wb);	
 				CommandMessage.Builder cb = CommandMessage.newBuilder();
@@ -151,37 +127,5 @@ public class MessageClient {
 	 */
 	private synchronized long nextId() {
 		return ++curID;
-	}
-
-	public void readFile(String fileName) {
-		// TODO Auto-generated method stub
-		Header.Builder hb = Header.newBuilder();
-		// prepare the Header Structure
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-
-		// prepare the read body request Structure
-		ReadBody.Builder rrb=ReadBody.newBuilder();
-		rrb.setFilename(fileName);
-
-		Request.Builder rb = Request.newBuilder();
-		rb.setRequestType(TaskType.READFILE);
-		rb.setRrb(rrb);		
-		
-		CommandMessage.Builder cb = CommandMessage.newBuilder();
-		// Prepare the CommandMessage structure
-		cb.setHeader(hb);
-		cb.setRequest(rb);		
-
-		// Initiate connection to the server and prepare to read and save file
-		try {
-
-			CommConnection.getInstance().enqueue(cb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		
 	}
 }

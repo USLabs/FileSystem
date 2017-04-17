@@ -73,7 +73,8 @@ public class RaftManager implements Runnable {
 			electionTimeout += 1000;
 
 			CurrentState = Follower;
-				
+			//CurrentState = Interface;
+			
 		}
 		
 		
@@ -87,14 +88,12 @@ public class RaftManager implements Runnable {
 			while (true) {
 				
 				timerStart = System.currentTimeMillis();				
-				//System.out.println("in raftmanager, present state "+CurrentState);
+				System.out.println("in raftmanager, present state "+CurrentState);
 				CurrentState.process();
 			}
 
 		}
-		public void test(){
-	 		System.out.println("testing");
-	 	}
+		
 		public synchronized void randomizeElectionTimeout() {
 
 			int temp = rand.nextInt(heartBeatBase);
@@ -116,7 +115,7 @@ public class RaftManager implements Runnable {
 		public synchronized long getLastKnownBeat() {
 			return lastKnownBeat;
 		}
-		
+
 		public synchronized void setLastKnownBeat(long beatTime) {
 			lastKnownBeat = beatTime;
 		}
@@ -140,20 +139,22 @@ public class RaftManager implements Runnable {
 		public synchronized int getLeaderId() {
 			return leaderId;
 		}
-		
-		public synchronized void setLeaderPort(int port) {
-			leaderPort=port;	
-		}
-		public synchronized void setLeaderHost(String host) {
-			leaderHost=host;
-		}
 		public synchronized int getLeaderPort() {
-			System.out.println("im in get leader port");			
+			for (EdgeInfo ei : emon.getOutBoundEdges().map.values()) {				
+				if (ei.isActive() && ei.getChannel() != null) {  					   
+                   	if(ei.getRef()==leaderId)
+                   		leaderPort=ei.getPort();
+				}
+			}
 			return leaderPort;	
 		}
 		public synchronized String getLeaderHost() {
-			System.out.println("im in get leader Host");
-			
+			for (EdgeInfo ei : emon.getOutBoundEdges().map.values()) {				
+				if (ei.isActive() && ei.getChannel() != null) {  					   
+                   	if(ei.getRef()==leaderId)
+                   		leaderHost=ei.getHost();
+				}
+			}
 			return leaderHost;			
 		}
 		public synchronized void setCurrentState(RaftState st) {

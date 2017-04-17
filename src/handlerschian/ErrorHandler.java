@@ -1,4 +1,4 @@
-package handlerschian;
+/*package handlerschian;
 
 
 import gash.router.server.ServerState;
@@ -28,7 +28,7 @@ public class ErrorHandler extends Handler {
         }
     }
 
-   /* @Override
+    @Override
     public void processCommandMessage(Pipe.CommandMessage message, Channel channel) {
 
     }
@@ -36,7 +36,8 @@ public class ErrorHandler extends Handler {
     @Override
     public void processGlobalMessage(Global.GlobalMessage message, Channel channel) {
 
-    }*/
+    }
 
 
 }
+*/

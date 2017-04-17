@@ -14,1180 +14,20 @@ public final class Pipe {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface LeaderRouteOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:LeaderRoute)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    boolean hasHost();
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    java.lang.String getHost();
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getHostBytes();
-
-    /**
-     * <code>optional int32 port = 3;</code>
-     */
-    boolean hasPort();
-    /**
-     * <code>optional int32 port = 3;</code>
-     */
-    int getPort();
-  }
-  /**
-   * Protobuf type {@code LeaderRoute}
-   */
-  public  static final class LeaderRoute extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:LeaderRoute)
-      LeaderRouteOrBuilder {
-    // Use LeaderRoute.newBuilder() to construct.
-    private LeaderRoute(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private LeaderRoute() {
-      host_ = "";
-      port_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private LeaderRoute(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
-              host_ = bs;
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000002;
-              port_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return routing.Pipe.internal_static_LeaderRoute_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_LeaderRoute_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              routing.Pipe.LeaderRoute.class, routing.Pipe.LeaderRoute.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int HOST_FIELD_NUMBER = 2;
-    private volatile java.lang.Object host_;
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    public boolean hasHost() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    public java.lang.String getHost() {
-      java.lang.Object ref = host_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          host_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * a node should not have a value though this is not enforced    
-     * </pre>
-     *
-     * <code>required string host = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getHostBytes() {
-      java.lang.Object ref = host_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        host_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PORT_FIELD_NUMBER = 3;
-    private int port_;
-    /**
-     * <code>optional int32 port = 3;</code>
-     */
-    public boolean hasPort() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 port = 3;</code>
-     */
-    public int getPort() {
-      return port_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasHost()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, host_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(3, port_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, host_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, port_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof routing.Pipe.LeaderRoute)) {
-        return super.equals(obj);
-      }
-      routing.Pipe.LeaderRoute other = (routing.Pipe.LeaderRoute) obj;
-
-      boolean result = true;
-      result = result && (hasHost() == other.hasHost());
-      if (hasHost()) {
-        result = result && getHost()
-            .equals(other.getHost());
-      }
-      result = result && (hasPort() == other.hasPort());
-      if (hasPort()) {
-        result = result && (getPort()
-            == other.getPort());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasHost()) {
-        hash = (37 * hash) + HOST_FIELD_NUMBER;
-        hash = (53 * hash) + getHost().hashCode();
-      }
-      if (hasPort()) {
-        hash = (37 * hash) + PORT_FIELD_NUMBER;
-        hash = (53 * hash) + getPort();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static routing.Pipe.LeaderRoute parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static routing.Pipe.LeaderRoute parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.LeaderRoute parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.LeaderRoute parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(routing.Pipe.LeaderRoute prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code LeaderRoute}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:LeaderRoute)
-        routing.Pipe.LeaderRouteOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return routing.Pipe.internal_static_LeaderRoute_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_LeaderRoute_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                routing.Pipe.LeaderRoute.class, routing.Pipe.LeaderRoute.Builder.class);
-      }
-
-      // Construct using routing.Pipe.LeaderRoute.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        host_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        port_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return routing.Pipe.internal_static_LeaderRoute_descriptor;
-      }
-
-      public routing.Pipe.LeaderRoute getDefaultInstanceForType() {
-        return routing.Pipe.LeaderRoute.getDefaultInstance();
-      }
-
-      public routing.Pipe.LeaderRoute build() {
-        routing.Pipe.LeaderRoute result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public routing.Pipe.LeaderRoute buildPartial() {
-        routing.Pipe.LeaderRoute result = new routing.Pipe.LeaderRoute(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.host_ = host_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.port_ = port_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.LeaderRoute) {
-          return mergeFrom((routing.Pipe.LeaderRoute)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(routing.Pipe.LeaderRoute other) {
-        if (other == routing.Pipe.LeaderRoute.getDefaultInstance()) return this;
-        if (other.hasHost()) {
-          bitField0_ |= 0x00000001;
-          host_ = other.host_;
-          onChanged();
-        }
-        if (other.hasPort()) {
-          setPort(other.getPort());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasHost()) {
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        routing.Pipe.LeaderRoute parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.LeaderRoute) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.lang.Object host_ = "";
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public boolean hasHost() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public java.lang.String getHost() {
-        java.lang.Object ref = host_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            host_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getHostBytes() {
-        java.lang.Object ref = host_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          host_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public Builder setHost(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        host_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public Builder clearHost() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        host_ = getDefaultInstance().getHost();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * a node should not have a value though this is not enforced    
-       * </pre>
-       *
-       * <code>required string host = 2;</code>
-       */
-      public Builder setHostBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        host_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int port_ ;
-      /**
-       * <code>optional int32 port = 3;</code>
-       */
-      public boolean hasPort() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 port = 3;</code>
-       */
-      public int getPort() {
-        return port_;
-      }
-      /**
-       * <code>optional int32 port = 3;</code>
-       */
-      public Builder setPort(int value) {
-        bitField0_ |= 0x00000002;
-        port_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 port = 3;</code>
-       */
-      public Builder clearPort() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        port_ = 0;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:LeaderRoute)
-    }
-
-    // @@protoc_insertion_point(class_scope:LeaderRoute)
-    private static final routing.Pipe.LeaderRoute DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new routing.Pipe.LeaderRoute();
-    }
-
-    public static routing.Pipe.LeaderRoute getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<LeaderRoute>
-        PARSER = new com.google.protobuf.AbstractParser<LeaderRoute>() {
-      public LeaderRoute parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LeaderRoute(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<LeaderRoute> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<LeaderRoute> getParserForType() {
-      return PARSER;
-    }
-
-    public routing.Pipe.LeaderRoute getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface WhoIsLeaderOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:WhoIsLeader)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required bool askleader = 1;</code>
-     */
-    boolean hasAskleader();
-    /**
-     * <code>required bool askleader = 1;</code>
-     */
-    boolean getAskleader();
-  }
-  /**
-   * Protobuf type {@code WhoIsLeader}
-   */
-  public  static final class WhoIsLeader extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:WhoIsLeader)
-      WhoIsLeaderOrBuilder {
-    // Use WhoIsLeader.newBuilder() to construct.
-    private WhoIsLeader(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private WhoIsLeader() {
-      askleader_ = false;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private WhoIsLeader(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              askleader_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return routing.Pipe.internal_static_WhoIsLeader_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return routing.Pipe.internal_static_WhoIsLeader_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              routing.Pipe.WhoIsLeader.class, routing.Pipe.WhoIsLeader.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int ASKLEADER_FIELD_NUMBER = 1;
-    private boolean askleader_;
-    /**
-     * <code>required bool askleader = 1;</code>
-     */
-    public boolean hasAskleader() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required bool askleader = 1;</code>
-     */
-    public boolean getAskleader() {
-      return askleader_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasAskleader()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, askleader_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, askleader_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof routing.Pipe.WhoIsLeader)) {
-        return super.equals(obj);
-      }
-      routing.Pipe.WhoIsLeader other = (routing.Pipe.WhoIsLeader) obj;
-
-      boolean result = true;
-      result = result && (hasAskleader() == other.hasAskleader());
-      if (hasAskleader()) {
-        result = result && (getAskleader()
-            == other.getAskleader());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasAskleader()) {
-        hash = (37 * hash) + ASKLEADER_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getAskleader());
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static routing.Pipe.WhoIsLeader parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.WhoIsLeader parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static routing.Pipe.WhoIsLeader parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(routing.Pipe.WhoIsLeader prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code WhoIsLeader}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:WhoIsLeader)
-        routing.Pipe.WhoIsLeaderOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return routing.Pipe.internal_static_WhoIsLeader_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return routing.Pipe.internal_static_WhoIsLeader_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                routing.Pipe.WhoIsLeader.class, routing.Pipe.WhoIsLeader.Builder.class);
-      }
-
-      // Construct using routing.Pipe.WhoIsLeader.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        askleader_ = false;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return routing.Pipe.internal_static_WhoIsLeader_descriptor;
-      }
-
-      public routing.Pipe.WhoIsLeader getDefaultInstanceForType() {
-        return routing.Pipe.WhoIsLeader.getDefaultInstance();
-      }
-
-      public routing.Pipe.WhoIsLeader build() {
-        routing.Pipe.WhoIsLeader result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public routing.Pipe.WhoIsLeader buildPartial() {
-        routing.Pipe.WhoIsLeader result = new routing.Pipe.WhoIsLeader(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.askleader_ = askleader_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof routing.Pipe.WhoIsLeader) {
-          return mergeFrom((routing.Pipe.WhoIsLeader)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(routing.Pipe.WhoIsLeader other) {
-        if (other == routing.Pipe.WhoIsLeader.getDefaultInstance()) return this;
-        if (other.hasAskleader()) {
-          setAskleader(other.getAskleader());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasAskleader()) {
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        routing.Pipe.WhoIsLeader parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (routing.Pipe.WhoIsLeader) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private boolean askleader_ ;
-      /**
-       * <code>required bool askleader = 1;</code>
-       */
-      public boolean hasAskleader() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required bool askleader = 1;</code>
-       */
-      public boolean getAskleader() {
-        return askleader_;
-      }
-      /**
-       * <code>required bool askleader = 1;</code>
-       */
-      public Builder setAskleader(boolean value) {
-        bitField0_ |= 0x00000001;
-        askleader_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool askleader = 1;</code>
-       */
-      public Builder clearAskleader() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        askleader_ = false;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:WhoIsLeader)
-    }
-
-    // @@protoc_insertion_point(class_scope:WhoIsLeader)
-    private static final routing.Pipe.WhoIsLeader DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new routing.Pipe.WhoIsLeader();
-    }
-
-    public static routing.Pipe.WhoIsLeader getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<WhoIsLeader>
-        PARSER = new com.google.protobuf.AbstractParser<WhoIsLeader>() {
-      public WhoIsLeader parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WhoIsLeader(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<WhoIsLeader> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<WhoIsLeader> getParserForType() {
-      return PARSER;
-    }
-
-    public routing.Pipe.WhoIsLeader getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface CommandMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:CommandMessage)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     boolean hasHeader();
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     pipe.common.Common.Header getHeader();
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder();
 
@@ -1199,19 +39,6 @@ public final class Pipe {
      * <code>optional bool ping = 4;</code>
      */
     boolean getPing();
-
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    boolean hasWhoisleader();
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    routing.Pipe.WhoIsLeader getWhoisleader();
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    routing.Pipe.WhoIsLeaderOrBuilder getWhoisleaderOrBuilder();
 
     /**
      * <code>optional .Request request = 6;</code>
@@ -1251,19 +78,6 @@ public final class Pipe {
      * <code>optional .Failure err = 5;</code>
      */
     pipe.common.Common.FailureOrBuilder getErrOrBuilder();
-
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    boolean hasLeaderroute();
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    routing.Pipe.LeaderRoute getLeaderroute();
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    routing.Pipe.LeaderRouteOrBuilder getLeaderrouteOrBuilder();
 
     public routing.Pipe.CommandMessage.PayloadCase getPayloadCase();
   }
@@ -1369,34 +183,6 @@ public final class Pipe {
               payloadCase_ = 7;
               break;
             }
-            case 66: {
-              routing.Pipe.LeaderRoute.Builder subBuilder = null;
-              if (payloadCase_ == 8) {
-                subBuilder = ((routing.Pipe.LeaderRoute) payload_).toBuilder();
-              }
-              payload_ =
-                  input.readMessage(routing.Pipe.LeaderRoute.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.LeaderRoute) payload_);
-                payload_ = subBuilder.buildPartial();
-              }
-              payloadCase_ = 8;
-              break;
-            }
-            case 74: {
-              routing.Pipe.WhoIsLeader.Builder subBuilder = null;
-              if (payloadCase_ == 9) {
-                subBuilder = ((routing.Pipe.WhoIsLeader) payload_).toBuilder();
-              }
-              payload_ =
-                  input.readMessage(routing.Pipe.WhoIsLeader.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((routing.Pipe.WhoIsLeader) payload_);
-                payload_ = subBuilder.buildPartial();
-              }
-              payloadCase_ = 9;
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1427,11 +213,9 @@ public final class Pipe {
     public enum PayloadCase
         implements com.google.protobuf.Internal.EnumLite {
       PING(4),
-      WHOISLEADER(9),
       REQUEST(6),
       RESPONSE(7),
       ERR(5),
-      LEADERROUTE(8),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -1448,11 +232,9 @@ public final class Pipe {
       public static PayloadCase forNumber(int value) {
         switch (value) {
           case 4: return PING;
-          case 9: return WHOISLEADER;
           case 6: return REQUEST;
           case 7: return RESPONSE;
           case 5: return ERR;
-          case 8: return LEADERROUTE;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -1471,19 +253,19 @@ public final class Pipe {
     public static final int HEADER_FIELD_NUMBER = 1;
     private pipe.common.Common.Header header_;
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     public boolean hasHeader() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     public pipe.common.Common.Header getHeader() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
     }
     /**
-     * <code>optional .Header header = 1;</code>
+     * <code>required .Header header = 1;</code>
      */
     public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
       return header_ == null ? pipe.common.Common.Header.getDefaultInstance() : header_;
@@ -1504,32 +286,6 @@ public final class Pipe {
         return (java.lang.Boolean) payload_;
       }
       return false;
-    }
-
-    public static final int WHOISLEADER_FIELD_NUMBER = 9;
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    public boolean hasWhoisleader() {
-      return payloadCase_ == 9;
-    }
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    public routing.Pipe.WhoIsLeader getWhoisleader() {
-      if (payloadCase_ == 9) {
-         return (routing.Pipe.WhoIsLeader) payload_;
-      }
-      return routing.Pipe.WhoIsLeader.getDefaultInstance();
-    }
-    /**
-     * <code>optional .WhoIsLeader whoisleader = 9;</code>
-     */
-    public routing.Pipe.WhoIsLeaderOrBuilder getWhoisleaderOrBuilder() {
-      if (payloadCase_ == 9) {
-         return (routing.Pipe.WhoIsLeader) payload_;
-      }
-      return routing.Pipe.WhoIsLeader.getDefaultInstance();
     }
 
     public static final int REQUEST_FIELD_NUMBER = 6;
@@ -1610,49 +366,19 @@ public final class Pipe {
       return pipe.common.Common.Failure.getDefaultInstance();
     }
 
-    public static final int LEADERROUTE_FIELD_NUMBER = 8;
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    public boolean hasLeaderroute() {
-      return payloadCase_ == 8;
-    }
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    public routing.Pipe.LeaderRoute getLeaderroute() {
-      if (payloadCase_ == 8) {
-         return (routing.Pipe.LeaderRoute) payload_;
-      }
-      return routing.Pipe.LeaderRoute.getDefaultInstance();
-    }
-    /**
-     * <code>optional .LeaderRoute leaderroute = 8;</code>
-     */
-    public routing.Pipe.LeaderRouteOrBuilder getLeaderrouteOrBuilder() {
-      if (payloadCase_ == 8) {
-         return (routing.Pipe.LeaderRoute) payload_;
-      }
-      return routing.Pipe.LeaderRoute.getDefaultInstance();
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (hasHeader()) {
-        if (!getHeader().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!hasHeader()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
-      if (hasWhoisleader()) {
-        if (!getWhoisleader().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!getHeader().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       if (hasRequest()) {
         if (!getRequest().isInitialized()) {
@@ -1668,12 +394,6 @@ public final class Pipe {
       }
       if (hasErr()) {
         if (!getErr().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasLeaderroute()) {
-        if (!getLeaderroute().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1699,12 +419,6 @@ public final class Pipe {
       }
       if (payloadCase_ == 7) {
         output.writeMessage(7, (pipe.common.Common.Response) payload_);
-      }
-      if (payloadCase_ == 8) {
-        output.writeMessage(8, (routing.Pipe.LeaderRoute) payload_);
-      }
-      if (payloadCase_ == 9) {
-        output.writeMessage(9, (routing.Pipe.WhoIsLeader) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -1734,14 +448,6 @@ public final class Pipe {
       if (payloadCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (pipe.common.Common.Response) payload_);
-      }
-      if (payloadCase_ == 8) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (routing.Pipe.LeaderRoute) payload_);
-      }
-      if (payloadCase_ == 9) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, (routing.Pipe.WhoIsLeader) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1773,10 +479,6 @@ public final class Pipe {
           result = result && (getPing()
               == other.getPing());
           break;
-        case 9:
-          result = result && getWhoisleader()
-              .equals(other.getWhoisleader());
-          break;
         case 6:
           result = result && getRequest()
               .equals(other.getRequest());
@@ -1788,10 +490,6 @@ public final class Pipe {
         case 5:
           result = result && getErr()
               .equals(other.getErr());
-          break;
-        case 8:
-          result = result && getLeaderroute()
-              .equals(other.getLeaderroute());
           break;
         case 0:
         default:
@@ -1817,10 +515,6 @@ public final class Pipe {
           hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
               getPing());
           break;
-        case 9:
-          hash = (37 * hash) + WHOISLEADER_FIELD_NUMBER;
-          hash = (53 * hash) + getWhoisleader().hashCode();
-          break;
         case 6:
           hash = (37 * hash) + REQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getRequest().hashCode();
@@ -1832,10 +526,6 @@ public final class Pipe {
         case 5:
           hash = (37 * hash) + ERR_FIELD_NUMBER;
           hash = (53 * hash) + getErr().hashCode();
-          break;
-        case 8:
-          hash = (37 * hash) + LEADERROUTE_FIELD_NUMBER;
-          hash = (53 * hash) + getLeaderroute().hashCode();
           break;
         case 0:
         default:
@@ -2002,13 +692,6 @@ public final class Pipe {
         if (payloadCase_ == 4) {
           result.payload_ = payload_;
         }
-        if (payloadCase_ == 9) {
-          if (whoisleaderBuilder_ == null) {
-            result.payload_ = payload_;
-          } else {
-            result.payload_ = whoisleaderBuilder_.build();
-          }
-        }
         if (payloadCase_ == 6) {
           if (requestBuilder_ == null) {
             result.payload_ = payload_;
@@ -2028,13 +711,6 @@ public final class Pipe {
             result.payload_ = payload_;
           } else {
             result.payload_ = errBuilder_.build();
-          }
-        }
-        if (payloadCase_ == 8) {
-          if (leaderrouteBuilder_ == null) {
-            result.payload_ = payload_;
-          } else {
-            result.payload_ = leaderrouteBuilder_.build();
           }
         }
         result.bitField0_ = to_bitField0_;
@@ -2088,10 +764,6 @@ public final class Pipe {
             setPing(other.getPing());
             break;
           }
-          case WHOISLEADER: {
-            mergeWhoisleader(other.getWhoisleader());
-            break;
-          }
           case REQUEST: {
             mergeRequest(other.getRequest());
             break;
@@ -2104,10 +776,6 @@ public final class Pipe {
             mergeErr(other.getErr());
             break;
           }
-          case LEADERROUTE: {
-            mergeLeaderroute(other.getLeaderroute());
-            break;
-          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -2118,15 +786,11 @@ public final class Pipe {
       }
 
       public final boolean isInitialized() {
-        if (hasHeader()) {
-          if (!getHeader().isInitialized()) {
-            return false;
-          }
+        if (!hasHeader()) {
+          return false;
         }
-        if (hasWhoisleader()) {
-          if (!getWhoisleader().isInitialized()) {
-            return false;
-          }
+        if (!getHeader().isInitialized()) {
+          return false;
         }
         if (hasRequest()) {
           if (!getRequest().isInitialized()) {
@@ -2140,11 +804,6 @@ public final class Pipe {
         }
         if (hasErr()) {
           if (!getErr().isInitialized()) {
-            return false;
-          }
-        }
-        if (hasLeaderroute()) {
-          if (!getLeaderroute().isInitialized()) {
             return false;
           }
         }
@@ -2189,13 +848,13 @@ public final class Pipe {
       private com.google.protobuf.SingleFieldBuilderV3<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> headerBuilder_;
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public boolean hasHeader() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public pipe.common.Common.Header getHeader() {
         if (headerBuilder_ == null) {
@@ -2205,7 +864,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public Builder setHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -2221,7 +880,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public Builder setHeader(
           pipe.common.Common.Header.Builder builderForValue) {
@@ -2235,7 +894,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public Builder mergeHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -2255,7 +914,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public Builder clearHeader() {
         if (headerBuilder_ == null) {
@@ -2268,7 +927,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public pipe.common.Common.Header.Builder getHeaderBuilder() {
         bitField0_ |= 0x00000001;
@@ -2276,7 +935,7 @@ public final class Pipe {
         return getHeaderFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
@@ -2287,7 +946,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>optional .Header header = 1;</code>
+       * <code>required .Header header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> 
@@ -2337,142 +996,6 @@ public final class Pipe {
           onChanged();
         }
         return this;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          routing.Pipe.WhoIsLeader, routing.Pipe.WhoIsLeader.Builder, routing.Pipe.WhoIsLeaderOrBuilder> whoisleaderBuilder_;
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public boolean hasWhoisleader() {
-        return payloadCase_ == 9;
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public routing.Pipe.WhoIsLeader getWhoisleader() {
-        if (whoisleaderBuilder_ == null) {
-          if (payloadCase_ == 9) {
-            return (routing.Pipe.WhoIsLeader) payload_;
-          }
-          return routing.Pipe.WhoIsLeader.getDefaultInstance();
-        } else {
-          if (payloadCase_ == 9) {
-            return whoisleaderBuilder_.getMessage();
-          }
-          return routing.Pipe.WhoIsLeader.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public Builder setWhoisleader(routing.Pipe.WhoIsLeader value) {
-        if (whoisleaderBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          payload_ = value;
-          onChanged();
-        } else {
-          whoisleaderBuilder_.setMessage(value);
-        }
-        payloadCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public Builder setWhoisleader(
-          routing.Pipe.WhoIsLeader.Builder builderForValue) {
-        if (whoisleaderBuilder_ == null) {
-          payload_ = builderForValue.build();
-          onChanged();
-        } else {
-          whoisleaderBuilder_.setMessage(builderForValue.build());
-        }
-        payloadCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public Builder mergeWhoisleader(routing.Pipe.WhoIsLeader value) {
-        if (whoisleaderBuilder_ == null) {
-          if (payloadCase_ == 9 &&
-              payload_ != routing.Pipe.WhoIsLeader.getDefaultInstance()) {
-            payload_ = routing.Pipe.WhoIsLeader.newBuilder((routing.Pipe.WhoIsLeader) payload_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            payload_ = value;
-          }
-          onChanged();
-        } else {
-          if (payloadCase_ == 9) {
-            whoisleaderBuilder_.mergeFrom(value);
-          }
-          whoisleaderBuilder_.setMessage(value);
-        }
-        payloadCase_ = 9;
-        return this;
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public Builder clearWhoisleader() {
-        if (whoisleaderBuilder_ == null) {
-          if (payloadCase_ == 9) {
-            payloadCase_ = 0;
-            payload_ = null;
-            onChanged();
-          }
-        } else {
-          if (payloadCase_ == 9) {
-            payloadCase_ = 0;
-            payload_ = null;
-          }
-          whoisleaderBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public routing.Pipe.WhoIsLeader.Builder getWhoisleaderBuilder() {
-        return getWhoisleaderFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      public routing.Pipe.WhoIsLeaderOrBuilder getWhoisleaderOrBuilder() {
-        if ((payloadCase_ == 9) && (whoisleaderBuilder_ != null)) {
-          return whoisleaderBuilder_.getMessageOrBuilder();
-        } else {
-          if (payloadCase_ == 9) {
-            return (routing.Pipe.WhoIsLeader) payload_;
-          }
-          return routing.Pipe.WhoIsLeader.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .WhoIsLeader whoisleader = 9;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          routing.Pipe.WhoIsLeader, routing.Pipe.WhoIsLeader.Builder, routing.Pipe.WhoIsLeaderOrBuilder> 
-          getWhoisleaderFieldBuilder() {
-        if (whoisleaderBuilder_ == null) {
-          if (!(payloadCase_ == 9)) {
-            payload_ = routing.Pipe.WhoIsLeader.getDefaultInstance();
-          }
-          whoisleaderBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              routing.Pipe.WhoIsLeader, routing.Pipe.WhoIsLeader.Builder, routing.Pipe.WhoIsLeaderOrBuilder>(
-                  (routing.Pipe.WhoIsLeader) payload_,
-                  getParentForChildren(),
-                  isClean());
-          payload_ = null;
-        }
-        payloadCase_ = 9;
-        onChanged();;
-        return whoisleaderBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -2882,142 +1405,6 @@ public final class Pipe {
         onChanged();;
         return errBuilder_;
       }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          routing.Pipe.LeaderRoute, routing.Pipe.LeaderRoute.Builder, routing.Pipe.LeaderRouteOrBuilder> leaderrouteBuilder_;
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public boolean hasLeaderroute() {
-        return payloadCase_ == 8;
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public routing.Pipe.LeaderRoute getLeaderroute() {
-        if (leaderrouteBuilder_ == null) {
-          if (payloadCase_ == 8) {
-            return (routing.Pipe.LeaderRoute) payload_;
-          }
-          return routing.Pipe.LeaderRoute.getDefaultInstance();
-        } else {
-          if (payloadCase_ == 8) {
-            return leaderrouteBuilder_.getMessage();
-          }
-          return routing.Pipe.LeaderRoute.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public Builder setLeaderroute(routing.Pipe.LeaderRoute value) {
-        if (leaderrouteBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          payload_ = value;
-          onChanged();
-        } else {
-          leaderrouteBuilder_.setMessage(value);
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public Builder setLeaderroute(
-          routing.Pipe.LeaderRoute.Builder builderForValue) {
-        if (leaderrouteBuilder_ == null) {
-          payload_ = builderForValue.build();
-          onChanged();
-        } else {
-          leaderrouteBuilder_.setMessage(builderForValue.build());
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public Builder mergeLeaderroute(routing.Pipe.LeaderRoute value) {
-        if (leaderrouteBuilder_ == null) {
-          if (payloadCase_ == 8 &&
-              payload_ != routing.Pipe.LeaderRoute.getDefaultInstance()) {
-            payload_ = routing.Pipe.LeaderRoute.newBuilder((routing.Pipe.LeaderRoute) payload_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            payload_ = value;
-          }
-          onChanged();
-        } else {
-          if (payloadCase_ == 8) {
-            leaderrouteBuilder_.mergeFrom(value);
-          }
-          leaderrouteBuilder_.setMessage(value);
-        }
-        payloadCase_ = 8;
-        return this;
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public Builder clearLeaderroute() {
-        if (leaderrouteBuilder_ == null) {
-          if (payloadCase_ == 8) {
-            payloadCase_ = 0;
-            payload_ = null;
-            onChanged();
-          }
-        } else {
-          if (payloadCase_ == 8) {
-            payloadCase_ = 0;
-            payload_ = null;
-          }
-          leaderrouteBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public routing.Pipe.LeaderRoute.Builder getLeaderrouteBuilder() {
-        return getLeaderrouteFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      public routing.Pipe.LeaderRouteOrBuilder getLeaderrouteOrBuilder() {
-        if ((payloadCase_ == 8) && (leaderrouteBuilder_ != null)) {
-          return leaderrouteBuilder_.getMessageOrBuilder();
-        } else {
-          if (payloadCase_ == 8) {
-            return (routing.Pipe.LeaderRoute) payload_;
-          }
-          return routing.Pipe.LeaderRoute.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>optional .LeaderRoute leaderroute = 8;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          routing.Pipe.LeaderRoute, routing.Pipe.LeaderRoute.Builder, routing.Pipe.LeaderRouteOrBuilder> 
-          getLeaderrouteFieldBuilder() {
-        if (leaderrouteBuilder_ == null) {
-          if (!(payloadCase_ == 8)) {
-            payload_ = routing.Pipe.LeaderRoute.getDefaultInstance();
-          }
-          leaderrouteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              routing.Pipe.LeaderRoute, routing.Pipe.LeaderRoute.Builder, routing.Pipe.LeaderRouteOrBuilder>(
-                  (routing.Pipe.LeaderRoute) payload_,
-                  getParentForChildren(),
-                  isClean());
-          payload_ = null;
-        }
-        payloadCase_ = 8;
-        onChanged();;
-        return leaderrouteBuilder_;
-      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -3068,16 +1455,6 @@ public final class Pipe {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_LeaderRoute_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_LeaderRoute_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WhoIsLeader_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WhoIsLeader_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_CommandMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3092,15 +1469,11 @@ public final class Pipe {
   static {
     java.lang.String[] descriptorData = {
       "\n\024resources/pipe.proto\032\026resources/common" +
-      ".proto\")\n\013LeaderRoute\022\014\n\004host\030\002 \002(\t\022\014\n\004p" +
-      "ort\030\003 \001(\005\" \n\013WhoIsLeader\022\021\n\taskleader\030\001 " +
-      "\002(\010\"\343\001\n\016CommandMessage\022\027\n\006header\030\001 \001(\0132\007" +
-      ".Header\022\016\n\004ping\030\004 \001(\010H\000\022#\n\013whoisleader\030\t" +
-      " \001(\0132\014.WhoIsLeaderH\000\022\033\n\007request\030\006 \001(\0132\010." +
-      "RequestH\000\022\035\n\010response\030\007 \001(\0132\t.ResponseH\000" +
-      "\022\027\n\003err\030\005 \001(\0132\010.FailureH\000\022#\n\013leaderroute" +
-      "\030\010 \001(\0132\014.LeaderRouteH\000B\t\n\007payloadB\013\n\007rou" +
-      "tingH\001"
+      ".proto\"\231\001\n\016CommandMessage\022\027\n\006header\030\001 \002(" +
+      "\0132\007.Header\022\016\n\004ping\030\004 \001(\010H\000\022\033\n\007request\030\006 " +
+      "\001(\0132\010.RequestH\000\022\035\n\010response\030\007 \001(\0132\t.Resp" +
+      "onseH\000\022\027\n\003err\030\005 \001(\0132\010.FailureH\000B\t\n\007paylo" +
+      "adB\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3115,24 +1488,12 @@ public final class Pipe {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           pipe.common.Common.getDescriptor(),
         }, assigner);
-    internal_static_LeaderRoute_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_LeaderRoute_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_LeaderRoute_descriptor,
-        new java.lang.String[] { "Host", "Port", });
-    internal_static_WhoIsLeader_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_WhoIsLeader_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WhoIsLeader_descriptor,
-        new java.lang.String[] { "Askleader", });
     internal_static_CommandMessage_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_CommandMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CommandMessage_descriptor,
-        new java.lang.String[] { "Header", "Ping", "Whoisleader", "Request", "Response", "Err", "Leaderroute", "Payload", });
+        new java.lang.String[] { "Header", "Ping", "Request", "Response", "Err", "Payload", });
     pipe.common.Common.getDescriptor();
   }
 

@@ -1173,6 +1173,1166 @@ public final class Work {
 
   }
 
+  public interface LeaderRouteOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LeaderRoute)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    boolean hasHost();
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    java.lang.String getHost();
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getHostBytes();
+
+    /**
+     * <code>optional int32 port = 3;</code>
+     */
+    boolean hasPort();
+    /**
+     * <code>optional int32 port = 3;</code>
+     */
+    int getPort();
+  }
+  /**
+   * Protobuf type {@code LeaderRoute}
+   */
+  public  static final class LeaderRoute extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:LeaderRoute)
+      LeaderRouteOrBuilder {
+    // Use LeaderRoute.newBuilder() to construct.
+    private LeaderRoute(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LeaderRoute() {
+      host_ = "";
+      port_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LeaderRoute(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              host_ = bs;
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              port_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_LeaderRoute_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_LeaderRoute_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.LeaderRoute.class, pipe.work.Work.LeaderRoute.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int HOST_FIELD_NUMBER = 2;
+    private volatile java.lang.Object host_;
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    public boolean hasHost() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    public java.lang.String getHost() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          host_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * a node should not have a value though this is not enforced    
+     * </pre>
+     *
+     * <code>required string host = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHostBytes() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        host_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 3;
+    private int port_;
+    /**
+     * <code>optional int32 port = 3;</code>
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 port = 3;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasHost()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, host_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, port_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, host_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, port_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.LeaderRoute)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.LeaderRoute other = (pipe.work.Work.LeaderRoute) obj;
+
+      boolean result = true;
+      result = result && (hasHost() == other.hasHost());
+      if (hasHost()) {
+        result = result && getHost()
+            .equals(other.getHost());
+      }
+      result = result && (hasPort() == other.hasPort());
+      if (hasPort()) {
+        result = result && (getPort()
+            == other.getPort());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasHost()) {
+        hash = (37 * hash) + HOST_FIELD_NUMBER;
+        hash = (53 * hash) + getHost().hashCode();
+      }
+      if (hasPort()) {
+        hash = (37 * hash) + PORT_FIELD_NUMBER;
+        hash = (53 * hash) + getPort();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.LeaderRoute parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LeaderRoute parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.LeaderRoute parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.LeaderRoute prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LeaderRoute}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LeaderRoute)
+        pipe.work.Work.LeaderRouteOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_LeaderRoute_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_LeaderRoute_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.LeaderRoute.class, pipe.work.Work.LeaderRoute.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.LeaderRoute.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        host_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        port_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_LeaderRoute_descriptor;
+      }
+
+      public pipe.work.Work.LeaderRoute getDefaultInstanceForType() {
+        return pipe.work.Work.LeaderRoute.getDefaultInstance();
+      }
+
+      public pipe.work.Work.LeaderRoute build() {
+        pipe.work.Work.LeaderRoute result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.LeaderRoute buildPartial() {
+        pipe.work.Work.LeaderRoute result = new pipe.work.Work.LeaderRoute(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.host_ = host_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.port_ = port_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.LeaderRoute) {
+          return mergeFrom((pipe.work.Work.LeaderRoute)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.LeaderRoute other) {
+        if (other == pipe.work.Work.LeaderRoute.getDefaultInstance()) return this;
+        if (other.hasHost()) {
+          bitField0_ |= 0x00000001;
+          host_ = other.host_;
+          onChanged();
+        }
+        if (other.hasPort()) {
+          setPort(other.getPort());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHost()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.LeaderRoute parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.LeaderRoute) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object host_ = "";
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public boolean hasHost() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public java.lang.String getHost() {
+        java.lang.Object ref = host_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            host_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHostBytes() {
+        java.lang.Object ref = host_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          host_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public Builder setHost(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        host_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public Builder clearHost() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        host_ = getDefaultInstance().getHost();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * a node should not have a value though this is not enforced    
+       * </pre>
+       *
+       * <code>required string host = 2;</code>
+       */
+      public Builder setHostBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        host_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>optional int32 port = 3;</code>
+       */
+      public boolean hasPort() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 port = 3;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>optional int32 port = 3;</code>
+       */
+      public Builder setPort(int value) {
+        bitField0_ |= 0x00000002;
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 port = 3;</code>
+       */
+      public Builder clearPort() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:LeaderRoute)
+    }
+
+    // @@protoc_insertion_point(class_scope:LeaderRoute)
+    private static final pipe.work.Work.LeaderRoute DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.LeaderRoute();
+    }
+
+    public static pipe.work.Work.LeaderRoute getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<LeaderRoute>
+        PARSER = new com.google.protobuf.AbstractParser<LeaderRoute>() {
+      public LeaderRoute parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new LeaderRoute(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LeaderRoute> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LeaderRoute> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.LeaderRoute getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface WhoIsLeaderOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:WhoIsLeader)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required bool askleader = 1;</code>
+     */
+    boolean hasAskleader();
+    /**
+     * <code>required bool askleader = 1;</code>
+     */
+    boolean getAskleader();
+  }
+  /**
+   * Protobuf type {@code WhoIsLeader}
+   */
+  public  static final class WhoIsLeader extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:WhoIsLeader)
+      WhoIsLeaderOrBuilder {
+    // Use WhoIsLeader.newBuilder() to construct.
+    private WhoIsLeader(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private WhoIsLeader() {
+      askleader_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WhoIsLeader(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              askleader_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_WhoIsLeader_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_WhoIsLeader_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.WhoIsLeader.class, pipe.work.Work.WhoIsLeader.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int ASKLEADER_FIELD_NUMBER = 1;
+    private boolean askleader_;
+    /**
+     * <code>required bool askleader = 1;</code>
+     */
+    public boolean hasAskleader() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bool askleader = 1;</code>
+     */
+    public boolean getAskleader() {
+      return askleader_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasAskleader()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(1, askleader_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, askleader_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.WhoIsLeader)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.WhoIsLeader other = (pipe.work.Work.WhoIsLeader) obj;
+
+      boolean result = true;
+      result = result && (hasAskleader() == other.hasAskleader());
+      if (hasAskleader()) {
+        result = result && (getAskleader()
+            == other.getAskleader());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasAskleader()) {
+        hash = (37 * hash) + ASKLEADER_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getAskleader());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.WhoIsLeader parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.WhoIsLeader parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.WhoIsLeader parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.WhoIsLeader prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code WhoIsLeader}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:WhoIsLeader)
+        pipe.work.Work.WhoIsLeaderOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_WhoIsLeader_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_WhoIsLeader_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.WhoIsLeader.class, pipe.work.Work.WhoIsLeader.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.WhoIsLeader.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        askleader_ = false;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_WhoIsLeader_descriptor;
+      }
+
+      public pipe.work.Work.WhoIsLeader getDefaultInstanceForType() {
+        return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+      }
+
+      public pipe.work.Work.WhoIsLeader build() {
+        pipe.work.Work.WhoIsLeader result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.WhoIsLeader buildPartial() {
+        pipe.work.Work.WhoIsLeader result = new pipe.work.Work.WhoIsLeader(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.askleader_ = askleader_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.WhoIsLeader) {
+          return mergeFrom((pipe.work.Work.WhoIsLeader)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.WhoIsLeader other) {
+        if (other == pipe.work.Work.WhoIsLeader.getDefaultInstance()) return this;
+        if (other.hasAskleader()) {
+          setAskleader(other.getAskleader());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasAskleader()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.WhoIsLeader parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.WhoIsLeader) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean askleader_ ;
+      /**
+       * <code>required bool askleader = 1;</code>
+       */
+      public boolean hasAskleader() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bool askleader = 1;</code>
+       */
+      public boolean getAskleader() {
+        return askleader_;
+      }
+      /**
+       * <code>required bool askleader = 1;</code>
+       */
+      public Builder setAskleader(boolean value) {
+        bitField0_ |= 0x00000001;
+        askleader_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool askleader = 1;</code>
+       */
+      public Builder clearAskleader() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        askleader_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:WhoIsLeader)
+    }
+
+    // @@protoc_insertion_point(class_scope:WhoIsLeader)
+    private static final pipe.work.Work.WhoIsLeader DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.WhoIsLeader();
+    }
+
+    public static pipe.work.Work.WhoIsLeader getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<WhoIsLeader>
+        PARSER = new com.google.protobuf.AbstractParser<WhoIsLeader>() {
+      public WhoIsLeader parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new WhoIsLeader(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<WhoIsLeader> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WhoIsLeader> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.WhoIsLeader getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TaskOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Task)
       com.google.protobuf.MessageOrBuilder {
@@ -1936,6 +3096,32 @@ public final class Work {
      */
     pipe.common.Common.ResponseOrBuilder getResponseOrBuilder();
 
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    boolean hasWhoIsLeader();
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    pipe.work.Work.WhoIsLeader getWhoIsLeader();
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    pipe.work.Work.WhoIsLeaderOrBuilder getWhoIsLeaderOrBuilder();
+
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    boolean hasLeaderRoute();
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    pipe.work.Work.LeaderRoute getLeaderRoute();
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    pipe.work.Work.LeaderRouteOrBuilder getLeaderRouteOrBuilder();
+
     public pipe.work.Work.WorkMessage.PayloadCase getPayloadCase();
   }
   /**
@@ -2148,6 +3334,34 @@ public final class Work {
               payloadCase_ = 14;
               break;
             }
+            case 122: {
+              pipe.work.Work.WhoIsLeader.Builder subBuilder = null;
+              if (payloadCase_ == 15) {
+                subBuilder = ((pipe.work.Work.WhoIsLeader) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.work.Work.WhoIsLeader.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.work.Work.WhoIsLeader) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 15;
+              break;
+            }
+            case 130: {
+              pipe.work.Work.LeaderRoute.Builder subBuilder = null;
+              if (payloadCase_ == 16) {
+                subBuilder = ((pipe.work.Work.LeaderRoute) payload_).toBuilder();
+              }
+              payload_ =
+                  input.readMessage(pipe.work.Work.LeaderRoute.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((pipe.work.Work.LeaderRoute) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 16;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2188,6 +3402,8 @@ public final class Work {
       ADDNEWNODE(12),
       REQUEST(13),
       RESPONSE(14),
+      WHOISLEADER(15),
+      LEADERROUTE(16),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -2214,6 +3430,8 @@ public final class Work {
           case 12: return ADDNEWNODE;
           case 13: return REQUEST;
           case 14: return RESPONSE;
+          case 15: return WHOISLEADER;
+          case 16: return LEADERROUTE;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -2562,6 +3780,58 @@ public final class Work {
       return pipe.common.Common.Response.getDefaultInstance();
     }
 
+    public static final int WHOISLEADER_FIELD_NUMBER = 15;
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    public boolean hasWhoIsLeader() {
+      return payloadCase_ == 15;
+    }
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    public pipe.work.Work.WhoIsLeader getWhoIsLeader() {
+      if (payloadCase_ == 15) {
+         return (pipe.work.Work.WhoIsLeader) payload_;
+      }
+      return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+    }
+    /**
+     * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+     */
+    public pipe.work.Work.WhoIsLeaderOrBuilder getWhoIsLeaderOrBuilder() {
+      if (payloadCase_ == 15) {
+         return (pipe.work.Work.WhoIsLeader) payload_;
+      }
+      return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+    }
+
+    public static final int LEADERROUTE_FIELD_NUMBER = 16;
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    public boolean hasLeaderRoute() {
+      return payloadCase_ == 16;
+    }
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    public pipe.work.Work.LeaderRoute getLeaderRoute() {
+      if (payloadCase_ == 16) {
+         return (pipe.work.Work.LeaderRoute) payload_;
+      }
+      return pipe.work.Work.LeaderRoute.getDefaultInstance();
+    }
+    /**
+     * <code>optional .LeaderRoute leaderRoute = 16;</code>
+     */
+    public pipe.work.Work.LeaderRouteOrBuilder getLeaderRouteOrBuilder() {
+      if (payloadCase_ == 16) {
+         return (pipe.work.Work.LeaderRoute) payload_;
+      }
+      return pipe.work.Work.LeaderRoute.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2632,6 +3902,18 @@ public final class Work {
           return false;
         }
       }
+      if (hasWhoIsLeader()) {
+        if (!getWhoIsLeader().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasLeaderRoute()) {
+        if (!getLeaderRoute().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2677,6 +3959,12 @@ public final class Work {
       }
       if (payloadCase_ == 14) {
         output.writeMessage(14, (pipe.common.Common.Response) payload_);
+      }
+      if (payloadCase_ == 15) {
+        output.writeMessage(15, (pipe.work.Work.WhoIsLeader) payload_);
+      }
+      if (payloadCase_ == 16) {
+        output.writeMessage(16, (pipe.work.Work.LeaderRoute) payload_);
       }
       unknownFields.writeTo(output);
     }
@@ -2738,6 +4026,14 @@ public final class Work {
       if (payloadCase_ == 14) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(14, (pipe.common.Common.Response) payload_);
+      }
+      if (payloadCase_ == 15) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, (pipe.work.Work.WhoIsLeader) payload_);
+      }
+      if (payloadCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (pipe.work.Work.LeaderRoute) payload_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2814,6 +4110,14 @@ public final class Work {
           result = result && getResponse()
               .equals(other.getResponse());
           break;
+        case 15:
+          result = result && getWhoIsLeader()
+              .equals(other.getWhoIsLeader());
+          break;
+        case 16:
+          result = result && getLeaderRoute()
+              .equals(other.getLeaderRoute());
+          break;
         case 0:
         default:
       }
@@ -2882,6 +4186,14 @@ public final class Work {
         case 14:
           hash = (37 * hash) + RESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getResponse().hashCode();
+          break;
+        case 15:
+          hash = (37 * hash) + WHOISLEADER_FIELD_NUMBER;
+          hash = (53 * hash) + getWhoIsLeader().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + LEADERROUTE_FIELD_NUMBER;
+          hash = (53 * hash) + getLeaderRoute().hashCode();
           break;
         case 0:
         default:
@@ -3128,6 +4440,20 @@ public final class Work {
             result.payload_ = responseBuilder_.build();
           }
         }
+        if (payloadCase_ == 15) {
+          if (whoIsLeaderBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = whoIsLeaderBuilder_.build();
+          }
+        }
+        if (payloadCase_ == 16) {
+          if (leaderRouteBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = leaderRouteBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -3222,6 +4548,14 @@ public final class Work {
             mergeResponse(other.getResponse());
             break;
           }
+          case WHOISLEADER: {
+            mergeWhoIsLeader(other.getWhoIsLeader());
+            break;
+          }
+          case LEADERROUTE: {
+            mergeLeaderRoute(other.getLeaderRoute());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -3282,6 +4616,16 @@ public final class Work {
         }
         if (hasResponse()) {
           if (!getResponse().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasWhoIsLeader()) {
+          if (!getWhoIsLeader().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasLeaderRoute()) {
+          if (!getLeaderRoute().isInitialized()) {
             return false;
           }
         }
@@ -4919,6 +6263,278 @@ public final class Work {
         onChanged();;
         return responseBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.WhoIsLeader, pipe.work.Work.WhoIsLeader.Builder, pipe.work.Work.WhoIsLeaderOrBuilder> whoIsLeaderBuilder_;
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public boolean hasWhoIsLeader() {
+        return payloadCase_ == 15;
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public pipe.work.Work.WhoIsLeader getWhoIsLeader() {
+        if (whoIsLeaderBuilder_ == null) {
+          if (payloadCase_ == 15) {
+            return (pipe.work.Work.WhoIsLeader) payload_;
+          }
+          return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 15) {
+            return whoIsLeaderBuilder_.getMessage();
+          }
+          return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public Builder setWhoIsLeader(pipe.work.Work.WhoIsLeader value) {
+        if (whoIsLeaderBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          whoIsLeaderBuilder_.setMessage(value);
+        }
+        payloadCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public Builder setWhoIsLeader(
+          pipe.work.Work.WhoIsLeader.Builder builderForValue) {
+        if (whoIsLeaderBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          whoIsLeaderBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public Builder mergeWhoIsLeader(pipe.work.Work.WhoIsLeader value) {
+        if (whoIsLeaderBuilder_ == null) {
+          if (payloadCase_ == 15 &&
+              payload_ != pipe.work.Work.WhoIsLeader.getDefaultInstance()) {
+            payload_ = pipe.work.Work.WhoIsLeader.newBuilder((pipe.work.Work.WhoIsLeader) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 15) {
+            whoIsLeaderBuilder_.mergeFrom(value);
+          }
+          whoIsLeaderBuilder_.setMessage(value);
+        }
+        payloadCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public Builder clearWhoIsLeader() {
+        if (whoIsLeaderBuilder_ == null) {
+          if (payloadCase_ == 15) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 15) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          whoIsLeaderBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public pipe.work.Work.WhoIsLeader.Builder getWhoIsLeaderBuilder() {
+        return getWhoIsLeaderFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      public pipe.work.Work.WhoIsLeaderOrBuilder getWhoIsLeaderOrBuilder() {
+        if ((payloadCase_ == 15) && (whoIsLeaderBuilder_ != null)) {
+          return whoIsLeaderBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 15) {
+            return (pipe.work.Work.WhoIsLeader) payload_;
+          }
+          return pipe.work.Work.WhoIsLeader.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .WhoIsLeader whoIsLeader = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.WhoIsLeader, pipe.work.Work.WhoIsLeader.Builder, pipe.work.Work.WhoIsLeaderOrBuilder> 
+          getWhoIsLeaderFieldBuilder() {
+        if (whoIsLeaderBuilder_ == null) {
+          if (!(payloadCase_ == 15)) {
+            payload_ = pipe.work.Work.WhoIsLeader.getDefaultInstance();
+          }
+          whoIsLeaderBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.WhoIsLeader, pipe.work.Work.WhoIsLeader.Builder, pipe.work.Work.WhoIsLeaderOrBuilder>(
+                  (pipe.work.Work.WhoIsLeader) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 15;
+        onChanged();;
+        return whoIsLeaderBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LeaderRoute, pipe.work.Work.LeaderRoute.Builder, pipe.work.Work.LeaderRouteOrBuilder> leaderRouteBuilder_;
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public boolean hasLeaderRoute() {
+        return payloadCase_ == 16;
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public pipe.work.Work.LeaderRoute getLeaderRoute() {
+        if (leaderRouteBuilder_ == null) {
+          if (payloadCase_ == 16) {
+            return (pipe.work.Work.LeaderRoute) payload_;
+          }
+          return pipe.work.Work.LeaderRoute.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 16) {
+            return leaderRouteBuilder_.getMessage();
+          }
+          return pipe.work.Work.LeaderRoute.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public Builder setLeaderRoute(pipe.work.Work.LeaderRoute value) {
+        if (leaderRouteBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          leaderRouteBuilder_.setMessage(value);
+        }
+        payloadCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public Builder setLeaderRoute(
+          pipe.work.Work.LeaderRoute.Builder builderForValue) {
+        if (leaderRouteBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          leaderRouteBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public Builder mergeLeaderRoute(pipe.work.Work.LeaderRoute value) {
+        if (leaderRouteBuilder_ == null) {
+          if (payloadCase_ == 16 &&
+              payload_ != pipe.work.Work.LeaderRoute.getDefaultInstance()) {
+            payload_ = pipe.work.Work.LeaderRoute.newBuilder((pipe.work.Work.LeaderRoute) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 16) {
+            leaderRouteBuilder_.mergeFrom(value);
+          }
+          leaderRouteBuilder_.setMessage(value);
+        }
+        payloadCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public Builder clearLeaderRoute() {
+        if (leaderRouteBuilder_ == null) {
+          if (payloadCase_ == 16) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 16) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          leaderRouteBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public pipe.work.Work.LeaderRoute.Builder getLeaderRouteBuilder() {
+        return getLeaderRouteFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      public pipe.work.Work.LeaderRouteOrBuilder getLeaderRouteOrBuilder() {
+        if ((payloadCase_ == 16) && (leaderRouteBuilder_ != null)) {
+          return leaderRouteBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 16) {
+            return (pipe.work.Work.LeaderRoute) payload_;
+          }
+          return pipe.work.Work.LeaderRoute.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .LeaderRoute leaderRoute = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          pipe.work.Work.LeaderRoute, pipe.work.Work.LeaderRoute.Builder, pipe.work.Work.LeaderRouteOrBuilder> 
+          getLeaderRouteFieldBuilder() {
+        if (leaderRouteBuilder_ == null) {
+          if (!(payloadCase_ == 16)) {
+            payload_ = pipe.work.Work.LeaderRoute.getDefaultInstance();
+          }
+          leaderRouteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.LeaderRoute, pipe.work.Work.LeaderRoute.Builder, pipe.work.Work.LeaderRouteOrBuilder>(
+                  (pipe.work.Work.LeaderRoute) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 16;
+        onChanged();;
+        return leaderRouteBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -4979,6 +6595,16 @@ public final class Work {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Heartbeat_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LeaderRoute_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_LeaderRoute_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_WhoIsLeader_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_WhoIsLeader_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Task_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -5001,17 +6627,21 @@ public final class Work {
       ".proto\032\030resources/election.proto\"0\n\tWork" +
       "State\022\020\n\010enqueued\030\001 \002(\005\022\021\n\tprocessed\030\002 \002" +
       "(\005\"&\n\tHeartbeat\022\031\n\005state\030\001 \002(\0132\n.WorkSta" +
-      "te\")\n\004Task\022\021\n\tseries_id\030\001 \002(\003\022\016\n\006seq_id\030" +
-      "\002 \002(\005\"\362\002\n\013WorkMessage\022\027\n\006header\030\001 \001(\0132\007." +
-      "Header\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030\003 \001(\0132\010.Fa" +
-      "ilureH\000\022\016\n\004ping\030\004 \001(\010H\000\022\032\n\004beat\030\005 \001(\0132\n." +
-      "HeartbeatH\000\022\025\n\004task\030\006 \001(\0132\005.TaskH\000\022\033\n\005st" +
-      "ate\030\007 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132",
-      "\r.LeaderStatusH\000\022\025\n\004vote\030\n \001(\0132\005.VoteH\000\022" +
-      "\037\n\007reqvote\030\013 \001(\0132\014.RequestVoteH\000\022!\n\naddn" +
-      "ewnode\030\014 \001(\0132\013.AddNewNodeH\000\022\033\n\007request\030\r" +
-      " \001(\0132\010.RequestH\000\022\035\n\010response\030\016 \001(\0132\t.Res" +
-      "ponseH\000B\t\n\007payloadB\r\n\tpipe.workH\001"
+      "te\")\n\013LeaderRoute\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030" +
+      "\003 \001(\005\" \n\013WhoIsLeader\022\021\n\taskleader\030\001 \002(\010\"" +
+      ")\n\004Task\022\021\n\tseries_id\030\001 \002(\003\022\016\n\006seq_id\030\002 \002" +
+      "(\005\"\274\003\n\013WorkMessage\022\027\n\006header\030\001 \001(\0132\007.Hea" +
+      "der\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030\003 \001(\0132\010.Failu" +
+      "reH\000\022\016\n\004ping\030\004 \001(\010H\000\022\032\n\004beat\030\005 \001(\0132\n.Hea",
+      "rtbeatH\000\022\025\n\004task\030\006 \001(\0132\005.TaskH\000\022\033\n\005state" +
+      "\030\007 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132\r.L" +
+      "eaderStatusH\000\022\025\n\004vote\030\n \001(\0132\005.VoteH\000\022\037\n\007" +
+      "reqvote\030\013 \001(\0132\014.RequestVoteH\000\022!\n\naddnewn" +
+      "ode\030\014 \001(\0132\013.AddNewNodeH\000\022\033\n\007request\030\r \001(" +
+      "\0132\010.RequestH\000\022\035\n\010response\030\016 \001(\0132\t.Respon" +
+      "seH\000\022#\n\013whoIsLeader\030\017 \001(\0132\014.WhoIsLeaderH" +
+      "\000\022#\n\013leaderRoute\030\020 \001(\0132\014.LeaderRouteH\000B\t" +
+      "\n\007payloadB\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5039,18 +6669,30 @@ public final class Work {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Heartbeat_descriptor,
         new java.lang.String[] { "State", });
-    internal_static_Task_descriptor =
+    internal_static_LeaderRoute_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_LeaderRoute_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_LeaderRoute_descriptor,
+        new java.lang.String[] { "Host", "Port", });
+    internal_static_WhoIsLeader_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_WhoIsLeader_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_WhoIsLeader_descriptor,
+        new java.lang.String[] { "Askleader", });
+    internal_static_Task_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Task_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Task_descriptor,
         new java.lang.String[] { "SeriesId", "SeqId", });
     internal_static_WorkMessage_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Leader", "Vote", "Reqvote", "Addnewnode", "Request", "Response", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Leader", "Vote", "Reqvote", "Addnewnode", "Request", "Response", "WhoIsLeader", "LeaderRoute", "Payload", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }

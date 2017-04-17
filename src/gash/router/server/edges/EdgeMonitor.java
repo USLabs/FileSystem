@@ -29,8 +29,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import pipe.common.Common;
 import pipe.common.Common.AddNewNode;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
+import pipe.common.Common.Request;
+import pipe.common.Common.WriteBody;
 import pipe.election.Election.RequestVote;
 import pipe.election.Election.Vote;
 
@@ -101,6 +105,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void newNodePing(){
 		for(EdgeInfo ei:this.outboundEdges.map.values())
 		 {
+			System.out.println("in new node for");
 			if(ei.isActive()&&ei.getChannel()!=null)
 			{	
 				System.out.println("in new node if");
@@ -180,36 +185,54 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		}
 	}
 	
-	public void sendMessage(CommandMessage wmsg){
-		try {
+	public void sendWorkMessageToNode(WorkMessage wmsg, int nodeId){
+		System.out.println("Preparing to send: " + nodeId);
 			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
-				if (ei.isActive() && ei.getChannel() != null) {  					   
-                    	CommandMessage wm = wmsg;
-						ei.getChannel().writeAndFlush(wm);    						                    
+				if (ei.isActive() && ei.getChannel() != null && ei.getRef()==nodeId) {
+					System.out.println("Sending to : " + nodeId);
+					ei.getChannel().writeAndFlush(wmsg);    						                    
+					
 				}
 			}
-            Thread.sleep(dt);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	public void sendCmdMessageToNode(CommandMessage wmsg, String host, int port){
-		try {
-			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
-				if (ei.isActive() && ei.getChannel() != null && (ei.getHost()==host && ei.getPort()==port)) {  					   
-                    	CommandMessage wm = wmsg;
-						ei.getChannel().writeAndFlush(wm);    						                    
-				}
+	public void sendCmdMessageToNode(CommandMessage wmsg, int nodeId){
+		for (EdgeInfo ei : this.outboundEdges.map.values()) {				
+			if (ei.isActive() && ei.getChannel() != null && ei.getRef()==nodeId) {
+					System.out.println("Sending message ...");
+					
+					Header.Builder hb = Header.newBuilder();
+					hb.setNodeId(wmsg.getHeader().getNodeId());
+					hb.setDestination(nodeId);
+					hb.setTime(System.currentTimeMillis());
+					
+					
+					Chunk.Builder chb=Chunk.newBuilder();
+					chb.setChunkId(wmsg.getRequest().getRwb().getChunk().getChunkId());
+					chb.setChunkData(wmsg.getRequest().getRwb().getChunk().getChunkData());
+					chb.setChunkSize(wmsg.getRequest().getRwb().getChunk().getChunkData().size());
+					
+					WriteBody.Builder wb=WriteBody.newBuilder();
+					wb.setFileId(1);
+					wb.setFilename(wmsg.getRequest().getRwb().getFilename());
+					wb.setChunk(chb);
+					wb.setNumOfChunks(wmsg.getRequest().getRwb().getNumOfChunks());
+					
+					Request.Builder rb = Request.newBuilder();
+					//request type, read,write,etc				
+					rb.setTaskType(Common.TaskType.WRITEFILE); // operation to be
+																	// performed
+					rb.setRwb(wb);	
+					
+					WorkMessage.Builder wmb = WorkMessage.newBuilder();		
+					wmb.setHeader(hb);		
+					wmb.setSecret(10);
+					wmb.setRequest(rb);
+					System.out.println("Sending work message ...");
+					ei.getChannel().writeAndFlush(wmb.build());    						                    
 			}
-            Thread.sleep(dt);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-	}
-	
+}
 	
 
 	@Override
