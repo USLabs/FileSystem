@@ -14,15 +14,15 @@ import routing.Pipe.CommandMessage;
 public class ServerState {
 	private RoutingConf conf;
 	private EdgeMonitor emon;
-	private TaskList tasks;
+	private TaskList tasks;	
 	private RaftManager manager;
-	private String state = "";
+	private String state="";
 	private Monitor monitor;
-
-	public Monitor getMonitor() {
+	
+	public Monitor getMonitor(){
 		return monitor;
 	}
-
+	
 	public RaftManager getManager() {
 		return manager;
 	}
@@ -31,18 +31,19 @@ public class ServerState {
 		manager = mgr;
 	}
 
-	public String getState() {
+
+	public String getState() { 
 		return state;
-	}
+    }
 
-	public void setState(String state) {
+	public void setState(String state) { 
 		this.state = state;
-	}
-
+    }
+	
 	public RoutingConf getConf() {
 		return conf;
 	}
-
+	
 	public void setConf(RoutingConf conf) {
 		this.conf = conf;
 	}
@@ -62,5 +63,7 @@ public class ServerState {
 	public void setTasks(TaskList tasks) {
 		this.tasks = tasks;
 	}
+	
+	
 
 }

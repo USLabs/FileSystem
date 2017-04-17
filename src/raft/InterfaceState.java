@@ -45,7 +45,7 @@ public class InterfaceState implements RaftState {
 				System.out.println("before taking message " + interfaceMessageQueue.size());
 				Manager.getEdgeMonitor().sendCmdMessageToNode(interfaceMessageQueue.take(), Manager.getLeaderId());
 			}
-			
+
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,4 +74,7 @@ public class InterfaceState implements RaftState {
 
 	public void responseToChuckSent(WorkMessage msg) {
 	};
+
+	public void receivedCommitChunkMessage(WorkMessage msg) {
+	}
 }

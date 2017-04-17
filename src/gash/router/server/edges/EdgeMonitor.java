@@ -185,6 +185,7 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 		}
 	}
 	
+	
 	public void sendWorkMessageToNode(WorkMessage wmsg, int nodeId){
 		System.out.println("Preparing to send: " + nodeId);
 			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
@@ -233,7 +234,6 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 			}
 		}
 }
-	
 
 	@Override
 	public synchronized void onAdd(EdgeInfo ei) {

@@ -2911,6 +2911,651 @@ public final class Work {
 
   }
 
+  public interface CommitOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Commit)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    boolean hasFilename();
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    java.lang.String getFilename();
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
+
+    /**
+     * <code>required int32 numOfChunks = 2;</code>
+     */
+    boolean hasNumOfChunks();
+    /**
+     * <code>required int32 numOfChunks = 2;</code>
+     */
+    int getNumOfChunks();
+  }
+  /**
+   * Protobuf type {@code Commit}
+   */
+  public  static final class Commit extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Commit)
+      CommitOrBuilder {
+    // Use Commit.newBuilder() to construct.
+    private Commit(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Commit() {
+      filename_ = "";
+      numOfChunks_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Commit(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              filename_ = bs;
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              numOfChunks_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pipe.work.Work.internal_static_Commit_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pipe.work.Work.internal_static_Commit_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pipe.work.Work.Commit.class, pipe.work.Work.Commit.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int FILENAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object filename_;
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    public boolean hasFilename() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          filename_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string filename = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NUMOFCHUNKS_FIELD_NUMBER = 2;
+    private int numOfChunks_;
+    /**
+     * <code>required int32 numOfChunks = 2;</code>
+     */
+    public boolean hasNumOfChunks() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 numOfChunks = 2;</code>
+     */
+    public int getNumOfChunks() {
+      return numOfChunks_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasFilename()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNumOfChunks()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, filename_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, numOfChunks_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, filename_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, numOfChunks_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof pipe.work.Work.Commit)) {
+        return super.equals(obj);
+      }
+      pipe.work.Work.Commit other = (pipe.work.Work.Commit) obj;
+
+      boolean result = true;
+      result = result && (hasFilename() == other.hasFilename());
+      if (hasFilename()) {
+        result = result && getFilename()
+            .equals(other.getFilename());
+      }
+      result = result && (hasNumOfChunks() == other.hasNumOfChunks());
+      if (hasNumOfChunks()) {
+        result = result && (getNumOfChunks()
+            == other.getNumOfChunks());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasFilename()) {
+        hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+        hash = (53 * hash) + getFilename().hashCode();
+      }
+      if (hasNumOfChunks()) {
+        hash = (37 * hash) + NUMOFCHUNKS_FIELD_NUMBER;
+        hash = (53 * hash) + getNumOfChunks();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static pipe.work.Work.Commit parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Commit parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Commit parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pipe.work.Work.Commit parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pipe.work.Work.Commit parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Commit parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Commit parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Commit parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static pipe.work.Work.Commit parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static pipe.work.Work.Commit parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(pipe.work.Work.Commit prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Commit}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Commit)
+        pipe.work.Work.CommitOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pipe.work.Work.internal_static_Commit_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pipe.work.Work.internal_static_Commit_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pipe.work.Work.Commit.class, pipe.work.Work.Commit.Builder.class);
+      }
+
+      // Construct using pipe.work.Work.Commit.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        filename_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        numOfChunks_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pipe.work.Work.internal_static_Commit_descriptor;
+      }
+
+      public pipe.work.Work.Commit getDefaultInstanceForType() {
+        return pipe.work.Work.Commit.getDefaultInstance();
+      }
+
+      public pipe.work.Work.Commit build() {
+        pipe.work.Work.Commit result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pipe.work.Work.Commit buildPartial() {
+        pipe.work.Work.Commit result = new pipe.work.Work.Commit(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.filename_ = filename_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.numOfChunks_ = numOfChunks_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pipe.work.Work.Commit) {
+          return mergeFrom((pipe.work.Work.Commit)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pipe.work.Work.Commit other) {
+        if (other == pipe.work.Work.Commit.getDefaultInstance()) return this;
+        if (other.hasFilename()) {
+          bitField0_ |= 0x00000001;
+          filename_ = other.filename_;
+          onChanged();
+        }
+        if (other.hasNumOfChunks()) {
+          setNumOfChunks(other.getNumOfChunks());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFilename()) {
+          return false;
+        }
+        if (!hasNumOfChunks()) {
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pipe.work.Work.Commit parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pipe.work.Work.Commit) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object filename_ = "";
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public boolean hasFilename() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            filename_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public Builder clearFilename() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        filename_ = getDefaultInstance().getFilename();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string filename = 1;</code>
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        filename_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int numOfChunks_ ;
+      /**
+       * <code>required int32 numOfChunks = 2;</code>
+       */
+      public boolean hasNumOfChunks() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 numOfChunks = 2;</code>
+       */
+      public int getNumOfChunks() {
+        return numOfChunks_;
+      }
+      /**
+       * <code>required int32 numOfChunks = 2;</code>
+       */
+      public Builder setNumOfChunks(int value) {
+        bitField0_ |= 0x00000002;
+        numOfChunks_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 numOfChunks = 2;</code>
+       */
+      public Builder clearNumOfChunks() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        numOfChunks_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Commit)
+    }
+
+    // @@protoc_insertion_point(class_scope:Commit)
+    private static final pipe.work.Work.Commit DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new pipe.work.Work.Commit();
+    }
+
+    public static pipe.work.Work.Commit getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<Commit>
+        PARSER = new com.google.protobuf.AbstractParser<Commit>() {
+      public Commit parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Commit(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Commit> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Commit> getParserForType() {
+      return PARSER;
+    }
+
+    public pipe.work.Work.Commit getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface WorkMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:WorkMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -2993,17 +3638,17 @@ public final class Work {
     pipe.work.Work.HeartbeatOrBuilder getBeatOrBuilder();
 
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    boolean hasTask();
+    boolean hasCommit();
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    pipe.work.Work.Task getTask();
+    pipe.work.Work.Commit getCommit();
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    pipe.work.Work.TaskOrBuilder getTaskOrBuilder();
+    pipe.work.Work.CommitOrBuilder getCommitOrBuilder();
 
     /**
      * <code>optional .WorkState state = 7;</code>
@@ -3223,14 +3868,14 @@ public final class Work {
               break;
             }
             case 50: {
-              pipe.work.Work.Task.Builder subBuilder = null;
+              pipe.work.Work.Commit.Builder subBuilder = null;
               if (payloadCase_ == 6) {
-                subBuilder = ((pipe.work.Work.Task) payload_).toBuilder();
+                subBuilder = ((pipe.work.Work.Commit) payload_).toBuilder();
               }
               payload_ =
-                  input.readMessage(pipe.work.Work.Task.PARSER, extensionRegistry);
+                  input.readMessage(pipe.work.Work.Commit.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((pipe.work.Work.Task) payload_);
+                subBuilder.mergeFrom((pipe.work.Work.Commit) payload_);
                 payload_ = subBuilder.buildPartial();
               }
               payloadCase_ = 6;
@@ -3394,7 +4039,7 @@ public final class Work {
       ERR(3),
       PING(4),
       BEAT(5),
-      TASK(6),
+      COMMIT(6),
       STATE(7),
       LEADER(9),
       VOTE(10),
@@ -3422,7 +4067,7 @@ public final class Work {
           case 3: return ERR;
           case 4: return PING;
           case 5: return BEAT;
-          case 6: return TASK;
+          case 6: return COMMIT;
           case 7: return STATE;
           case 9: return LEADER;
           case 10: return VOTE;
@@ -3572,30 +4217,30 @@ public final class Work {
       return pipe.work.Work.Heartbeat.getDefaultInstance();
     }
 
-    public static final int TASK_FIELD_NUMBER = 6;
+    public static final int COMMIT_FIELD_NUMBER = 6;
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    public boolean hasTask() {
+    public boolean hasCommit() {
       return payloadCase_ == 6;
     }
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    public pipe.work.Work.Task getTask() {
+    public pipe.work.Work.Commit getCommit() {
       if (payloadCase_ == 6) {
-         return (pipe.work.Work.Task) payload_;
+         return (pipe.work.Work.Commit) payload_;
       }
-      return pipe.work.Work.Task.getDefaultInstance();
+      return pipe.work.Work.Commit.getDefaultInstance();
     }
     /**
-     * <code>optional .Task task = 6;</code>
+     * <code>optional .Commit commit = 6;</code>
      */
-    public pipe.work.Work.TaskOrBuilder getTaskOrBuilder() {
+    public pipe.work.Work.CommitOrBuilder getCommitOrBuilder() {
       if (payloadCase_ == 6) {
-         return (pipe.work.Work.Task) payload_;
+         return (pipe.work.Work.Commit) payload_;
       }
-      return pipe.work.Work.Task.getDefaultInstance();
+      return pipe.work.Work.Commit.getDefaultInstance();
     }
 
     public static final int STATE_FIELD_NUMBER = 7;
@@ -3860,8 +4505,8 @@ public final class Work {
           return false;
         }
       }
-      if (hasTask()) {
-        if (!getTask().isInitialized()) {
+      if (hasCommit()) {
+        if (!getCommit().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -3937,7 +4582,7 @@ public final class Work {
         output.writeMessage(5, (pipe.work.Work.Heartbeat) payload_);
       }
       if (payloadCase_ == 6) {
-        output.writeMessage(6, (pipe.work.Work.Task) payload_);
+        output.writeMessage(6, (pipe.work.Work.Commit) payload_);
       }
       if (payloadCase_ == 7) {
         output.writeMessage(7, (pipe.work.Work.WorkState) payload_);
@@ -3997,7 +4642,7 @@ public final class Work {
       }
       if (payloadCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (pipe.work.Work.Task) payload_);
+          .computeMessageSize(6, (pipe.work.Work.Commit) payload_);
       }
       if (payloadCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
@@ -4079,8 +4724,8 @@ public final class Work {
               .equals(other.getBeat());
           break;
         case 6:
-          result = result && getTask()
-              .equals(other.getTask());
+          result = result && getCommit()
+              .equals(other.getCommit());
           break;
         case 7:
           result = result && getState()
@@ -4156,8 +4801,8 @@ public final class Work {
           hash = (53 * hash) + getBeat().hashCode();
           break;
         case 6:
-          hash = (37 * hash) + TASK_FIELD_NUMBER;
-          hash = (53 * hash) + getTask().hashCode();
+          hash = (37 * hash) + COMMIT_FIELD_NUMBER;
+          hash = (53 * hash) + getCommit().hashCode();
           break;
         case 7:
           hash = (37 * hash) + STATE_FIELD_NUMBER;
@@ -4385,10 +5030,10 @@ public final class Work {
           }
         }
         if (payloadCase_ == 6) {
-          if (taskBuilder_ == null) {
+          if (commitBuilder_ == null) {
             result.payload_ = payload_;
           } else {
-            result.payload_ = taskBuilder_.build();
+            result.payload_ = commitBuilder_.build();
           }
         }
         if (payloadCase_ == 7) {
@@ -4516,8 +5161,8 @@ public final class Work {
             mergeBeat(other.getBeat());
             break;
           }
-          case TASK: {
-            mergeTask(other.getTask());
+          case COMMIT: {
+            mergeCommit(other.getCommit());
             break;
           }
           case STATE: {
@@ -4584,8 +5229,8 @@ public final class Work {
             return false;
           }
         }
-        if (hasTask()) {
-          if (!getTask().isInitialized()) {
+        if (hasCommit()) {
+          if (!getCommit().isInitialized()) {
             return false;
           }
         }
@@ -5177,67 +5822,67 @@ public final class Work {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          pipe.work.Work.Task, pipe.work.Work.Task.Builder, pipe.work.Work.TaskOrBuilder> taskBuilder_;
+          pipe.work.Work.Commit, pipe.work.Work.Commit.Builder, pipe.work.Work.CommitOrBuilder> commitBuilder_;
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public boolean hasTask() {
+      public boolean hasCommit() {
         return payloadCase_ == 6;
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public pipe.work.Work.Task getTask() {
-        if (taskBuilder_ == null) {
+      public pipe.work.Work.Commit getCommit() {
+        if (commitBuilder_ == null) {
           if (payloadCase_ == 6) {
-            return (pipe.work.Work.Task) payload_;
+            return (pipe.work.Work.Commit) payload_;
           }
-          return pipe.work.Work.Task.getDefaultInstance();
+          return pipe.work.Work.Commit.getDefaultInstance();
         } else {
           if (payloadCase_ == 6) {
-            return taskBuilder_.getMessage();
+            return commitBuilder_.getMessage();
           }
-          return pipe.work.Work.Task.getDefaultInstance();
+          return pipe.work.Work.Commit.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public Builder setTask(pipe.work.Work.Task value) {
-        if (taskBuilder_ == null) {
+      public Builder setCommit(pipe.work.Work.Commit value) {
+        if (commitBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           payload_ = value;
           onChanged();
         } else {
-          taskBuilder_.setMessage(value);
+          commitBuilder_.setMessage(value);
         }
         payloadCase_ = 6;
         return this;
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public Builder setTask(
-          pipe.work.Work.Task.Builder builderForValue) {
-        if (taskBuilder_ == null) {
+      public Builder setCommit(
+          pipe.work.Work.Commit.Builder builderForValue) {
+        if (commitBuilder_ == null) {
           payload_ = builderForValue.build();
           onChanged();
         } else {
-          taskBuilder_.setMessage(builderForValue.build());
+          commitBuilder_.setMessage(builderForValue.build());
         }
         payloadCase_ = 6;
         return this;
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public Builder mergeTask(pipe.work.Work.Task value) {
-        if (taskBuilder_ == null) {
+      public Builder mergeCommit(pipe.work.Work.Commit value) {
+        if (commitBuilder_ == null) {
           if (payloadCase_ == 6 &&
-              payload_ != pipe.work.Work.Task.getDefaultInstance()) {
-            payload_ = pipe.work.Work.Task.newBuilder((pipe.work.Work.Task) payload_)
+              payload_ != pipe.work.Work.Commit.getDefaultInstance()) {
+            payload_ = pipe.work.Work.Commit.newBuilder((pipe.work.Work.Commit) payload_)
                 .mergeFrom(value).buildPartial();
           } else {
             payload_ = value;
@@ -5245,18 +5890,18 @@ public final class Work {
           onChanged();
         } else {
           if (payloadCase_ == 6) {
-            taskBuilder_.mergeFrom(value);
+            commitBuilder_.mergeFrom(value);
           }
-          taskBuilder_.setMessage(value);
+          commitBuilder_.setMessage(value);
         }
         payloadCase_ = 6;
         return this;
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public Builder clearTask() {
-        if (taskBuilder_ == null) {
+      public Builder clearCommit() {
+        if (commitBuilder_ == null) {
           if (payloadCase_ == 6) {
             payloadCase_ = 0;
             payload_ = null;
@@ -5267,49 +5912,49 @@ public final class Work {
             payloadCase_ = 0;
             payload_ = null;
           }
-          taskBuilder_.clear();
+          commitBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public pipe.work.Work.Task.Builder getTaskBuilder() {
-        return getTaskFieldBuilder().getBuilder();
+      public pipe.work.Work.Commit.Builder getCommitBuilder() {
+        return getCommitFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
-      public pipe.work.Work.TaskOrBuilder getTaskOrBuilder() {
-        if ((payloadCase_ == 6) && (taskBuilder_ != null)) {
-          return taskBuilder_.getMessageOrBuilder();
+      public pipe.work.Work.CommitOrBuilder getCommitOrBuilder() {
+        if ((payloadCase_ == 6) && (commitBuilder_ != null)) {
+          return commitBuilder_.getMessageOrBuilder();
         } else {
           if (payloadCase_ == 6) {
-            return (pipe.work.Work.Task) payload_;
+            return (pipe.work.Work.Commit) payload_;
           }
-          return pipe.work.Work.Task.getDefaultInstance();
+          return pipe.work.Work.Commit.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .Task task = 6;</code>
+       * <code>optional .Commit commit = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          pipe.work.Work.Task, pipe.work.Work.Task.Builder, pipe.work.Work.TaskOrBuilder> 
-          getTaskFieldBuilder() {
-        if (taskBuilder_ == null) {
+          pipe.work.Work.Commit, pipe.work.Work.Commit.Builder, pipe.work.Work.CommitOrBuilder> 
+          getCommitFieldBuilder() {
+        if (commitBuilder_ == null) {
           if (!(payloadCase_ == 6)) {
-            payload_ = pipe.work.Work.Task.getDefaultInstance();
+            payload_ = pipe.work.Work.Commit.getDefaultInstance();
           }
-          taskBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              pipe.work.Work.Task, pipe.work.Work.Task.Builder, pipe.work.Work.TaskOrBuilder>(
-                  (pipe.work.Work.Task) payload_,
+          commitBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              pipe.work.Work.Commit, pipe.work.Work.Commit.Builder, pipe.work.Work.CommitOrBuilder>(
+                  (pipe.work.Work.Commit) payload_,
                   getParentForChildren(),
                   isClean());
           payload_ = null;
         }
         payloadCase_ = 6;
         onChanged();;
-        return taskBuilder_;
+        return commitBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -6610,6 +7255,11 @@ public final class Work {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Task_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Commit_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Commit_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_WorkMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -6630,18 +7280,19 @@ public final class Work {
       "te\")\n\013LeaderRoute\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030" +
       "\003 \001(\005\" \n\013WhoIsLeader\022\021\n\taskleader\030\001 \002(\010\"" +
       ")\n\004Task\022\021\n\tseries_id\030\001 \002(\003\022\016\n\006seq_id\030\002 \002" +
-      "(\005\"\274\003\n\013WorkMessage\022\027\n\006header\030\001 \001(\0132\007.Hea" +
-      "der\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030\003 \001(\0132\010.Failu" +
-      "reH\000\022\016\n\004ping\030\004 \001(\010H\000\022\032\n\004beat\030\005 \001(\0132\n.Hea",
-      "rtbeatH\000\022\025\n\004task\030\006 \001(\0132\005.TaskH\000\022\033\n\005state" +
-      "\030\007 \001(\0132\n.WorkStateH\000\022\037\n\006leader\030\t \001(\0132\r.L" +
-      "eaderStatusH\000\022\025\n\004vote\030\n \001(\0132\005.VoteH\000\022\037\n\007" +
-      "reqvote\030\013 \001(\0132\014.RequestVoteH\000\022!\n\naddnewn" +
-      "ode\030\014 \001(\0132\013.AddNewNodeH\000\022\033\n\007request\030\r \001(" +
-      "\0132\010.RequestH\000\022\035\n\010response\030\016 \001(\0132\t.Respon" +
-      "seH\000\022#\n\013whoIsLeader\030\017 \001(\0132\014.WhoIsLeaderH" +
-      "\000\022#\n\013leaderRoute\030\020 \001(\0132\014.LeaderRouteH\000B\t" +
-      "\n\007payloadB\r\n\tpipe.workH\001"
+      "(\005\"/\n\006Commit\022\020\n\010filename\030\001 \002(\t\022\023\n\013numOfC" +
+      "hunks\030\002 \002(\005\"\300\003\n\013WorkMessage\022\027\n\006header\030\001 " +
+      "\001(\0132\007.Header\022\016\n\006secret\030\002 \002(\003\022\027\n\003err\030\003 \001(",
+      "\0132\010.FailureH\000\022\016\n\004ping\030\004 \001(\010H\000\022\032\n\004beat\030\005 " +
+      "\001(\0132\n.HeartbeatH\000\022\031\n\006commit\030\006 \001(\0132\007.Comm" +
+      "itH\000\022\033\n\005state\030\007 \001(\0132\n.WorkStateH\000\022\037\n\006lea" +
+      "der\030\t \001(\0132\r.LeaderStatusH\000\022\025\n\004vote\030\n \001(\013" +
+      "2\005.VoteH\000\022\037\n\007reqvote\030\013 \001(\0132\014.RequestVote" +
+      "H\000\022!\n\naddnewnode\030\014 \001(\0132\013.AddNewNodeH\000\022\033\n" +
+      "\007request\030\r \001(\0132\010.RequestH\000\022\035\n\010response\030\016" +
+      " \001(\0132\t.ResponseH\000\022#\n\013whoIsLeader\030\017 \001(\0132\014" +
+      ".WhoIsLeaderH\000\022#\n\013leaderRoute\030\020 \001(\0132\014.Le" +
+      "aderRouteH\000B\t\n\007payloadB\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6687,12 +7338,18 @@ public final class Work {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Task_descriptor,
         new java.lang.String[] { "SeriesId", "SeqId", });
-    internal_static_WorkMessage_descriptor =
+    internal_static_Commit_descriptor =
       getDescriptor().getMessageTypes().get(5);
+    internal_static_Commit_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Commit_descriptor,
+        new java.lang.String[] { "Filename", "NumOfChunks", });
+    internal_static_WorkMessage_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Task", "State", "Leader", "Vote", "Reqvote", "Addnewnode", "Request", "Response", "WhoIsLeader", "LeaderRoute", "Payload", });
+        new java.lang.String[] { "Header", "Secret", "Err", "Ping", "Beat", "Commit", "State", "Leader", "Vote", "Reqvote", "Addnewnode", "Request", "Response", "WhoIsLeader", "LeaderRoute", "Payload", });
     pipe.common.Common.getDescriptor();
     pipe.election.Election.getDescriptor();
   }

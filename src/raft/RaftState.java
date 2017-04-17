@@ -1,7 +1,5 @@
 package raft;
 
-import java.util.concurrent.LinkedBlockingDeque;
-
 import pipe.work.Work.WorkMessage;
 import routing.Pipe.CommandMessage;
 
@@ -17,11 +15,17 @@ public interface RaftState {
 //	public void receivedVote(WorkMessage msg);
 //
 //	public void replyVote(WorkMessage msg);
-//	
+//
 	public void onRequestVoteReceived(WorkMessage msg);
 	public void receivedVoteReply(WorkMessage msg);
 	public void receivedHeartBeat(WorkMessage msg);
 	public void receivedLogToWrite(CommandMessage msg);
 	public void chunkReceived(WorkMessage msg);
 	public void responseToChuckSent(WorkMessage msg);
+	public void receivedCommitChunkMessage(WorkMessage msg);
+	
+	
+	
+
+
 }

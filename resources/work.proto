@@ -29,6 +29,11 @@ message Task {
     required int32 seq_id = 2;
 }
 
+message Commit{
+	required string filename=1;	
+	required int32 numOfChunks=2;
+}
+
 // These are messages to keep the network running (not to perform work)
 message WorkMessage {
    optional Header header = 1;
@@ -48,7 +53,7 @@ message WorkMessage {
       // status updates between adjacent workers
       Heartbeat beat = 5;
 	  
-      Task task = 6;
+	  Commit commit=6;     
       WorkState state = 7;      
       LeaderStatus leader = 9;      
       Vote vote=10; 

@@ -57,30 +57,30 @@ import raft.InterfaceState;
  */
 public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("work");
-
+	
 	protected ServerState state;
 	protected boolean debug = false;
-	// private Handler handler;
+	//private Handler handler;
 	private EdgeList outboundEdges;
-	// plan to shift this to vote handler
-
+	//plan to shift this to vote handler
+	
 	public WorkHandler(ServerState state) {
 		if (state != null) {
 			this.state = state;
-			/*
-			 * this.handler=new ErrorHandler(state); Handler heartbeatHandler=
-			 * new HeartbeatHandler(state); Handler bodyHandler= new
-			 * BodyHandler(state); Handler voteHandler= new VoteHandler(state);
-			 * Handler reqVoteHandler= new RequestVoteHandler(state);
-			 * 
-			 * handler.setNext(heartbeatHandler);
-			 * heartbeatHandler.setNext(bodyHandler);
-			 * bodyHandler.setNext(voteHandler);
-			 * voteHandler.setNext(reqVoteHandler);
-			 */
-
+			/*this.handler=new ErrorHandler(state);
+			Handler heartbeatHandler= new HeartbeatHandler(state);
+			Handler bodyHandler= new BodyHandler(state);
+			Handler voteHandler= new VoteHandler(state);
+			Handler reqVoteHandler= new RequestVoteHandler(state);
+			
+			handler.setNext(heartbeatHandler);
+			heartbeatHandler.setNext(bodyHandler);
+			bodyHandler.setNext(voteHandler);
+			voteHandler.setNext(reqVoteHandler);*/
+		
+            
 		}
-
+		
 	}
 
 	/**
@@ -88,20 +88,20 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	 * 
 	 * @param msg
 	 */
-
+	
 	public void handleMessage(WorkMessage msg, Channel channel) {
 		if (msg == null) {
 			// TODO add logging
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
-		}
+		}	
 
 		// TODO How can you implement this without if-else statements?
 		// USE HANDLERS
 		try {
-			// System.out.println("im printing work now using handlers chain");
-			// handler.processWorkMessage(msg, channel);
-			// System.out.println("im in try");
+			//System.out.println("im printing work now using handlers chain");
+			//handler.processWorkMessage(msg, channel);
+			//System.out.println("im in try");
 			if (state.getManager().getCurrentState().getClass() == InterfaceState.class) {
 				if (msg.hasLeader()) {
 					System.out.println(msg.getLeader().getLeaderId());
@@ -124,36 +124,51 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 					state.getEmon().sendMessage(wb.build());
 				}
 			} else if (msg.hasReqvote()) {
-				state.getManager().getCurrentState().onRequestVoteReceived(msg);
-			} else if (msg.hasVote()) {
+	        	state.getManager().getCurrentState().onRequestVoteReceived(msg);	        	
+			}
+			else
+			if(msg.hasVote()){
+							  		                
 				state.getManager().getCurrentState().receivedVoteReply(msg);
-			} else if (msg.hasLeader() && !msg.hasRequest()) {
+				}				
+			else
+			if (msg.hasLeader()&&!msg.hasRequest()) {							
 				state.getManager().getCurrentState().receivedHeartBeat(msg);
 				System.out.println("after has leader recv hb");
-			} else if (msg.hasErr()) {
+			} else if (msg.hasErr()) 
+			{
 				Failure err = msg.getErr();
 				logger.error("failure from " + msg.getHeader().getNodeId());
-				PrintUtil.printFailure(err);
-			} else if (msg.hasAddnewnode()) {
-				state.getManager().getEdgeMonitor().createOutBoundIfNew(msg.getHeader().getNodeId(),
-						msg.getAddnewnode().getHost(), msg.getAddnewnode().getPort());
-			} else if (msg.getRequest().hasRwb()) {
-				System.out.println("is it here in workhandler");
+			    PrintUtil.printFailure(err);
+			}else if (msg.hasAddnewnode()) {
+				state.getManager().getEdgeMonitor().createOutBoundIfNew(msg.getHeader().getNodeId(),msg.getAddnewnode().getHost(),msg.getAddnewnode().getPort());							
+			}else if(msg.getRequest().hasRwb())
+			{
+				System.out.println("is it fucking here in workhandler"); 
 				state.getManager().getCurrentState().chunkReceived(msg);
-			} else if (msg.getResponse().hasWriteResponse()) {
+			}else if(msg.getResponse().hasWriteResponse())
+			{
 				System.out.println("got the log response from follower");
 				state.getManager().getCurrentState().responseToChuckSent(msg);
 			}
-
-			/*
-			 * else if (msg.hasTask()) { Task t = msg.getTask(); } else if
-			 * (msg.hasState()) { WorkState s = msg.getState(); }else if
-			 * (msg.hasBody()) { PrintUtil.printBody(msg.getBody()); }
-			 */
-
+			else if(msg.hasCommit()){
+				System.out.println("in here");
+				state.getManager().getCurrentState().receivedCommitChunkMessage(msg);
+			}
+			
+			
+			
+			/* else if (msg.hasTask()) {
+				Task t = msg.getTask();
+			} else if (msg.hasState()) {
+				WorkState s = msg.getState();
+			}else if (msg.hasBody()) {
+					PrintUtil.printBody(msg.getBody());
+			}	*/		
+			
 		} catch (NullPointerException e) {
-			logger.error("Null pointer has occured from work handler logic" + e.getMessage());
-		} catch (Exception e) {
+            logger.error("Null pointer has occured from work handler logic" + e.getMessage());
+        } catch (Exception e) {
 			// TODO add logging
 			Failure.Builder eb = Failure.newBuilder();
 			eb.setId(state.getConf().getNodeId());

@@ -22,10 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
-
 import pipe.common.Common;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
+import pipe.common.Common.ReadBody;
 import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
@@ -97,7 +97,7 @@ public class MessageClient {
 				
 				Request.Builder rb = Request.newBuilder();
 				//request type, read,write,etc				
-				rb.setTaskType(TaskType.WRITEFILE); // operation to be
+				rb.setTaskType(Common.TaskType.WRITEFILE); // operation to be
 																// performed
 				rb.setRwb(wb);	
 				CommandMessage.Builder cb = CommandMessage.newBuilder();
@@ -127,5 +127,37 @@ public class MessageClient {
 	 */
 	private synchronized long nextId() {
 		return ++curID;
+	}
+
+	public void readFile(String fileName) {
+		// TODO Auto-generated method stub
+		Header.Builder hb = Header.newBuilder();
+		// prepare the Header Structure
+		hb.setNodeId(999);
+		hb.setTime(System.currentTimeMillis());
+		hb.setDestination(-1);
+
+		// prepare the read body request Structure
+		ReadBody.Builder rrb=ReadBody.newBuilder();
+		rrb.setFilename(fileName);
+
+		Request.Builder rb = Request.newBuilder();
+		rb.setTaskType(TaskType.READFILE);
+		rb.setRrb(rrb);		
+		
+		CommandMessage.Builder cb = CommandMessage.newBuilder();
+		// Prepare the CommandMessage structure
+		cb.setHeader(hb);
+		cb.setRequest(rb);		
+
+		// Initiate connection to the server and prepare to read and save file
+		try {
+
+			CommConnection.getInstance().enqueue(cb.build());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 }

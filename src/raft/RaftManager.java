@@ -32,7 +32,6 @@ public class RaftManager implements Runnable {
 		public RaftState Leader;
 		public RaftState Candidate;
 		public RaftState Follower;
-		public RaftState Interface;
 
 		private int heartBeatBase = 3000;
 		private volatile long electionTimeout = 3000;
@@ -59,9 +58,6 @@ public class RaftManager implements Runnable {
 			Leader =new LeaderState();
 			Leader.setManager(this);
 			
-			Interface = new InterfaceState();
-			Interface.setManager(this);
-			
 			this.conf = state.getConf();
 			this.emon = state.getEmon();
 
@@ -73,7 +69,7 @@ public class RaftManager implements Runnable {
 			electionTimeout += 1000;
 
 			CurrentState = Follower;
-			//CurrentState = Interface;
+			
 			
 		}
 		

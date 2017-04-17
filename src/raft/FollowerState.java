@@ -1,5 +1,12 @@
 package raft;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +18,7 @@ import pipe.common.Common.AddNewNode;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
 import pipe.common.Common.Response;
+import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteResponse;
 import pipe.election.Election.Vote;
 import pipe.work.Work.WorkMessage;
@@ -22,6 +30,7 @@ public class FollowerState implements RaftState {
 	private RaftManager Manager;
 	private int votedFor=-1;
 	private boolean initial=true;
+	Map<String, ArrayList<WorkMessage>> fileChunkMap= new HashMap<String, ArrayList<WorkMessage>>();
 	public synchronized void process()
 	{
 		
@@ -79,32 +88,6 @@ public class FollowerState implements RaftState {
     	
     }
 	
-	/*public synchronized void newNodePing(){
-		for(EdgeInfo ei:Manager.getEdgeMonitor().getOutBoundEdges().map.values())
-		 {
-			System.out.println("in new node for");
-			if(ei.isActive()&&ei.getChannel()!=null)
-			{	
-				System.out.println("in new node if");
-				Header.Builder hb = Header.newBuilder();
-				hb.setNodeId(Manager.getNodeId());
-				hb.setTime(System.currentTimeMillis());
-				hb.setDestination(-1);
-				
-				AddNewNode.Builder ab=AddNewNode.newBuilder();
-				ab.setHost(Manager.getSelfHost());
-				ab.setPort(Manager.getSelfPort());
-				
-				WorkMessage.Builder wb = WorkMessage.newBuilder();
-				wb.setHeader(hb);				
-				wb.setAddnewnode(ab);
-				wb.setSecret(10);
-				Manager.getEdgeMonitor().sendMessage(wb.build());
-				System.out.println("sent ping request to"+ei.getRef());				
-			}				
-		 }
-		initial=false;
-	}*/
 	
 	//replyvote
 	
@@ -166,8 +149,13 @@ public class FollowerState implements RaftState {
 			Manager.setLastKnownBeat(System.currentTimeMillis());
 			
 				  
-		  //here add database logic for followers
-		  
+		  //adding chunk for a file to map for delayed commiting
+			if (!fileChunkMap.containsKey(msg.getRequest().getRwb().getFilename())) {
+				  fileChunkMap.put(msg.getRequest().getRwb().getFilename(), new ArrayList<WorkMessage>());		            
+		        }
+			fileChunkMap.get(msg.getRequest().getRwb().getFilename()).add(msg);
+			System.out.println("added a chunk to map" +fileChunkMap.get(msg.getRequest().getRwb().getFilename()).size());
+			//building write response message 
 			Header.Builder hb = Header.newBuilder();
 			hb.setNodeId(Manager.getNodeId());
 			hb.setDestination(-1);
@@ -179,17 +167,20 @@ public class FollowerState implements RaftState {
 			chub.setChunkSize(msg.getRequest().getRwb().getChunk().getChunkSize());
 			
 			WriteResponse.Builder wrb=WriteResponse.newBuilder();
-			wrb.setChunk(chub);
 			wrb.setFileName(msg.getRequest().getRwb().getFilename());
+			wrb.setChunk(chub);			
 			wrb.setNumOfChunks(msg.getRequest().getRwb().getNumOfChunks());
 			
 			Response.Builder rb=Response.newBuilder();
+			rb.setResponseType(TaskType.WRITEFILE);
 			rb.setWriteResponse(wrb);
 			WorkMessage.Builder wbs = WorkMessage.newBuilder();	
 			wbs.setHeader(hb);
 			wbs.setSecret(10);
 			wbs.setResponse(rb);		
 			int toNode=msg.getHeader().getNodeId();
+			System.out.println("to node is"+toNode);
+			PrintUtil.printWork(wbs.build());
 			int fromNode=Manager.getNodeId();
 			EdgeInfo ei=Manager.getEdgeMonitor().getOutBoundEdges().map.get(toNode);
 			if(ei.isActive()&&ei.getChannel()!=null)
@@ -204,6 +195,39 @@ public class FollowerState implements RaftState {
 	  {
 		return;  
 	  }
+	
+	public void receivedCommitChunkMessage(WorkMessage msg)
+	{
+		System.out.println("going to commit now");
+		String fileName=msg.getCommit().getFilename();
+		int numOfChunks=msg.getCommit().getNumOfChunks();
+		System.out.println(numOfChunks);
+		System.out.println(fileName);
+		 try{
+			  Class.forName("com.mysql.jdbc.Driver");  
+				Connection con=DriverManager.getConnection(  
+				"jdbc:mysql://localhost:3306/mydb","root","abcd");  		   
+				// create the mysql insert preparedstatement
+				for (int j = 0; j < numOfChunks; j++) {                                  	                        
+	            System.out.println("Added chunk to DB " + j);
+	            String query = " insert into filetable (filename, chunkid, chunkdata, chunksize, numberofchunks)"
+	  			      + " values (?, ?, ?, ?, ?)";
+	            PreparedStatement preparedStmt = con.prepareStatement(query);
+			    preparedStmt.setString (1, fileName);		   		   
+			    preparedStmt.setInt(2, fileChunkMap.get(fileName).get(j).getRequest().getRwb().getChunk().getChunkId());				    				   				  
+			    preparedStmt.setBytes(3,(fileChunkMap.get(fileName).get(j).getRequest().getRwb().getChunk().getChunkData()).toByteArray());				    
+			    preparedStmt.setInt(4, fileChunkMap.get(fileName).get(j).getRequest().getRwb().getChunk().getChunkSize());
+			    preparedStmt.setInt(5, numOfChunks);
+			    preparedStmt.execute();			
+				}
+				con.close();
+				 System.out.println("commited");
+		 }
+		
+			  catch(Exception e){
+				  e.printStackTrace();
+			  }
+	}
 	
  
 }

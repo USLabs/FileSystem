@@ -42,7 +42,7 @@ public class MessageServer {
 	protected static Logger logger = LoggerFactory.getLogger("server");
 
 	protected static HashMap<Integer, ServerBootstrap> bootstrap = new HashMap<Integer, ServerBootstrap>();
-
+	
 	// public static final String sPort = "port";
 	// public static final String sPoolSize = "pool.size";
 
@@ -56,12 +56,13 @@ public class MessageServer {
 	 * @param cfg
 	 */
 	public MessageServer(File cfg) {
-		init(cfg);
+		init(cfg);		
 	}
 
 	public MessageServer(RoutingConf conf) {
 		this.conf = conf;
 	}
+	
 
 	public void release() {
 	}
@@ -75,7 +76,7 @@ public class MessageServer {
 		cthread.start();
 
 		if (!conf.isInternalNode()) {
-			StartCommandCommunication comm2 = new StartCommandCommunication(comm, conf);
+			StartCommandCommunication comm2 = new StartCommandCommunication(comm,conf);
 			logger.info("Command starting");
 
 			if (background) {
@@ -132,14 +133,14 @@ public class MessageServer {
 	 */
 	private static class StartCommandCommunication implements Runnable {
 		RoutingConf conf;
-		ServerState state;
+		ServerState state;		
 		StartWorkCommunication comm;
-
-		public StartCommandCommunication(StartWorkCommunication comm, RoutingConf conf) {
-			this.comm = comm;
-			state = comm.getServerState();
-			this.conf = conf;
+		public StartCommandCommunication(StartWorkCommunication comm,RoutingConf conf) {						
+			this.comm=comm;					
+			state=comm.getServerState();	
+			this.conf=conf;
 		}
+		
 
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
@@ -159,7 +160,7 @@ public class MessageServer {
 				// b.option(ChannelOption.MESSAGE_SIZE_ESTIMATOR);
 
 				boolean compressComm = false;
-				b.childHandler(new CommandInit(state, conf, compressComm));
+				b.childHandler(new CommandInit(state,conf, compressComm));
 
 				// Start the server.
 				logger.info("Starting command server (" + conf.getNodeId() + "), listening on port = "
@@ -202,29 +203,28 @@ public class MessageServer {
 
 			TaskList tasks = new TaskList(new NoOpBalancer());
 			state.setTasks(tasks);
-			manager = new RaftManager(state);
+			manager =new RaftManager(state);
 			state.setManager(manager);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
 			Thread t = new Thread(emon);
-			t.start();
-			try {
+			  t.start();
+			try{
 				manager.init();
-			} catch (UnknownHostException e) {
+			}
+			catch(UnknownHostException e)
+			{
 				e.printStackTrace();
 			}
 			Thread managerThread = new Thread(manager);
 			managerThread.start();
 		}
-
-		public RaftManager getManager() {
+		public RaftManager getManager(){
 			return manager;
-		}
-
-		public ServerState getServerState() {
+		} 
+		public ServerState getServerState(){
 			return state;
-		}
-
+		} 
 		public void run() {
 			// construct boss and worker threads (num threads = number of cores)
 

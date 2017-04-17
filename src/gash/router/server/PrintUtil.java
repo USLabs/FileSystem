@@ -15,6 +15,7 @@
  */
 package gash.router.server;
 
+
 import pipe.common.Common.Failure;
 import pipe.common.Common.Header;
 import pipe.work.Work.WorkMessage;
@@ -33,6 +34,7 @@ public class PrintUtil {
 			System.out.println("Dest: " + hdr.getDestination());
 
 	}
+	
 
 	public static void printCommand(CommandMessage msg) {
 		PrintUtil.printHeader(msg.getHeader());
@@ -45,9 +47,9 @@ public class PrintUtil {
 			System.out.println(PrintUtil.gap + "Message: " + msg.getErr().getMessage());
 		} else if (msg.hasPing())
 			System.out.println("Ping");
-
+		  
 	}
-
+	
 	public static void printWork(WorkMessage msg) {
 		PrintUtil.printHeader(msg.getHeader());
 		System.out.print("\nWork: ");
@@ -59,7 +61,7 @@ public class PrintUtil {
 			System.out.println("heartbeat");
 		else
 			System.out.println("Unknown");
-		// check to see i the message is a file later on
+			// check to see i the message is a file later on 
 		System.out.println(PrintUtil.gap + "Sec:  " + msg.getSecret());
 	}
 
