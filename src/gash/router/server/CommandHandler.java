@@ -70,7 +70,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 				PrintUtil.printCommand(msg);
 
 			} else if (msg.getRequest().hasRwb()) {
-
+				state.getManager().setCmdChannel(channel);
 				System.out.println("has write request");
 
 				if (state.getManager().getCurrentState().getClass() == InterfaceState.class) {

@@ -160,7 +160,7 @@ public class DemoApp implements CommListener {
 	 */
 	public static void main(String[] args) {
 		String host = "localhost";
-		int port = 4168;
+		int port = 4468;
 
 		try {
 			MessageClient mc = new MessageClient(host, port);			
@@ -176,7 +176,7 @@ public class DemoApp implements CommListener {
                     case 1: 
                         System.out.println("Enter the full pathname of the file to be written ");
                         //String currFileName = s.next();
-                        String currFileName = "C:\\users\\ilabhesh\\desktop\\c.pdf";
+                        String currFileName = "C:\\Users\\admin\\Desktop\\Lab4.pdf";
                         File file = new File(currFileName);
                         if (file.exists()) {
                             ArrayList<ByteString> chunkedFileList = da.divideFileChunks(file);

@@ -43,7 +43,7 @@ public class FollowerState implements RaftState {
 			} else {
 				Thread.sleep(200);
 				long dt = Manager.getElectionTimeout() - (System.currentTimeMillis() - Manager.getTimerStart());
-				System.out.println("election timeout value "+dt); 		
+				//System.out.println("election timeout value "+dt); 		
 				Manager.setElectionTimeout(dt);				
 			}
 		} catch (Exception e) {

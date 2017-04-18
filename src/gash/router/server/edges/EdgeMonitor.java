@@ -78,36 +78,36 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public void createOutBoundIfNew(int ref, String host, int port) {
 		outboundEdges.createIfNew(ref, host, port);
 	}
-	
+
 	public void shutdown() {
 		forever = false;
 	}
 
 	private Channel connectToChannel(String host, int port) {
-        Bootstrap b = new Bootstrap();
-        NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
-        WorkInit workInit = new WorkInit(state, false);
+		Bootstrap b = new Bootstrap();
+		NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
+		WorkInit workInit = new WorkInit(state, false);
 
-        try {
-            b.group(nioEventLoopGroup).channel(NioSocketChannel.class).handler(workInit);
-            b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
-            b.option(ChannelOption.TCP_NODELAY, true);
-            b.option(ChannelOption.SO_KEEPALIVE, true);
-            // Make the connection attempt.
-        } catch (Exception e) {
-            logger.error("Could not connect to the host " + host);
-            return null;
-        }
-        return b.connect(host, port).syncUninterruptibly().channel();
+		try {
+			b.group(nioEventLoopGroup).channel(NioSocketChannel.class).handler(workInit);
+			b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
+			b.option(ChannelOption.TCP_NODELAY, true);
+			b.option(ChannelOption.SO_KEEPALIVE, true);
+			// Make the connection attempt.
+		} catch (Exception e) {
+			logger.error("Could not connect to the host " + host);
+			return null;
+		}
+		return b.connect(host, port).syncUninterruptibly().channel();
 
-    }
-	boolean initial=true;
-	public synchronized void newNodePing(){
-		for(EdgeInfo ei:this.outboundEdges.map.values())
-		 {
+	}
+
+	boolean initial = true;
+
+	public synchronized void newNodePing() {
+		for (EdgeInfo ei : this.outboundEdges.map.values()) {
 			System.out.println("in new node for");
-			if(ei.isActive()&&ei.getChannel()!=null)
-			{	
+			if (ei.isActive() && ei.getChannel() != null) {
 				System.out.println("in new node if");
 				Header.Builder hb = Header.newBuilder();
 				hb.setNodeId(state.getConf().getNodeId());
@@ -120,120 +120,121 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				int selfPort=state.getConf().getWorkPort();
-				AddNewNode.Builder ab=AddNewNode.newBuilder();
+				int selfPort = state.getConf().getWorkPort();
+				AddNewNode.Builder ab = AddNewNode.newBuilder();
 				ab.setHost(selfHost);
 				ab.setPort(selfPort);
-				
+
 				WorkMessage.Builder wb = WorkMessage.newBuilder();
-				wb.setHeader(hb);				
+				wb.setHeader(hb);
 				wb.setAddnewnode(ab);
 				wb.setSecret(10);
 				sendMessage(wb.build());
-				System.out.println("sent ping request to"+ei.getRef());				
-			}				
-		 }
-		initial=false;
+				System.out.println("sent ping request to" + ei.getRef());
+			}
+		}
+		initial = false;
 	}
-	
+
 	@Override
-	//it will be taken care by leader
+	// it will be taken care by leader
 	public void run() {
 		while (forever) {
 			try {
-                for (EdgeInfo ei : this.outboundEdges.map.values()) {
-                    if (ei.isActive()) {
-                        if (!ei.getChannel().isActive()) {
-                            ei.setActive(false);                          	
-                        	this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
-                        }                        
-                    } else {                    	 
-                        try {
-                            logger.info("looking for edge" + ei.getRef());
-                            Channel channel = connectToChannel(ei.getHost(), ei.getPort());
-                            ei.setChannel(channel);
-                            if (channel.isActive()) {
-                                ei.setActive(true);                                
-                                this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
-                            }
-                        } catch (Throwable ex) {
-                        }
-                    }
+				for (EdgeInfo ei : this.outboundEdges.map.values()) {
+					if (ei.isActive()) {
+						if (!ei.getChannel().isActive()) {
+							ei.setActive(false);
+							this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
+						}
+					} else {
+						try {
+							logger.info("looking for edge" + ei.getRef());
+							Channel channel = connectToChannel(ei.getHost(), ei.getPort());
+							ei.setChannel(channel);
+							if (channel.isActive()) {
+								ei.setActive(true);
+								this.inboundEdges.addNode(ei.getRef(), ei.getHost(), ei.getPort());
+							}
+						} catch (Throwable ex) {
+						}
+					}
 
-                }
-                if(initial==true)
-                	newNodePing();
-                Thread.sleep(dt);
-            } catch (InterruptedException e){
-                e.printStackTrace();
-            }
-			
+				}
+				if (initial == true)
+					newNodePing();
+				Thread.sleep(dt);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
-	}
-	public void sendMessage(WorkMessage wmsg){
+
+	public void sendMessage(WorkMessage wmsg) {
 		try {
-			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
-				if (ei.isActive() && ei.getChannel() != null) {  					   
-                    	WorkMessage wm = wmsg;
-						ei.getChannel().writeAndFlush(wm);    						                    
+			for (EdgeInfo ei : this.outboundEdges.map.values()) {
+				if (ei.isActive() && ei.getChannel() != null) {
+					WorkMessage wm = wmsg;
+					ei.getChannel().writeAndFlush(wm);
 				}
 			}
-            Thread.sleep(dt);
+			Thread.sleep(dt);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void sendWorkMessageToNode(WorkMessage wmsg, int nodeId){
+
+	public void sendWorkMessageToNode(WorkMessage wmsg, int nodeId) {
 		System.out.println("Preparing to send: " + nodeId);
-			for (EdgeInfo ei : this.outboundEdges.map.values()) {				
-				if (ei.isActive() && ei.getChannel() != null && ei.getRef()==nodeId) {
-					System.out.println("Sending to : " + nodeId);
-					ei.getChannel().writeAndFlush(wmsg);    						                    
-					
-				}
-			}
-	}
-	
-	public void sendCmdMessageToNode(CommandMessage wmsg, int nodeId){
-		for (EdgeInfo ei : this.outboundEdges.map.values()) {				
-			if (ei.isActive() && ei.getChannel() != null && ei.getRef()==nodeId) {
-					System.out.println("Sending message ...");
-					
-					Header.Builder hb = Header.newBuilder();
-					hb.setNodeId(wmsg.getHeader().getNodeId());
-					hb.setDestination(nodeId);
-					hb.setTime(System.currentTimeMillis());
-					
-					
-					Chunk.Builder chb=Chunk.newBuilder();
-					chb.setChunkId(wmsg.getRequest().getRwb().getChunk().getChunkId());
-					chb.setChunkData(wmsg.getRequest().getRwb().getChunk().getChunkData());
-					chb.setChunkSize(wmsg.getRequest().getRwb().getChunk().getChunkData().size());
-					
-					WriteBody.Builder wb=WriteBody.newBuilder();
-					wb.setFileId(1);
-					wb.setFilename(wmsg.getRequest().getRwb().getFilename());
-					wb.setChunk(chb);
-					wb.setNumOfChunks(wmsg.getRequest().getRwb().getNumOfChunks());
-					
-					Request.Builder rb = Request.newBuilder();
-					//request type, read,write,etc				
-					rb.setTaskType(Common.TaskType.WRITEFILE); // operation to be
-																	// performed
-					rb.setRwb(wb);	
-					
-					WorkMessage.Builder wmb = WorkMessage.newBuilder();		
-					wmb.setHeader(hb);		
-					wmb.setSecret(10);
-					wmb.setRequest(rb);
-					System.out.println("Sending work message ...");
-					ei.getChannel().writeAndFlush(wmb.build());    						                    
+		for (EdgeInfo ei : this.outboundEdges.map.values()) {
+			System.out.println(ei.getRef());
+			System.out.println("NodeId : " + nodeId);
+			if (ei.isActive() && ei.getChannel() != null && ei.getRef() == nodeId) {
+				System.out.println("Sending to : " + nodeId);
+				ei.getChannel().writeAndFlush(wmsg);
+
 			}
 		}
-}
+	}
+
+	public void sendCmdMessageToNode(CommandMessage wmsg, int nodeId) {
+		for (EdgeInfo ei : this.outboundEdges.map.values()) {
+			if (ei.isActive() && ei.getChannel() != null && ei.getRef() == nodeId) {
+				System.out.println("Sending message ...");
+
+				Header.Builder hb = Header.newBuilder();
+				hb.setNodeId(wmsg.getHeader().getNodeId());
+				hb.setDestination(nodeId);
+				hb.setTime(System.currentTimeMillis());
+
+				Chunk.Builder chb = Chunk.newBuilder();
+				chb.setChunkId(wmsg.getRequest().getRwb().getChunk().getChunkId());
+				chb.setChunkData(wmsg.getRequest().getRwb().getChunk().getChunkData());
+				chb.setChunkSize(wmsg.getRequest().getRwb().getChunk().getChunkData().size());
+
+				WriteBody.Builder wb = WriteBody.newBuilder();
+				wb.setFileId(1);
+				wb.setFilename(wmsg.getRequest().getRwb().getFilename());
+				wb.setChunk(chb);
+				wb.setNumOfChunks(wmsg.getRequest().getRwb().getNumOfChunks());
+
+				Request.Builder rb = Request.newBuilder();
+				// request type, read,write,etc
+				rb.setTaskType(Common.TaskType.WRITEFILE); // operation to be
+															// performed
+				rb.setRwb(wb);
+
+				WorkMessage.Builder wmb = WorkMessage.newBuilder();
+				wmb.setHeader(hb);
+				wmb.setSecret(10);
+				wmb.setRequest(rb);
+				System.out.println("Sending work message ...");
+				ei.getChannel().writeAndFlush(wmb.build());
+			}
+		}
+	}
 
 	@Override
 	public synchronized void onAdd(EdgeInfo ei) {
@@ -244,8 +245,9 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 	public synchronized void onRemove(EdgeInfo ei) {
 		// TODO ?
 	}
-	public synchronized EdgeList getOutBoundEdges(){
+
+	public synchronized EdgeList getOutBoundEdges() {
 		return outboundEdges;
 	}
-	
+
 }

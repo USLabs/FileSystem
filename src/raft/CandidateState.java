@@ -60,7 +60,7 @@ public class CandidateState implements RaftState {
 
 		System.out.println("reached requestVote method of candidate");
 		Manager.setTerm(Manager.getTerm() + 1);
-		clusterSize = 0;
+		clusterSize = -1;
 		for (EdgeInfo ei : Manager.getEdgeMonitor().getOutBoundEdges().map.values()) {
 			if (ei.isActive() && ei.getChannel() != null) {
 				clusterSize++;
@@ -69,9 +69,10 @@ public class CandidateState implements RaftState {
 		if (clusterSize == 0) {
 			Manager.randomizeElectionTimeout();
 			System.out.println(
-					"Leader Elected and the Node Id is " + Manager.getNodeId() + "total active nodes is" + clusterSize);
+					"Leader Elected and the Node Id is " + Manager.getNodeId() + " total active nodes is" + clusterSize);
 			Manager.setLeaderId(Manager.getNodeId());
 			Manager.setCurrentState(Manager.Leader);
+			System.out.println("Have to send leader to interface");
 			Manager.getEdgeMonitor().sendWorkMessageToNode(createWM(), 4);
 		} else
 			clusterSize++;

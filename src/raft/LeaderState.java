@@ -40,7 +40,7 @@ Map<String, ArrayList<WorkMessage>> fileChunkMap= new HashMap<String, ArrayList<
 	
  @Override
  	public synchronized void process() { 	 
-		System.out.println("In leaders process method"); 
+		//System.out.println("In leaders process method"); 
 	 	try{
 	 		//checking cluster size
 	 		for(EdgeInfo ei:Manager.getEdgeMonitor().getOutBoundEdges().map.values())
