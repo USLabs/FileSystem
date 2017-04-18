@@ -80,9 +80,12 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					// state.getEmon().sendCmdMessageToNode(msg,
 					// state.getManager().getLeaderId());
 
-				} else if (state.getManager().getLeaderId() == state.getManager().getNodeId()) {
+				} 
+				/*
+				else if (state.getManager().getLeaderId() == state.getManager().getNodeId()) {
 					state.getManager().getCurrentState().receivedLogToWrite(msg);
 				}
+				*/
 
 			} else if (msg.getRequest().hasRrb()) {
 

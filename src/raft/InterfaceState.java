@@ -66,7 +66,7 @@ public class InterfaceState implements RaftState {
 	public void receivedHeartBeat(WorkMessage msg) {
 	};
 
-	public void receivedLogToWrite(CommandMessage msg) {
+	public void receivedLogToWrite(WorkMessage msg) {
 	};
 
 	public void chunkReceived(WorkMessage msg) {

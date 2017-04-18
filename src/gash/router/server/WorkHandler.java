@@ -15,6 +15,10 @@
  */
 package gash.router.server;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,6 +27,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.ByteString;
 
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.edges.EdgeInfo;
@@ -37,8 +43,12 @@ import handlerschian.Handler;*/
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import pipe.common.Common.Chunk;
 import pipe.common.Common.Failure;
 import pipe.common.Common.Header;
+import pipe.common.Common.ReadResponse;
+import pipe.common.Common.Response;
+import pipe.common.Common.TaskType;
 import pipe.election.Election.LeaderStatus;
 import pipe.work.Work.Heartbeat;
 import pipe.work.Work.Task;
@@ -46,6 +56,8 @@ import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkState;
 import raft.FollowerState;
 import raft.InterfaceState;
+import raft.LeaderState;
+import routing.Pipe.CommandMessage;
 
 /**
  * The message handler processes json messages that are delimited by a 'newline'
@@ -142,9 +154,57 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			} else if (msg.hasAddnewnode()) {
 				state.getManager().getEdgeMonitor().createOutBoundIfNew(msg.getHeader().getNodeId(),
 						msg.getAddnewnode().getHost(), msg.getAddnewnode().getPort());
+			} else if (msg.getRequest().hasRwb()
+					&& state.getManager().getCurrentState().getClass() == LeaderState.class) {
+				System.out.println("In WorkHandler");
+				state.getManager().getCurrentState().receivedLogToWrite(msg);
+
 			} else if (msg.getRequest().hasRwb()) {
-				System.out.println("is it in workhandler");
+				System.out.println("In WorkHandler");
 				state.getManager().getCurrentState().chunkReceived(msg);
+
+			} else if (msg.getRequest().hasRrb()) {
+
+				System.out.println("Read Req received. Leader : " + state.getManager().getLeaderId());
+				System.out.println("request taken");
+
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
+				PreparedStatement statement = con.prepareStatement("select * from filetable where filename = ?");
+				statement.setString(1, msg.getRequest().getRrb().getFilename());
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Header.Builder hb = Header.newBuilder();
+					hb.setNodeId(999);
+					hb.setTime(System.currentTimeMillis());
+					hb.setDestination(-1);
+
+					Chunk.Builder chb = Chunk.newBuilder();
+					chb.setChunkId(rs.getInt(4));
+					ByteString bs = ByteString.copyFrom(rs.getBytes(5));
+					System.out.println("byte string " + bs);
+					chb.setChunkData(bs);
+					chb.setChunkSize(rs.getInt(6));
+
+					ReadResponse.Builder rrb = ReadResponse.newBuilder();
+					rrb.setFilename(rs.getString(1));
+					rrb.setChunk(chb);
+					rrb.setNumOfChunks(rs.getInt(7));
+
+					Response.Builder rb = Response.newBuilder();
+					// request type, read,write,etc
+					rb.setResponseType(TaskType.READFILE);
+					rb.setReadResponse(rrb);
+					WorkMessage.Builder cb = WorkMessage.newBuilder();
+					// Prepare the CommandMessage structure
+					cb.setHeader(hb);
+					cb.setSecret(10);
+					cb.setResponse(rb);
+					state.getEmon().sendWorkMessageToNode(cb.build(), 4);
+				}
+			} else if (msg.getResponse().hasReadResponse()
+					&& state.getManager().getCurrentState().getClass() == InterfaceState.class) {
+				state.getManager().getCmdChannel().writeAndFlush(msg);
 			} else if (msg.getResponse().hasWriteResponse()) {
 				System.out.println("got the log response from follower");
 				state.getManager().getCurrentState().responseToChuckSent(msg);

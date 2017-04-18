@@ -136,7 +136,7 @@ public class FollowerState implements RaftState {
 		Manager.setLastKnownBeat(System.currentTimeMillis());
 	}	
 	
-	public void receivedLogToWrite(CommandMessage msg)
+	public void receivedLogToWrite(WorkMessage msg)
 	{
 		return;
 	}
