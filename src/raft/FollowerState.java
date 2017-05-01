@@ -175,7 +175,6 @@ public class FollowerState implements RaftState {
 				EdgeInfo ei = Manager.getEdgeMonitor().getOutBoundEdges().map.get(toNode);
 				if (ei.isActive() && ei.getChannel() != null) {
 					ei.getChannel().writeAndFlush(cb.build());
-
 				}
 			}
 		} catch (Exception e) {

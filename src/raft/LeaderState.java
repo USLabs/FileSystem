@@ -47,17 +47,43 @@ public class LeaderState implements RaftState {
 	Set<Channel> followerChannelsList = new HashSet<Channel>();
 	ArrayList<String> commitedFileNames = new ArrayList<String>();
 	double clusterSize = 1;
-	LinkedBlockingDeque<Integer> workStealingNodes = new LinkedBlockingDeque<Integer>();
+	ArrayList<Integer> workStealingNodes = new ArrayList<Integer>();
 
 	public LinkedBlockingDeque<WorkMessage> getMessageQueue() {
 		return readMessageQueue;
 	}
 
+	public boolean flag = true;
+
 	public void setFollowerQueueSize(int queueSize, int nodeId) {
-		if (queueSize < 2) {
-			workStealingNodes.add(nodeId);
-			Manager.getStateWorker().start = true;
+		if (flag) {
+			Manager.getStateWorker().startTime = System.currentTimeMillis();
+			Manager.getStateWorker().startTracking = true;
+			flag = false;
 		}
+		
+		if (queueSize < 2)
+			workStealingNodes.add(nodeId);
+		
+		//if (workStealingNodes.size() == 1) {
+			
+			
+
+			//Manager.getStateWorker().startTracking = true;
+			/*
+			 * else { if (System.currentTimeMillis() - startTime > 5000) {
+			 * Manager.getStateWorker().start = true; count = 0; } }
+			 */
+		//}
+
+		/*
+
+		if (count == getClusterSize()) {
+			Manager.getStateWorker().processRequest = true;
+			Manager.getStateWorker().start = true;
+			count = 0;
+		}
+		*/
 	}
 
 	@Override

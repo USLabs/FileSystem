@@ -139,7 +139,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				System.out.println("got aread req from leader");
 				System.out.println("chunk " + msg.getRequest().getRrb().getFilename());
 				System.out.println("chunk " + msg.getRequest().getRrb().getChunkId());
-				state.getManager().getCurrentState().fetchChunk(msg);
+				state.getManager().getStateWorker().fetchChunk(msg);
 			} else if (msg.getResponse().hasReadResponse()) {
 				state.getManager().getCurrentState().sendChunkToClient(msg);
 			} else if (msg.hasLog() && msg.getLog().getNewNodeId() == state.getManager().getNodeId()) {
