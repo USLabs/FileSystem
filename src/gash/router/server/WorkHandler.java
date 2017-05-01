@@ -15,10 +15,6 @@
  */
 package gash.router.server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -28,36 +24,24 @@ import java.util.concurrent.LinkedBlockingDeque;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.protobuf.ByteString;
-
 import gash.router.container.RoutingConf.RoutingEntry;
 import gash.router.server.edges.EdgeInfo;
 import gash.router.server.edges.EdgeList;
 import gash.router.server.edges.EdgeMonitor;
-//import handlerschian.BodyHandler;
-/*import handlerschian.ErrorHandler;
-import handlerschian.Handler;*/
-//import handlerschian.HeartbeatHandler;
-//import handlerschian.RequestVoteHandler;
-//import handlerschian.VoteHandler;
+import chainofresponsibility.*;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import pipe.common.Common.Chunk;
 import pipe.common.Common.Failure;
 import pipe.common.Common.Header;
-import pipe.common.Common.ReadResponse;
-import pipe.common.Common.Response;
-import pipe.common.Common.TaskType;
-import pipe.election.Election.LeaderStatus;
+import pipe.work.Work.AskQueueSize;
 import pipe.work.Work.Heartbeat;
+import pipe.work.Work.ReplyQueueSize;
 import pipe.work.Work.Task;
 import pipe.work.Work.WorkMessage;
 import pipe.work.Work.WorkState;
 import raft.FollowerState;
-import raft.InterfaceState;
 import raft.LeaderState;
-import routing.Pipe.CommandMessage;
 
 /**
  * The message handler processes json messages that are delimited by a 'newline'
@@ -72,24 +56,32 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 
 	protected ServerState state;
 	protected boolean debug = false;
-	// private Handler handler;
+	private Handler handler;
 	private EdgeList outboundEdges;
 	// plan to shift this to vote handler
 
 	public WorkHandler(ServerState state) {
 		if (state != null) {
 			this.state = state;
-			/*
-			 * this.handler=new ErrorHandler(state); Handler heartbeatHandler=
-			 * new HeartbeatHandler(state); Handler bodyHandler= new
-			 * BodyHandler(state); Handler voteHandler= new VoteHandler(state);
-			 * Handler reqVoteHandler= new RequestVoteHandler(state);
-			 * 
-			 * handler.setNext(heartbeatHandler);
-			 * heartbeatHandler.setNext(bodyHandler);
-			 * bodyHandler.setNext(voteHandler);
-			 * voteHandler.setNext(reqVoteHandler);
-			 */
+			this.handler = new ErrorHandler(state);
+			Handler pingHandler = new PingHandler(state);
+			Handler addNewNodeHandler = new AddNewNodeHandler(state);
+			Handler heartbeatHandler = new HeartbeatHandler(state);
+			Handler voteHandler = new VoteHandler(state);
+			Handler reqVoteHandler = new RequestVoteHandler(state);
+			Handler writeRequestHandler = new WriteRequestHandler(state);
+			Handler writeResponseHandler = new WriteResponseHandler(state);
+			Handler readRequestHandler = new ReadRequestHandler(state);
+			// Handler readResponseHandler= new ReadResponseHandler(state);
+
+			handler.setNext(pingHandler);
+			pingHandler.setNext(addNewNodeHandler);
+			addNewNodeHandler.setNext(heartbeatHandler);
+			heartbeatHandler.setNext(voteHandler);
+			voteHandler.setNext(reqVoteHandler);
+			reqVoteHandler.setNext(writeRequestHandler);
+			writeRequestHandler.setNext(writeResponseHandler);
+			writeResponseHandler.setNext(readRequestHandler);
 
 		}
 
@@ -114,32 +106,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			// System.out.println("im printing work now using handlers chain");
 			// handler.processWorkMessage(msg, channel);
 			// System.out.println("im in try");
-			if (state.getManager().getCurrentState().getClass() == InterfaceState.class) {
-				if (msg.hasResponse()) {
-					// Send back to Client
-					state.getManager().getCmdChannel().writeAndFlush(msg);
-				} else if (msg.hasLeader()) {
-					System.out.println("Setting leader");
-					state.getManager().setLeaderId(msg.getLeader().getLeaderId());
-					System.out.println(msg.getLeader().getLeaderId());
-				} else if (msg.hasWhoIsLeader()) {
-
-					Header.Builder hb = Header.newBuilder();
-					hb.setNodeId(4);
-					hb.setDestination(-1);
-					hb.setTime(System.currentTimeMillis());
-
-					LeaderStatus.Builder lb = LeaderStatus.newBuilder();
-					lb.setLeaderId(state.getManager().getLeaderId());
-					lb.setLeaderTerm(state.getManager().getTerm());
-
-					WorkMessage.Builder wb = WorkMessage.newBuilder();
-					wb.setHeader(hb);
-					wb.setLeader(lb);
-					wb.setSecret(10);
-					state.getEmon().sendMessage(wb.build());
-				}
-			} else if (msg.hasReqvote()) {
+			if (msg.hasReqvote()) {
 				state.getManager().getCurrentState().onRequestVoteReceived(msg);
 			} else if (msg.hasVote()) {
 
@@ -154,70 +121,60 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			} else if (msg.hasAddnewnode()) {
 				state.getManager().getEdgeMonitor().createOutBoundIfNew(msg.getHeader().getNodeId(),
 						msg.getAddnewnode().getHost(), msg.getAddnewnode().getPort());
-			} else if (msg.getRequest().hasRwb()
-					&& state.getManager().getCurrentState().getClass() == LeaderState.class) {
-				System.out.println("In WorkHandler");
-				state.getManager().getCurrentState().receivedLogToWrite(msg);
 
-			} else if (msg.getRequest().hasRwb()) {
-				System.out.println("In WorkHandler");
-				state.getManager().getCurrentState().chunkReceived(msg);
-
-			} else if (msg.getRequest().hasRrb()) {
-
-				System.out.println("Read Req received. Leader : " + state.getManager().getLeaderId());
-				System.out.println("request taken");
-
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
-				PreparedStatement statement = con.prepareStatement("select * from filetable where filename = ?");
-				statement.setString(1, msg.getRequest().getRrb().getFilename());
-				ResultSet rs = statement.executeQuery();
-				while (rs.next()) {
-					Header.Builder hb = Header.newBuilder();
-					hb.setNodeId(999);
-					hb.setTime(System.currentTimeMillis());
-					hb.setDestination(-1);
-
-					Chunk.Builder chb = Chunk.newBuilder();
-					chb.setChunkId(rs.getInt(4));
-					ByteString bs = ByteString.copyFrom(rs.getBytes(5));
-					System.out.println("byte string " + bs);
-					chb.setChunkData(bs);
-					chb.setChunkSize(rs.getInt(6));
-
-					ReadResponse.Builder rrb = ReadResponse.newBuilder();
-					rrb.setFilename(rs.getString(1));
-					rrb.setChunk(chb);
-					rrb.setNumOfChunks(rs.getInt(7));
-
-					Response.Builder rb = Response.newBuilder();
-					// request type, read,write,etc
-					rb.setResponseType(TaskType.READFILE);
-					rb.setReadResponse(rrb);
-					WorkMessage.Builder cb = WorkMessage.newBuilder();
-					// Prepare the CommandMessage structure
-					cb.setHeader(hb);
-					cb.setSecret(10);
-					cb.setResponse(rb);
-					state.getEmon().sendWorkMessageToNode(cb.build(), 4);
+				if (state.getManager().getCurrentState().getClass() == LeaderState.class) {
+					System.out.println("directing you to leader state's replicating method");
+					state.getManager().getCurrentState().replicateDatatoNewNode(msg.getHeader().getNodeId());
 				}
-			} else if (msg.getResponse().hasReadResponse()
-					&& state.getManager().getCurrentState().getClass() == InterfaceState.class) {
-				state.getManager().getCmdChannel().writeAndFlush(msg);
+			} else if (msg.getRequest().hasRwb()) {
+				System.out.println("write picked by follower");
+				state.getManager().getCurrentState().chunkReceived(msg);
 			} else if (msg.getResponse().hasWriteResponse()) {
 				System.out.println("got the log response from follower");
 				state.getManager().getCurrentState().responseToChuckSent(msg);
 			} else if (msg.hasCommit()) {
 				System.out.println("in here");
 				state.getManager().getCurrentState().receivedCommitChunkMessage(msg);
+			} else if (msg.getRequest().hasRrb()) {
+				System.out.println("got aread req from leader");
+				System.out.println("chunk " + msg.getRequest().getRrb().getFilename());
+				System.out.println("chunk " + msg.getRequest().getRrb().getChunkId());
+				state.getManager().getCurrentState().fetchChunk(msg);
+			} else if (msg.getResponse().hasReadResponse()) {
+				state.getManager().getCurrentState().sendChunkToClient(msg);
+			} else if (msg.hasLog() && msg.getLog().getNewNodeId() == state.getManager().getNodeId()) {
+				System.out.println("chunk replication message from leader to new node");
+				state.getManager().getCurrentState().logReplicationMessage(msg);
 			}
 
-			/*
-			 * else if (msg.hasTask()) { Task t = msg.getTask(); } else if
-			 * (msg.hasState()) { WorkState s = msg.getState(); }else if
-			 * (msg.hasBody()) { PrintUtil.printBody(msg.getBody()); }
-			 */
+			else if (msg.hasAskqueuesize() && state.getManager().getCurrentState().getClass() == FollowerState.class) {
+
+				WorkMessage.Builder wbr = WorkMessage.newBuilder();
+				Header.Builder hbr = Header.newBuilder();
+				hbr.setDestination(-1);
+				hbr.setTime(System.currentTimeMillis());
+
+				ReplyQueueSize.Builder reply = ReplyQueueSize.newBuilder();
+				reply.setNodeid(state.getManager().getNodeId());
+				reply.setQueuesize(state.getManager().getCurrentState().getMessageQueue().size());
+
+				wbr.setHeader(hbr);
+				wbr.setSecret(10);
+				wbr.setReplyqueuesize(reply);
+				WorkMessage wm = wbr.build();
+
+				for (EdgeInfo ei : state.getManager().getEdgeMonitor().getOutBoundEdges().map.values()) {
+					if (ei.isActive() && ei.getChannel() != null && ei.getRef() == state.getManager().getLeaderId()) {
+						state.getManager().getEdgeMonitor().sendMessage(wm);
+						System.out.println("Queue Size Response sent to " + ei.getRef());
+					}
+				}
+			} else if (msg.hasReplyqueuesize()
+					&& state.getManager().getCurrentState().getClass() == FollowerState.class) {
+				LeaderState leader = (LeaderState) state.getManager().getCurrentState();
+				leader.setFollowerQueueSize(msg.getReplyqueuesize().getQueuesize(),
+						msg.getReplyqueuesize().getNodeid());
+			}
 
 		} catch (NullPointerException e) {
 			logger.error("Null pointer has occured from work handler logic" + e.getMessage());

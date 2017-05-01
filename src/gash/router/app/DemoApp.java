@@ -36,6 +36,7 @@ import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
 import gash.router.client.MessageClient;
 import gash.router.server.PrintUtil;
+import redis.clients.jedis.Jedis;
 import routing.Pipe;
 import routing.Pipe.CommandMessage;
 
@@ -73,8 +74,12 @@ public class DemoApp implements CommListener {
 	}
 	
 	 private ArrayList<ByteString> divideFileChunks(File file) throws IOException {
-	        ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
-	        int sizeOfFiles = 1024 * 1024; // equivalent to 1 Megabyte
+		 	int sizeOfFiles=0;
+		    ArrayList<ByteString> chunkedFile = new ArrayList<ByteString>();
+	        /*if(file.length()>(1024 * 1024*100))
+	        sizeOfFiles=2*1024*1024;	
+	        else*/
+	        sizeOfFiles = 1024 * 1024; // equivalent to 1 Megabyte
 	        byte[] buffer = new byte[sizeOfFiles];
 
 	        try {
@@ -106,10 +111,11 @@ public class DemoApp implements CommListener {
 			return;
 		}
 		
-		
+		if(msg.hasPing())
+			PrintUtil.printCommand(msg);
 		if(msg.getResponse().hasReadResponse()){
 				System.out.println("i've recieved file in pieces");
-				//PrintUtil.printChunkResponseDetails(msg);	
+				System.out.println("chunkid " +msg.getResponse().getReadResponse().getChunk().getChunkId());	
 		        System.out.println("The file has been arrived in bytes");
 		        logger.info("Printing msg from server" + msg.getHeader().getNodeId());
 		        if (!fileBlocksList.containsKey(msg.getResponse().getReadResponse().getFilename())) {
@@ -159,9 +165,18 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String host = "localhost";
-		int port = 4468;
-
+		Jedis jedis = new Jedis("192.168.1.20"); 
+	    System.out.println("Connection to server sucessfully"); 
+	    //check whether server is running or not 		    
+	    System.out.println("Server is running: "+jedis.ping());	    
+	    
+	    String out=jedis.get("5");
+	    System.out.println("out is "+out);
+	    String ip=out.split(":")[0];
+	    int po=Integer.parseInt(out.split(":")[1]);
+		String host = ip;
+		int port = po;
+		System.out.println(ip+" "+po);
 		try {
 			MessageClient mc = new MessageClient(host, port);			
 			DemoApp da = new DemoApp(mc);
@@ -170,13 +185,17 @@ public class DemoApp implements CommListener {
 			int choice = 0;
 			Scanner s=new Scanner(System.in);
             while (true) {
-                System.out.println("Enter your option \n1. WRITE a file. \n2. READ a file. \n3. Update a File. \n4. Delete a File\n 5 Ping(Global)\n 6 Exit");
+                System.out.println("\nEnter your option \n1.PING \n2. WRITE a file. \n3. READ a file. \n4. Exit");
                 choice = s.nextInt();
                 switch (choice) {
-                    case 1: 
+                	case 1: 
+                		int destination=s.nextInt();
+                		mc.globalPing(destination);
+                		break;
+                    case 2: 
                         System.out.println("Enter the full pathname of the file to be written ");
-                        //String currFileName = s.next();
-                        String currFileName = "C:\\Users\\admin\\Desktop\\Lab4.pdf";
+                        String currFileName = s.next();
+                        //String currFileName = "C:\\users\\ilabhesh\\desktop\\c.pdf";
                         File file = new File(currFileName);
                         if (file.exists()) {
                             ArrayList<ByteString> chunkedFileList = da.divideFileChunks(file);
@@ -187,16 +206,20 @@ public class DemoApp implements CommListener {
                             	mc.writeFile(name, string, chunkedFileList.size(), i++);
                             }
                         } else {
-                            throw new FileNotFoundException("File does not exist in this path ");
+                            System.out.println("File not found.. please try again");
+                            continue;
                         } 
                     break;
-                    case 2: {
+                    case 3: {
                         System.out.println("Enter the file name to be read : ");
                         String fileName = s.next();
                         mc.readFile(fileName);
-                        // Thread.sleep(1000 * 100);
-                    }
+                    }                    
                     break;
+                    case 4:
+                    	System.out.println("Bye");
+                    	System.exit(0);
+                    	break;
                     default:
                     	System.out.println("Invalid option");                   
                 }

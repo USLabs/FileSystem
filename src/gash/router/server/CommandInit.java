@@ -27,6 +27,9 @@ public class CommandInit extends ChannelInitializer<SocketChannel> {
 		compress = enableCompression;
 		this.conf = conf;
 	}
+	public CommandInit(){
+		
+	}
 
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {

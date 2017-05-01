@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
+
+import io.netty.channel.Channel;
 import pipe.common.Common;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
@@ -29,6 +31,7 @@ import pipe.common.Common.ReadBody;
 import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
+import redis.clients.jedis.Jedis;
 import routing.Pipe.CommandMessage;
 
 
@@ -90,14 +93,14 @@ public class MessageClient {
 				chb.setChunkSize(chunkData.size());
 				
 				WriteBody.Builder wb=WriteBody.newBuilder();
-				wb.setFileId(1);
+				
 				wb.setFilename(filename);
 				wb.setChunk(chb);
 				wb.setNumOfChunks(noOfChunks);
 				
 				Request.Builder rb = Request.newBuilder();
 				//request type, read,write,etc				
-				rb.setTaskType(Common.TaskType.WRITEFILE); // operation to be
+				rb.setRequestType(Common.TaskType.REQUESTWRITEFILE); // operation to be
 																// performed
 				rb.setRwb(wb);	
 				CommandMessage.Builder cb = CommandMessage.newBuilder();
@@ -129,6 +132,29 @@ public class MessageClient {
 		return ++curID;
 	}
 
+	public void globalPing(int id){
+		
+		Header.Builder hb = Header.newBuilder();
+		hb.setNodeId(55);
+		hb.setDestination(id);
+		hb.setTime(System.currentTimeMillis());
+		hb.setMaxHops(10);
+		
+		//PingMessage.builder pm=PingMessage.newBuilder();
+		CommandMessage.Builder cb=CommandMessage.newBuilder();
+		cb.setHeader(hb);
+		cb.setPing(true);
+		
+		try {
+			// direct no queue
+			// CommConnection.getInstance().write(rb.build());
+
+			// using queue
+			CommConnection.getInstance().enqueue(cb.build());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void readFile(String fileName) {
 		// TODO Auto-generated method stub
 		Header.Builder hb = Header.newBuilder();
@@ -142,7 +168,7 @@ public class MessageClient {
 		rrb.setFilename(fileName);
 
 		Request.Builder rb = Request.newBuilder();
-		rb.setTaskType(TaskType.READFILE);
+		rb.setRequestType(TaskType.REQUESTREADFILE);
 		rb.setRrb(rrb);		
 		
 		CommandMessage.Builder cb = CommandMessage.newBuilder();

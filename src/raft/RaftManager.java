@@ -19,10 +19,11 @@ public class RaftManager implements Runnable {
 	private int leaderId = -1;
 	private String leaderHost = "";
 	private int leaderPort = -1;
-	public Channel cmdChannel;
+	public Channel clientChannel;
 
 	private String selfHost;
 	private int selfPort;
+	private int commPort;
 	private RoutingConf conf;
 	private EdgeMonitor emon;
 
@@ -32,7 +33,7 @@ public class RaftManager implements Runnable {
 	public RaftState Leader;
 	public RaftState Candidate;
 	public RaftState Follower;
-	public RaftState Interface;
+	public StateWorker worker;
 
 	private int heartBeatBase = 3000;
 	private volatile long electionTimeout = 3000;
@@ -48,6 +49,7 @@ public class RaftManager implements Runnable {
 	public void init() throws UnknownHostException {
 		selfHost = Inet4Address.getLocalHost().getHostAddress();
 		selfPort = state.getConf().getWorkPort();
+		commPort = state.getConf().getCommandPort();
 		rand = new Random();
 
 		Candidate = new CandidateState();
@@ -55,9 +57,6 @@ public class RaftManager implements Runnable {
 
 		Follower = new FollowerState();
 		Follower.setManager(this);
-
-		Interface = new InterfaceState();
-		Interface.setManager(this);
 
 		Leader = new LeaderState();
 		Leader.setManager(this);
@@ -71,18 +70,9 @@ public class RaftManager implements Runnable {
 
 		randomizeElectionTimeout();
 		electionTimeout += 1000;
-		if (conf.getNodeId() == 4)
-			CurrentState = Interface;
-		else
-			CurrentState = Follower;
-	}
 
-	public void setCmdChannel(Channel ch) {
-		cmdChannel = ch;
-	}
+		CurrentState = Follower;
 
-	public Channel getCmdChannel() {
-		return cmdChannel;
 	}
 
 	@Override
@@ -90,7 +80,8 @@ public class RaftManager implements Runnable {
 		System.out.println("in raft");
 		System.out.println("hearbeat initially is" + heartBeatBase);
 		System.out.println("elec timeout initially is" + electionTimeout);
-
+		worker = new StateWorker(this);
+		worker.start();
 		while (true) {
 
 			timerStart = System.currentTimeMillis();
@@ -99,6 +90,10 @@ public class RaftManager implements Runnable {
 			CurrentState.process();
 		}
 
+	}
+
+	public StateWorker getStateWorker() {
+		return worker;
 	}
 
 	public synchronized void randomizeElectionTimeout() {
@@ -116,6 +111,18 @@ public class RaftManager implements Runnable {
 
 	public synchronized long getElectionTimeout() {
 		return electionTimeout;
+	}
+
+	public synchronized int getCommandPort() {
+		return commPort;
+	}
+
+	public synchronized void setClientChannel(Channel channel) {
+		clientChannel = channel;
+	}
+
+	public synchronized Channel getClientChannel() {
+		return clientChannel;
 	}
 
 	public synchronized int getHbBase() {
@@ -155,23 +162,19 @@ public class RaftManager implements Runnable {
 	}
 
 	public synchronized int getLeaderPort() {
-		for (EdgeInfo ei : emon.getOutBoundEdges().map.values()) {
-			if (ei.isActive() && ei.getChannel() != null) {
-				if (ei.getRef() == leaderId)
-					leaderPort = ei.getPort();
-			}
-		}
 		return leaderPort;
 	}
 
 	public synchronized String getLeaderHost() {
-		for (EdgeInfo ei : emon.getOutBoundEdges().map.values()) {
-			if (ei.isActive() && ei.getChannel() != null) {
-				if (ei.getRef() == leaderId)
-					leaderHost = ei.getHost();
-			}
-		}
 		return leaderHost;
+	}
+
+	public synchronized void setLeaderPort(int port) {
+		this.leaderPort = port;
+	}
+
+	public synchronized void setLeaderHost(String host) {
+		this.leaderHost = host;
 	}
 
 	public synchronized void setCurrentState(RaftState st) {

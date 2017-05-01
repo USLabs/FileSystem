@@ -164,8 +164,7 @@ public class CommConnection {
 
         // start outbound message processor
         worker = new CommWorker(this);
-        worker.setDaemon(true);
-        System.out.println("In commconnection after commandinit");
+        worker.setDaemon(true);        
         worker.start();
     }
 

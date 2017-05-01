@@ -4,12 +4,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.ByteString;
 
+import chainofresponsibility.ErrorHandler;
+import chainofresponsibility.Handler;
+import chainofresponsibility.PingHandler;
+import chainofresponsibility.ReadRequestHandler;
+import chainofresponsibility.WriteRequestHandler;
+import chainofresponsibility.WriteResponseHandler;
 import gash.router.container.RoutingConf;
 import gash.router.server.edges.EdgeInfo;
 import gash.router.server.edges.EdgeList;
@@ -19,12 +28,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Failure;
 import pipe.common.Common.Header;
+import pipe.common.Common.ReadBody;
 import pipe.common.Common.ReadResponse;
+import pipe.common.Common.Request;
 import pipe.common.Common.Response;
 import pipe.common.Common.TaskType;
 import pipe.work.Work.WorkMessage;
-import raft.RaftManager;
-import raft.InterfaceState;
+import redis.clients.jedis.Jedis;
 import routing.Pipe.CommandMessage;
 
 /**
@@ -38,14 +48,28 @@ import routing.Pipe.CommandMessage;
 public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
-	private RaftManager Manager;
+	private Handler handler;
 	ServerState state;
+	Map<Integer, Channel> channelMap = new HashMap<Integer, Channel>();
+	Map<Integer, Channel> writeChannelMap = new HashMap<Integer, Channel>();
+	Map<String, ArrayList<CommandMessage>> fileChunkMap = new HashMap<String, ArrayList<CommandMessage>>();
 
 	public CommandHandler(ServerState state, RoutingConf conf) {
 		this.state = state;
 		if (conf != null) {
 			this.conf = conf;
 		}
+		this.handler = new ErrorHandler(state);
+		Handler pingHandler = new PingHandler(state);
+		Handler writeRequestHandler = new WriteRequestHandler(state);
+		Handler writeResponseHandler = new WriteResponseHandler(state);
+		Handler readRequestHandler = new ReadRequestHandler(state);
+		// Handler readResponseHandler= new ReadResponseHandler(state);
+
+		handler.setNext(pingHandler);
+		pingHandler.setNext(writeRequestHandler);
+		writeRequestHandler.setNext(readRequestHandler);
+
 	}
 
 	/**
@@ -61,75 +85,110 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-
+		state.getManager().setClientChannel(channel);
 		try {
+
 			// TODO How can you implement this without if-else statements?
 			if (msg.hasPing()) {
-
 				logger.info("ping from " + msg.getHeader().getNodeId() + " to " + msg.getHeader().getDestination());
 				PrintUtil.printCommand(msg);
+				if (msg.getHeader().getNodeId() == 55) {
+					channelMap.put(msg.getHeader().getNodeId(), channel);
+				}
+				if (msg.getHeader().getDestination() == 55)
+					channelMap.get(55).writeAndFlush(msg);
+				else if (msg.getHeader().getDestination() == 5) {
+					Header.Builder hb = Header.newBuilder();
+					hb.setNodeId(msg.getHeader().getDestination());
+					hb.setTime(System.currentTimeMillis());
+					hb.setDestination(msg.getHeader().getNodeId());
+					CommandMessage.Builder cb = CommandMessage.newBuilder();
+					cb.setHeader(hb);
+					cb.setPing(true);
+					Jedis jedis = new Jedis("192.168.1.20");
+					System.out.println("Connection to server sucessfully");
+					// check whether server is running or not
+					System.out.println("Server is running: " + jedis.ping());
+					String out = jedis.get("6");
+					System.out.println("out is " + out);
+					String ip = out.split(":")[0];
+					int po = Integer.parseInt(out.split(":")[1]);
+					Channel clusterChannel = state.getManager().getEdgeMonitor().connectToChannel(ip, po);
+					clusterChannel.writeAndFlush(cb.build());
+				} else {
+					Jedis jedis = new Jedis("192.168.1.20");
+					System.out.println("Connection to server sucessfully");
+					// check whether server is running or not
+					System.out.println("Server is running: " + jedis.ping());
+					String out = jedis.get("6");
+					System.out.println("out is " + out);
+					String ip = out.split(":")[0];
+					int po = Integer.parseInt(out.split(":")[1]);
+					Channel clusterChannel = state.getManager().getEdgeMonitor().connectToChannel(ip, po);
+					clusterChannel.writeAndFlush(msg);
+				}
 
 			} else if (msg.getRequest().hasRwb()) {
-				state.getManager().setCmdChannel(channel);
 				System.out.println("has write request");
+				if (!fileChunkMap.containsKey(msg.getRequest().getRwb().getFilename())) {
+					fileChunkMap.put(msg.getRequest().getRwb().getFilename(), new ArrayList<CommandMessage>());
+				}
+				fileChunkMap.get(msg.getRequest().getRwb().getFilename()).add(msg);
 
-				if (state.getManager().getCurrentState().getClass() == InterfaceState.class) {
-					System.out.println("Write Req received. Leader : " + state.getManager().getLeaderId());
-					InterfaceState.interfaceMessageQueue.put(msg);
-					// state.getManager().Interface.interfaceMessageQueue.put(msg);
-					// state.getEmon().sendCmdMessageToNode(msg,
-					// state.getManager().getLeaderId());
-
-				} 
-				/*
-				else if (state.getManager().getLeaderId() == state.getManager().getNodeId()) {
+				if (state.getManager().getLeaderId() == state.getManager().getNodeId()) {
 					state.getManager().getCurrentState().receivedLogToWrite(msg);
 				}
-				*/
-
-			} else if (msg.getRequest().hasRrb()) {
-
-				System.out.println("Read Req received. Leader : " + state.getManager().getLeaderId());
-
-				if (state.getManager().getCurrentState().getClass() == InterfaceState.class) {
-					InterfaceState.interfaceMessageQueue.put(msg);
-				} else {
-					System.out.println("request taken");
-
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
-					PreparedStatement statement = con.prepareStatement("select * from filetable where filename = ?");
-					statement.setString(1, msg.getRequest().getRrb().getFilename());
-					ResultSet rs = statement.executeQuery();
-					while (rs.next()) {
-						Header.Builder hb = Header.newBuilder();
-						hb.setNodeId(999);
-						hb.setTime(System.currentTimeMillis());
-						hb.setDestination(-1);
-
-						Chunk.Builder chb = Chunk.newBuilder();
-						chb.setChunkId(rs.getInt(4));
-						ByteString bs = ByteString.copyFrom(rs.getBytes(5));
-						System.out.println("byte string " + bs);
-						chb.setChunkData(bs);
-						chb.setChunkSize(rs.getInt(6));
-
-						ReadResponse.Builder rrb = ReadResponse.newBuilder();
-						rrb.setFilename(rs.getString(1));
-						rrb.setChunk(chb);
-						rrb.setNumOfChunks(rs.getInt(7));
-
-						Response.Builder rb = Response.newBuilder();
-						// request type, read,write,etc
-						rb.setResponseType(TaskType.READFILE);
-						rb.setReadResponse(rrb);
-						CommandMessage.Builder cb = CommandMessage.newBuilder();
-						// Prepare the CommandMessage structure
-						cb.setHeader(hb);
-						cb.setResponse(rb);
-						channel.writeAndFlush(cb.build());
+				if (fileChunkMap.get(msg.getRequest().getRwb().getFilename()).size() != msg.getRequest().getRwb()
+						.getNumOfChunks()) {
+					if (msg.getHeader().getNodeId() == 55) {
+						writeChannelMap.put(msg.getHeader().getNodeId(), channel);
+					} else {
+						Jedis jedis = new Jedis("192.168.1.20");
+						System.out.println("Connection to server sucessfully");
+						// check whether server is running or not
+						System.out.println("Server is running: " + jedis.ping());
+						String out = jedis.get("6");
+						System.out.println("out is " + out);
+						String ip = out.split(":")[0];
+						int po = Integer.parseInt(out.split(":")[1]);
+						Channel clusterChannel = state.getManager().getEdgeMonitor().connectToChannel(ip, po);
+						clusterChannel.writeAndFlush(msg);
 					}
 				}
+			} else if (msg.getRequest().hasRrb()) {
+				System.out.println("request taken");
+
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
+				PreparedStatement statement = con
+						.prepareStatement("select numberofchunks from filetable where chunkid=0 && filename = ?");
+				statement.setString(1, msg.getRequest().getRrb().getFilename());
+				ResultSet rs = statement.executeQuery();
+
+				// sreekar changes here
+
+				if (rs.getFetchSize() > 0) {
+					System.out.println(rs.getInt(1));
+					WorkMessage.Builder wbr = WorkMessage.newBuilder();
+					Header.Builder hbr = Header.newBuilder();
+					hbr.setDestination(-1);
+					hbr.setTime(System.currentTimeMillis());
+
+					ReadBody.Builder rb = ReadBody.newBuilder();
+					rb.setFilename(msg.getRequest().getRrb().getFilename());
+					rb.setChunkId(msg.getRequest().getRrb().getChunkId());
+					Request.Builder rrb = Request.newBuilder();
+					rrb.setRequestType(TaskType.REQUESTREADFILE);
+					rrb.setRrb(rb);
+
+					wbr.setHeader(hbr);
+					wbr.setSecret(10);
+					wbr.setRequest(rrb);
+					WorkMessage wm = wbr.build();
+					state.getManager().getCurrentState().getMessageQueue().add(wm);
+				} else
+					System.out.println("File not present");
+			} else {
 			}
 
 		} catch (Exception e) {

@@ -10,6 +10,13 @@ message WorkState {
    required int32 processed = 2;
 }
 
+message AskQueueSize{
+	optional bool askqueuesize=1;
+}
+message ReplyQueueSize{
+	required int32 nodeid=1;
+	required int32 queuesize=2;
+}
 message Heartbeat {
    required WorkState state = 1;
 }
@@ -63,6 +70,9 @@ message WorkMessage {
       Response response = 14;
       WhoIsLeader whoIsLeader=15;
       LeaderRoute leaderRoute=16;
+      Log log=8;
+      AskQueueSize askqueuesize=17;
+      ReplyQueueSize replyqueuesize=18;
       
    }
 }
