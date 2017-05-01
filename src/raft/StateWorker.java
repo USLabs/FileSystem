@@ -43,111 +43,115 @@ public class StateWorker extends Thread {
 	public void run() {
 		boolean flag = true;
 		int chunks = 0;
-		while (true) {
+
+		if (Manager.getCurrentState().getClass() == LeaderState.class) {
+			LeaderState leader = (LeaderState) Manager.getCurrentState();
 			LinkedBlockingDeque<WorkMessage> readMessageQueue = Manager.getCurrentState().getMessageQueue();
-			if (!readMessageQueue.isEmpty()) {
-					try {
-						if (Manager.getCurrentState().getClass() == LeaderState.class) {
-							if (this.newReq) {
-								System.out.println("Picked from Leader queue");
-								if (!readMessageQueue.isEmpty()) {
-									WorkMessage wm = readMessageQueue.take();
-									LeaderState leader = (LeaderState) Manager.getCurrentState();
-									System.out.println("NewReq: " + newReq);
-									Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
-								// System.out.println("Queue Size Request sent
-								// to" + ei.getRef());
+			WorkMessage wm = null;
+			while (true) {
+				if (this.newReq) {
+					System.out.println("Picked from Leader queue");
+					if (!readMessageQueue.isEmpty()) {
+						
+						try {
+							wm = readMessageQueue.take();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-									newReq = false;
+						System.out.println("NewReq: " + newReq);
+						Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
+						// System.out.println("Queue Size Request sent
+						// to" + ei.getRef());
+
+						newReq = false;
+					} else
+						continue;
+				} else {
+					if (leader.workStealingNodes.size() != 0) {
+
+						if (flag) {
+							flag = false;
+							// Query database
+							try {
+
+								System.out.println("Starting DB query for chunksize");
+
+								Class.forName("com.mysql.jdbc.Driver");
+								Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root",
+										"abcd");
+								PreparedStatement statement = con.prepareStatement(
+										"select numberofchunks from filetable where chunkid=0 && filename = ?");
+
+								statement.setString(1, wm.getRequest().getRrb().getFilename());
+								ResultSet rs = statement.executeQuery();
+
+								while (rs.next()) {
+									chunks = rs.getInt("numberofchunks");
+									break;
 								}
-								else
-								{
-									continue;
-								}
-							} else {
-								if (leader.workStealingNodes.size() != 0) {
+								System.out.println("Chunks = " + chunks);
 
-									if (flag) {
-										flag = false;
-										// Query database
-										try {
-
-											System.out.println("Starting DB query for chunksize");
-
-											Class.forName("com.mysql.jdbc.Driver");
-											Connection con = DriverManager
-													.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
-											PreparedStatement statement = con.prepareStatement(
-													"select numberofchunks from filetable where chunkid=0 && filename = ?");
-
-											statement.setString(1, wm.getRequest().getRrb().getFilename());
-											ResultSet rs = statement.executeQuery();
-
-											while (rs.next()) {
-												chunks = rs.getInt("numberofchunks");
-												break;
-											}
-											System.out.println("Chunks = " + chunks);
-
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-									}
-
-									// send to worker
-
-									int chunkCount = 0;
-									while (chunkCount < chunks) {
-										for (int nodeId : leader.workStealingNodes) {
-											EdgeInfo ei = Manager.getEdgeMonitor().getOutBoundEdges().map.get(nodeId);
-											if (ei.isActive() && ei.getChannel() != null) {
-												ei.getChannel().writeAndFlush(createReadReq(
-														wm.getRequest().getRrb().getFilename(), chunkCount));
-											}
-											System.out.println("Read request sent to " + ei.getRef());
-											chunkCount++;
-										}
-									}
-									newReq = true;
-									flag = true;
-									chunks = 0;
-
-								} else {
-									if (startTracking && System.currentTimeMillis() - startTime > 7000) {
-										// Read from leader only
-										System.out.println("Read from Leader");
-
-										fetchChunkFromLeader(wm);
-										newReq = true;
-										flag = true;
-										chunks = 0;
-									}
-								}
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
 						}
 
-						if (Manager.getCurrentState().getClass() == FollowerState.class) {
-							if (Manager.getCurrentState().getMessageQueue().size() != 0) {
-								FollowerState follower = (FollowerState) (Manager.getCurrentState());
-								follower.fetchChunk(Manager.getCurrentState().getMessageQueue().take());
+						// send to worker
+
+						int chunkCount = 0;
+						while (chunkCount < chunks) {
+							for (int nodeId : leader.workStealingNodes) {
+								EdgeInfo ei = Manager.getEdgeMonitor().getOutBoundEdges().map.get(nodeId);
+								if (ei.isActive() && ei.getChannel() != null) {
+									ei.getChannel().writeAndFlush(
+											createReadReq(wm.getRequest().getRrb().getFilename(), chunkCount));
+								}
+								System.out.println("Read request sent to " + ei.getRef());
+								chunkCount++;
 							}
 						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						newReq = true;
+						flag = true;
+						chunks = 0;
+
+					} else {
+						if (startTracking && System.currentTimeMillis() - startTime > 7000) {
+							// Read from leader only
+							System.out.println("Read from Leader");
+
+							fetchChunkFromLeader(wm);
+							newReq = true;
+							flag = true;
+							chunks = 0;
+						}
 					}
-				
+				}
 			}
 		}
+
+		if (Manager.getCurrentState().getClass() == FollowerState.class) {
+			if (Manager.getCurrentState().getMessageQueue().size() != 0) {
+				FollowerState follower = (FollowerState) (Manager.getCurrentState());
+				try {
+					follower.fetchChunk(Manager.getCurrentState().getMessageQueue().take());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 	public WorkMessage createQueueSizeRequest() {
 
 		WorkMessage.Builder wbr = WorkMessage.newBuilder();
 		Header.Builder hbr = Header.newBuilder();
-		hbr.setDestination(-1);
 		hbr.setNodeId(Manager.getNodeId());
 		hbr.setTime(System.currentTimeMillis());
+		hbr.setDestination(-1);
 
 		AskQueueSize.Builder ask = AskQueueSize.newBuilder();
 		ask.setAskqueuesize(true);
