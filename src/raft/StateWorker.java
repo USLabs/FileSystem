@@ -146,12 +146,13 @@ public class StateWorker extends Thread {
 		WorkMessage.Builder wbr = WorkMessage.newBuilder();
 		Header.Builder hbr = Header.newBuilder();
 		hbr.setDestination(-1);
+		hbr.setNodeId(Manager.getNodeId());
 		hbr.setTime(System.currentTimeMillis());
 
 		AskQueueSize.Builder ask = AskQueueSize.newBuilder();
 		ask.setAskqueuesize(true);
 
-		// wbr.setHeader(hbr);
+		wbr.setHeader(hbr);
 		wbr.setSecret(10);
 		wbr.setAskqueuesize(ask);
 		WorkMessage wm = wbr.build();
