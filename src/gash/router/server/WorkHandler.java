@@ -125,7 +125,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				System.out.println("Work Message built");
 
 				EdgeInfo ei = state.getManager().getEdgeMonitor().getOutBoundEdges().map
-						.get(state.getManager().getLeaderId());
+						.get(msg.getHeader().getNodeId());
 				if (ei.isActive() && ei.getChannel() != null) {
 					System.out.println("Sending now...");
 					ei.getChannel().writeAndFlush(wm);
