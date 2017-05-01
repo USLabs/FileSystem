@@ -77,9 +77,10 @@ public class RaftManager implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("in raft");
-		System.out.println("hearbeat initially is" + heartBeatBase);
-		System.out.println("elec timeout initially is" + electionTimeout);
+		// System.out.println("in raft");
+		// System.out.println("hearbeat initially is" + heartBeatBase);
+		// System.out.println("elec timeout initially is" + electionTimeout);
+		System.out.println("Starting State Worker");
 		worker = new StateWorker(this);
 		worker.start();
 		while (true) {

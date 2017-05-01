@@ -56,7 +56,7 @@ public class FollowerState implements RaftState {
 			} else {
 				Thread.sleep(200);
 				long dt = Manager.getElectionTimeout() - (System.currentTimeMillis() - Manager.getTimerStart());
-				System.out.println("election timeout value " + dt);
+				//System.out.println("election timeout value " + dt);
 				Manager.setElectionTimeout(dt);
 			}
 		} catch (Exception e) {
@@ -136,6 +136,7 @@ public class FollowerState implements RaftState {
 			Manager.randomizeElectionTimeout();
 			Manager.setCurrentState(Manager.Follower);
 			Manager.setLastKnownBeat(System.currentTimeMillis());
+			System.out.println("Reading from database in Follower Node");
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
 			PreparedStatement statement = con

@@ -156,24 +156,28 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					}
 				}
 			} else if (msg.getRequest().hasRrb()) {
-				System.out.println("request taken");
+				System.out.println("Read Request received in CommandHandler");
 
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "abcd");
-				PreparedStatement statement = con
-						.prepareStatement("select numberofchunks from filetable where chunkid=0 && filename = ?");
-				statement.setString(1, msg.getRequest().getRrb().getFilename());
-				ResultSet rs = statement.executeQuery();
-
-				// sreekar changes here
-
-				if (rs.getFetchSize() > 0) {
-					System.out.println(rs.getInt(1));
+				/*
+				 * Class.forName("com.mysql.jdbc.Driver"); Connection con =
+				 * DriverManager.getConnection(
+				 * "jdbc:mysql://localhost:3306/mydb", "root", "abcd");
+				 * PreparedStatement statement = con
+				 * .prepareStatement("select numberofchunks from filetable where chunkid=0 && filename = ?"
+				 * ); statement.setString(1,
+				 * msg.getRequest().getRrb().getFilename()); ResultSet rs =
+				 * statement.executeQuery();
+				 * 
+				 */
+				// if (rs.getFetchSize() > 0) {
+				if (true) {
+					//System.out.println(rs.getInt(1));
+					System.out.println("Building Message");
 					WorkMessage.Builder wbr = WorkMessage.newBuilder();
 					Header.Builder hbr = Header.newBuilder();
 					hbr.setDestination(-1);
 					hbr.setTime(System.currentTimeMillis());
-
+					
 					ReadBody.Builder rb = ReadBody.newBuilder();
 					rb.setFilename(msg.getRequest().getRrb().getFilename());
 					rb.setChunkId(msg.getRequest().getRrb().getChunkId());
@@ -181,11 +185,13 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 					rrb.setRequestType(TaskType.REQUESTREADFILE);
 					rrb.setRrb(rb);
 
-					wbr.setHeader(hbr);
+					//wbr.setHeader(hbr);
 					wbr.setSecret(10);
-					wbr.setRequest(rrb);
+					wbr.setRequest(msg.getRequest());
 					WorkMessage wm = wbr.build();
+					System.out.println("Message Built");
 					state.getManager().getCurrentState().getMessageQueue().add(wm);
+					System.out.println("Added to leader's queue");
 				} else
 					System.out.println("File not present");
 			} else {

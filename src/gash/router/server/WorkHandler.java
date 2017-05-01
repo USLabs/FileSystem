@@ -100,12 +100,45 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			return;
 		}
 
-		// TODO How can you implement this without if-else statements?
-		// USE HANDLERS
 		try {
-			// System.out.println("im printing work now using handlers chain");
-			// handler.processWorkMessage(msg, channel);
-			// System.out.println("im in try");
+
+			if (msg.hasAskqueuesize() && state.getManager().getCurrentState().getClass() == FollowerState.class) {
+				System.out.println("Received message from Leader asking Queue Size");
+				WorkMessage.Builder wbr = WorkMessage.newBuilder();
+				Header.Builder hbr = Header.newBuilder();
+				hbr.setDestination(-1);
+				hbr.setTime(System.currentTimeMillis());
+
+				ReplyQueueSize.Builder reply = ReplyQueueSize.newBuilder();
+				System.out.println("Node Id : " + state.getManager().getNodeId());
+				System.out.println("Queue Size : " + state.getManager().getCurrentState().getMessageQueue().size());
+				System.out.println("Leader Id : " + state.getManager().getLeaderId());
+
+				reply.setNodeid(state.getManager().getNodeId());
+				reply.setQueuesize(state.getManager().getCurrentState().getMessageQueue().size());
+
+				// wbr.setHeader(hbr);
+				wbr.setSecret(10);
+				wbr.setReplyqueuesize(reply);
+				WorkMessage wm = wbr.build();
+				
+				System.out.println("Work Message built");
+
+				EdgeInfo ei = state.getManager().getEdgeMonitor().getOutBoundEdges().map
+						.get(state.getManager().getLeaderId());
+				if (ei.isActive() && ei.getChannel() != null) {
+					System.out.println("Sending now...");
+					ei.getChannel().writeAndFlush(wm);
+				}
+				System.out.println("Queue Size Response sent to " + ei.getRef());
+			} else if (msg.hasReplyqueuesize()
+					&& state.getManager().getCurrentState().getClass() == LeaderState.class) {
+				System.out.println("Received response from followers Queue Size");
+				LeaderState leader = (LeaderState) state.getManager().getCurrentState();
+				leader.setFollowerQueueSize(msg.getReplyqueuesize().getQueuesize(),
+						msg.getReplyqueuesize().getNodeid());
+			} else
+
 			if (msg.hasReqvote()) {
 				state.getManager().getCurrentState().onRequestVoteReceived(msg);
 			} else if (msg.hasVote()) {
@@ -136,44 +169,15 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 				System.out.println("in here");
 				state.getManager().getCurrentState().receivedCommitChunkMessage(msg);
 			} else if (msg.getRequest().hasRrb()) {
-				System.out.println("got aread req from leader");
+				System.out.println("Received Read Req from Leader");
 				System.out.println("chunk " + msg.getRequest().getRrb().getFilename());
 				System.out.println("chunk " + msg.getRequest().getRrb().getChunkId());
 				state.getManager().getStateWorker().fetchChunk(msg);
 			} else if (msg.getResponse().hasReadResponse()) {
 				state.getManager().getCurrentState().sendChunkToClient(msg);
 			} else if (msg.hasLog() && msg.getLog().getNewNodeId() == state.getManager().getNodeId()) {
-				System.out.println("chunk replication message from leader to new node");
+				System.out.println("Chunk Replication message from Leader to New Node");
 				state.getManager().getCurrentState().logReplicationMessage(msg);
-			}
-
-			else if (msg.hasAskqueuesize() && state.getManager().getCurrentState().getClass() == FollowerState.class) {
-
-				WorkMessage.Builder wbr = WorkMessage.newBuilder();
-				Header.Builder hbr = Header.newBuilder();
-				hbr.setDestination(-1);
-				hbr.setTime(System.currentTimeMillis());
-
-				ReplyQueueSize.Builder reply = ReplyQueueSize.newBuilder();
-				reply.setNodeid(state.getManager().getNodeId());
-				reply.setQueuesize(state.getManager().getCurrentState().getMessageQueue().size());
-
-				wbr.setHeader(hbr);
-				wbr.setSecret(10);
-				wbr.setReplyqueuesize(reply);
-				WorkMessage wm = wbr.build();
-
-				for (EdgeInfo ei : state.getManager().getEdgeMonitor().getOutBoundEdges().map.values()) {
-					if (ei.isActive() && ei.getChannel() != null && ei.getRef() == state.getManager().getLeaderId()) {
-						state.getManager().getEdgeMonitor().sendMessage(wm);
-						System.out.println("Queue Size Response sent to " + ei.getRef());
-					}
-				}
-			} else if (msg.hasReplyqueuesize()
-					&& state.getManager().getCurrentState().getClass() == FollowerState.class) {
-				LeaderState leader = (LeaderState) state.getManager().getCurrentState();
-				leader.setFollowerQueueSize(msg.getReplyqueuesize().getQueuesize(),
-						msg.getReplyqueuesize().getNodeid());
 			}
 
 		} catch (NullPointerException e) {

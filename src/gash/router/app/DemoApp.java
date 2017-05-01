@@ -165,8 +165,9 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Jedis jedis = new Jedis("192.168.1.20"); 
-	    System.out.println("Connection to server sucessfully"); 
+		//Jedis jedis = new Jedis("192.168.1.20"); 
+		Jedis jedis = new Jedis("localhost"); 
+		System.out.println("Connection to server sucessfully"); 
 	    //check whether server is running or not 		    
 	    System.out.println("Server is running: "+jedis.ping());	    
 	    
@@ -174,8 +175,8 @@ public class DemoApp implements CommListener {
 	    System.out.println("out is "+out);
 	    String ip=out.split(":")[0];
 	    int po=Integer.parseInt(out.split(":")[1]);
-		String host = ip;
-		int port = po;
+		String host = "localhost";
+		int port = 4168;
 		System.out.println(ip+" "+po);
 		try {
 			MessageClient mc = new MessageClient(host, port);			

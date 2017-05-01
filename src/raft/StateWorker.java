@@ -49,22 +49,26 @@ public class StateWorker extends Thread {
 				if (!readMessageQueue.isEmpty()) {
 					try {
 						if (Manager.getCurrentState().getClass() == LeaderState.class) {
+							System.out.println("Picked from Leader queue");
 							WorkMessage wm = readMessageQueue.take();
 							LeaderState leader = (LeaderState) Manager.getCurrentState();
-							if (this.newReq == true) {
-								for (EdgeInfo ei : Manager.getEdgeMonitor().getOutBoundEdges().map.values()) {
-									if (ei.isActive() && ei.getChannel() != null) {
-										Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
-										System.out.println("Queue Size Request sent to" + ei.getRef());
-									}
-								}
+							System.out.println("NewReq: " + newReq);
+							if (this.newReq) {
+
+								Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
+								// System.out.println("Queue Size Request sent
+								// to" + ei.getRef());
+
 								newReq = false;
 							} else {
 								if (leader.workStealingNodes.size() != 0) {
+
 									if (flag) {
 										flag = false;
 										// Query database
 										try {
+
+											System.out.println("Starting DB query for chunksize");
 
 											Class.forName("com.mysql.jdbc.Driver");
 											Connection con = DriverManager
@@ -79,6 +83,7 @@ public class StateWorker extends Thread {
 												chunks = rs.getInt("numberofchunks");
 												break;
 											}
+											System.out.println("Chunks = " + chunks);
 
 										} catch (Exception e) {
 											e.printStackTrace();
@@ -90,7 +95,6 @@ public class StateWorker extends Thread {
 									int chunkCount = 0;
 									while (chunkCount < chunks) {
 										for (int nodeId : leader.workStealingNodes) {
-
 											EdgeInfo ei = Manager.getEdgeMonitor().getOutBoundEdges().map.get(nodeId);
 											if (ei.isActive() && ei.getChannel() != null) {
 												ei.getChannel().writeAndFlush(createReadReq(
@@ -107,6 +111,8 @@ public class StateWorker extends Thread {
 								} else {
 									if (startTracking && System.currentTimeMillis() - startTime > 7000) {
 										// Read from leader only
+										System.out.println("Read from Leader");
+
 										fetchChunkFromLeader(wm);
 										newReq = true;
 										flag = true;
@@ -141,7 +147,7 @@ public class StateWorker extends Thread {
 		AskQueueSize.Builder ask = AskQueueSize.newBuilder();
 		ask.setAskqueuesize(true);
 
-		wbr.setHeader(hbr);
+		// wbr.setHeader(hbr);
 		wbr.setSecret(10);
 		wbr.setAskqueuesize(ask);
 		WorkMessage wm = wbr.build();

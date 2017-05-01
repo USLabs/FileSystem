@@ -88,8 +88,9 @@ public class CandidateState implements RaftState{
 			Manager.setLeaderHost(Manager.getSelfHost());
 			Manager.setCurrentState(Manager.Leader);
 			System.out.println(Manager.getLeaderId());			
-			Jedis jedis = new Jedis("192.168.1.20"); 
-		    System.out.println("Connection to server sucessfully"); 
+			//Jedis jedis = new Jedis("192.168.1.20"); 
+			Jedis jedis = new Jedis("localhost"); 
+			System.out.println("Connection to server sucessfully"); 
 		    //check whether server is running or not 		    
 		    System.out.println("Server is running: "+jedis.ping());
 		    String ip=Manager.getLeaderHost();		    
@@ -146,8 +147,9 @@ public class CandidateState implements RaftState{
 			votedFor=-1;
 			clusterSize=0;
 			//Jedis jedis = new Jedis("169.254.214.175");
-			Jedis jedis = new Jedis("192.168.1.20");
-		    System.out.println("Connection to server sucessfully"); 
+			//Jedis jedis = new Jedis("192.168.1.20");
+			Jedis jedis = new Jedis("localhost"); 
+			System.out.println("Connection to server sucessfully"); 
 		    //check whether server is running or not 		    
 		    System.out.println("Server is running: "+jedis.ping());
 		    String ip=Manager.getLeaderHost();
