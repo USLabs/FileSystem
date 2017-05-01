@@ -45,21 +45,25 @@ public class StateWorker extends Thread {
 		int chunks = 0;
 		while (true) {
 			LinkedBlockingDeque<WorkMessage> readMessageQueue = Manager.getCurrentState().getMessageQueue();
-			if (readMessageQueue != null) {
-				if (!readMessageQueue.isEmpty()) {
+			if (!readMessageQueue.isEmpty()) {
 					try {
 						if (Manager.getCurrentState().getClass() == LeaderState.class) {
-							System.out.println("Picked from Leader queue");
-							WorkMessage wm = readMessageQueue.take();
-							LeaderState leader = (LeaderState) Manager.getCurrentState();
-							System.out.println("NewReq: " + newReq);
 							if (this.newReq) {
-
-								Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
+								System.out.println("Picked from Leader queue");
+								if (!readMessageQueue.isEmpty()) {
+									WorkMessage wm = readMessageQueue.take();
+									LeaderState leader = (LeaderState) Manager.getCurrentState();
+									System.out.println("NewReq: " + newReq);
+									Manager.getEdgeMonitor().sendMessage(createQueueSizeRequest());
 								// System.out.println("Queue Size Request sent
 								// to" + ei.getRef());
 
-								newReq = false;
+									newReq = false;
+								}
+								else
+								{
+									continue;
+								}
 							} else {
 								if (leader.workStealingNodes.size() != 0) {
 
@@ -132,7 +136,7 @@ public class StateWorker extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+				
 			}
 		}
 	}
